@@ -18,16 +18,8 @@ import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.dnd.TemplateTransferDropTargetListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
-import org.eclipse.gef.palette.CombinedTemplateCreationEntry;
-import org.eclipse.gef.palette.CreationToolEntry;
-import org.eclipse.gef.palette.MarqueeToolEntry;
-import org.eclipse.gef.palette.PaletteGroup;
 import org.eclipse.gef.palette.PaletteRoot;
-import org.eclipse.gef.palette.PaletteSeparator;
-import org.eclipse.gef.palette.PanningSelectionToolEntry;
-import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.gef.ui.actions.PrintAction;
@@ -40,7 +32,6 @@ import org.eclipse.gef.ui.actions.ZoomOutAction;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.widgets.Composite;
@@ -55,13 +46,6 @@ import de.fu_berlin.inf.dpp.whiteboard.gef.commands.ElementRecordCreateCommand;
 import de.fu_berlin.inf.dpp.whiteboard.gef.editpolicy.ElementModelLayoutEditPolicy;
 import de.fu_berlin.inf.dpp.whiteboard.gef.part.RecordPartFactory;
 import de.fu_berlin.inf.dpp.whiteboard.gef.request.CreateTextBoxRequest;
-import de.fu_berlin.inf.dpp.whiteboard.gef.tools.ArrowCreationTool;
-import de.fu_berlin.inf.dpp.whiteboard.gef.tools.CreationToolWithoutSelection;
-import de.fu_berlin.inf.dpp.whiteboard.gef.tools.LineCreationTool;
-import de.fu_berlin.inf.dpp.whiteboard.gef.tools.PanningTool.PanningToolEntry;
-import de.fu_berlin.inf.dpp.whiteboard.gef.tools.PointlistCreationTool;
-import de.fu_berlin.inf.dpp.whiteboard.gef.tools.TextboxCreationTool;
-import de.fu_berlin.inf.dpp.whiteboard.gef.util.IconUtils;
 import de.fu_berlin.inf.dpp.whiteboard.net.WhiteboardManager;
 import de.fu_berlin.inf.dpp.whiteboard.standalone.WhiteboardContextMenuProvider;
 import de.fu_berlin.inf.dpp.whiteboard.sxe.ISXEMessageHandler.MessageAdapter;
@@ -389,129 +373,7 @@ public class WhiteboardEditor extends SarosPermissionsGraphicalEditor {
     protected PaletteRoot getPaletteRoot() {
         PaletteRoot root = new PaletteRoot();
 
-        PaletteGroup manipGroup = new PaletteGroup("Manipulate elements");
-        root.add(manipGroup);
-
-        PanningSelectionToolEntry selectionToolEntry = new PanningSelectionToolEntry();
-        manipGroup.add(selectionToolEntry);
-
-        MarqueeToolEntry marqueeToolEntry = new MarqueeToolEntry();
-        manipGroup.add(marqueeToolEntry);
-
-        PanningToolEntry panningToolEntry = new PanningToolEntry();
-        manipGroup.add(panningToolEntry);
-
-        PaletteSeparator sep2 = new PaletteSeparator();
-        root.add(sep2);
-
-        PaletteGroup instGroup = new PaletteGroup("Create elements");
-        root.add(instGroup);
-        instGroup.add(createPolylineToolEntry());
-        instGroup.add(createRectangleToolEntry());
-        instGroup.add(createEllipseToolEntry());
-        instGroup.add(createTextToolEntry());
-        instGroup.add(createLineToolEntry());
-        instGroup.add(createArrowToolEntry());
-
-        PaletteSeparator sep3 = new PaletteSeparator();
-        root.add(sep3);
-
-        PaletteGroup colourGroup = new PaletteGroup("Choose colour");
-        root.add(colourGroup);
-
-        root.setDefaultEntry(selectionToolEntry);
-
         return root;
-    }
-
-    protected static ToolEntry createTextToolEntry() {
-
-        // Note: same template for Drag and Drop as well as click and drag
-        CombinedTargetRecordCreationFactory template = new CombinedTargetRecordCreationFactory(
-            SVGConstants.SVG_TEXT_TAG);
-
-        CreationToolEntry entry = new CombinedTemplateCreationEntry("TextBox",
-            "Creation of a textbox", template, template,
-            ImageDescriptor.createFromImage(IconUtils.getTextBoxImage()),
-            ImageDescriptor.createFromImage(IconUtils.getTextBoxImage()));
-        entry
-            .setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, false);
-        entry.setToolClass(TextboxCreationTool.class);
-        return entry;
-    }
-
-    protected static ToolEntry createEllipseToolEntry() {
-        // Note: same template for Drag and Drop as well as click and drag
-        CombinedTargetRecordCreationFactory template = new CombinedTargetRecordCreationFactory(
-            SVGConstants.SVG_ELLIPSE_TAG);
-
-        CreationToolEntry entry = new CombinedTemplateCreationEntry("Ellipse",
-            "Creation of an ellipse", template, template,
-            ImageDescriptor.createFromImage(IconUtils.getEllipseImage()),
-            ImageDescriptor.createFromImage(IconUtils.getEllipseImage()));
-        entry
-            .setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, false);
-        entry.setToolClass(CreationToolWithoutSelection.class);
-        return entry;
-    }
-
-    protected static ToolEntry createRectangleToolEntry() {
-        // Note: same template for Drag and Drop as well as click and drag
-        CombinedTargetRecordCreationFactory template = new CombinedTargetRecordCreationFactory(
-            SVGConstants.SVG_RECT_TAG);
-        CreationToolEntry entry = new CombinedTemplateCreationEntry(
-            "Rectangle", "Creation of a rectangle", template, template,
-            ImageDescriptor.createFromImage(IconUtils.getRectImage()),
-            ImageDescriptor.createFromImage(IconUtils.getRectImage()));
-        entry
-            .setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, false);
-        entry.setToolClass(CreationToolWithoutSelection.class);
-        return entry;
-    }
-
-    protected static ToolEntry createPolylineToolEntry() {
-        // Note: same template for Drag and Drop as well as click and drag
-        CombinedTargetRecordCreationFactory template = new CombinedTargetRecordCreationFactory(
-            SVGConstants.SVG_POLYLINE_TAG);
-
-        CreationToolEntry entry = new CombinedTemplateCreationEntry("Pencil",
-            "Free hand drawing", template, template,
-            ImageDescriptor.createFromImage(IconUtils.getPencilImage()),
-            ImageDescriptor.createFromImage(IconUtils.getPencilImage()));
-        entry
-            .setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, false);
-        entry.setToolClass(PointlistCreationTool.class);
-        return entry;
-    }
-
-    protected static ToolEntry createLineToolEntry() {
-        // Note: A normal Line is a Polyline with just 2 Points
-        CombinedTargetRecordCreationFactory template = new CombinedTargetRecordCreationFactory(
-            SVGConstants.SVG_LINE_TAG);
-
-        CreationToolEntry entry = new CombinedTemplateCreationEntry("Line",
-            "Drawing a line", template, template,
-            ImageDescriptor.createFromImage(IconUtils.getLineImage()),
-            ImageDescriptor.createFromImage(IconUtils.getLineImage()));
-        entry
-            .setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, false);
-        entry.setToolClass(LineCreationTool.class);
-        return entry;
-    }
-
-    protected static ToolEntry createArrowToolEntry() {
-        // Note: A normal Line is a Polyline with just 2 Points
-        CombinedTargetRecordCreationFactory template = new CombinedTargetRecordCreationFactory(
-            SVGConstants.SVG_ARROW_TAG);
-
-        CreationToolEntry entry = new CombinedTemplateCreationEntry(
-            "ArrowLine", "Drawing an arrow", template, template,
-            ImageDescriptor.createFromImage(IconUtils.getArrowImage()),
-            ImageDescriptor.createFromImage(IconUtils.getArrowImage()));
-        entry
-            .setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, false);
-        entry.setToolClass(ArrowCreationTool.class);
-        return entry;
     }
 
     // TODO Saving
