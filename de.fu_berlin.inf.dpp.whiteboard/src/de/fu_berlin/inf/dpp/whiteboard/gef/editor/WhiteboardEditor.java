@@ -44,6 +44,7 @@ import de.fu_berlin.inf.dpp.whiteboard.gef.actions.PasteRecordAction;
 import de.fu_berlin.inf.dpp.whiteboard.gef.actions.SXEDeleteAction;
 import de.fu_berlin.inf.dpp.whiteboard.gef.commands.ElementRecordCreateCommand;
 import de.fu_berlin.inf.dpp.whiteboard.gef.editpolicy.ElementModelLayoutEditPolicy;
+import de.fu_berlin.inf.dpp.whiteboard.gef.palette.WhiteboardPaletteRootFactory;
 import de.fu_berlin.inf.dpp.whiteboard.gef.part.RecordPartFactory;
 import de.fu_berlin.inf.dpp.whiteboard.gef.request.CreateTextBoxRequest;
 import de.fu_berlin.inf.dpp.whiteboard.net.WhiteboardManager;
@@ -371,9 +372,7 @@ public class WhiteboardEditor extends SarosPermissionsGraphicalEditor {
 
     @Override
     protected PaletteRoot getPaletteRoot() {
-        PaletteRoot root = new PaletteRoot();
-
-        return root;
+        return WhiteboardPaletteRootFactory.createPaletteRoot();
     }
 
     // TODO Saving
