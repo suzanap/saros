@@ -17,8 +17,6 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.widgets.Event;
 
-import de.fu_berlin.inf.dpp.whiteboard.gef.tools.PanningTool;
-
 /**
  * <p>
  * An extension of the GEF graphical editor with a locking feature using the
@@ -104,9 +102,7 @@ public abstract class BlockableGraphicalEditor extends
     protected class LockedEditDomain extends EditDomain {
         @Override
         public Tool getActiveTool() {
-            if (previousEditDomain != null
-                && previousEditDomain.getActiveTool() instanceof PanningTool)
-                return previousEditDomain.getActiveTool();
+            // Return null since no tool is left.
             return null;
         }
 
