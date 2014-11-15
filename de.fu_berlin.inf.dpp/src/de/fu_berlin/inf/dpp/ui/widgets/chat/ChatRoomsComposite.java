@@ -605,6 +605,7 @@ public class ChatRoomsComposite extends ListExplanatoryComposite {
         activityLogTab.setText(Messages.ActivityLog_tab_title);
         activityLogTab.setImage(activityLogImage);
         activityLogTab.setControl(activityControl);
+        activityLogTab.addDisposeListener(disposeListener);
 
         return activityLogTab;
     }
