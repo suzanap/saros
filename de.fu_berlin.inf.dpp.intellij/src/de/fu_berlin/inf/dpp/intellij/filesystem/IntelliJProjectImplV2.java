@@ -86,6 +86,8 @@ public final class IntelliJProjectImplV2 extends IntelliJResourceImplV2
                 + " has more than one content root");
 
         moduleRoot = contentRoots[0];
+        this.referencePoint = new IntelliJReferencePointImpl((IntelliJPathImpl)
+            this.getLocation());
     }
 
     /**
