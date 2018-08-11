@@ -36,7 +36,8 @@ public class ProjectCollector extends AbstractStatisticCollector {
     private final ISessionListener sessionListener = new AbstractSessionListener() {
         @Override
         public void resourcesAdded(IProject project) {
-            String projectID = sarosSession.getProjectID(project);
+            String projectID = sarosSession.getReferencePointID(project
+                .getReferencePoint());
 
             ProjectInformation info = sharedProjects.get(projectID);
 
@@ -45,7 +46,8 @@ public class ProjectCollector extends AbstractStatisticCollector {
                 sharedProjects.put(projectID, info);
             }
 
-            boolean isPartial = !sarosSession.isCompletelyShared(project);
+            boolean isPartial = !sarosSession.isCompletelyShared(project
+                .getReferencePoint());
 
             /*
              * ignore partial shared projects that were upgraded to full shared
@@ -55,7 +57,7 @@ public class ProjectCollector extends AbstractStatisticCollector {
                 info.isPartial = true;
 
             List<IResource> sharedResources = sarosSession
-                .getSharedResources(project);
+                .getSharedResources(project.getReferencePoint());
 
             if (sharedResources != null) {
                 for (Iterator<IResource> it = sharedResources.iterator(); it

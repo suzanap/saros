@@ -32,6 +32,7 @@ import de.fu_berlin.inf.dpp.net.PacketCollector;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
 import de.fu_berlin.inf.dpp.net.xmpp.XMPPConnectionService;
 import de.fu_berlin.inf.dpp.observables.FileReplacementInProgressObservable;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.session.SessionEndReason;
@@ -40,12 +41,13 @@ import de.fu_berlin.inf.dpp.session.SessionEndReason;
 
 /**
  * Handles incoming ProjectNegotiations except for the actual file transfer.
- *
+ * 
  * Concrete implementations need to provide an implementation to exchange the
  * calculated differences. This class only provides the initial setup and
  * calculation.
  */
-public abstract class AbstractIncomingProjectNegotiation extends ProjectNegotiation {
+public abstract class AbstractIncomingProjectNegotiation extends
+    ProjectNegotiation {
 
     private static final Logger LOG = Logger
         .getLogger(AbstractIncomingProjectNegotiation.class);
@@ -168,8 +170,11 @@ public abstract class AbstractIncomingProjectNegotiation extends ProjectNegotiat
                     for (final String path : paths)
                         resources.add(getResource(project, path));
                 }
-
-                session.addSharedResources(project, projectID, resources);
+                IReferencePointManager referencePointManager = session
+                    .getComponent(IReferencePointManager.class);
+                referencePointManager.put(project.getReferencePoint(), project);
+                session.addSharedResources(project.getReferencePoint(),
+                    projectID, resources);
             }
         } catch (Exception e) {
             exception = e;
@@ -181,6 +186,7 @@ public abstract class AbstractIncomingProjectNegotiation extends ProjectNegotiat
     }
 
     /**
+<<<<<<< HEAD
      * In preparation of the Project Negotiation, this setups a File Transfer
      * Handler, used to receive the incoming negotiation data.
      *
@@ -199,31 +205,49 @@ public abstract class AbstractIncomingProjectNegotiation extends ProjectNegotiat
         transferListener = new TransferListener(TRANSFER_ID_PREFIX + getID());
         fileTransferManager.addFileTransferListener(transferListener);
     }
+=======
+     * Preparation for the Project Negotiation. The negotiation can be aborted
+     * by canceling the given monitor.
+     * 
+     * @param monitor
+     *            monitor to show progress to the user
+     * 
+     * @throws IOException
+     *             , SarosCancellationException
+     */
+    protected abstract void setup(IProgressMonitor monitor) throws IOException,
+        SarosCancellationException;
+>>>>>>> 965486d73... Refactored ISarosSession
 
     /**
-     * Handle the actual transfer.
-     * The negotiation can be aborted by canceling the given monitor.
-     *
+     * Handle the actual transfer. The negotiation can be aborted by canceling
+     * the given monitor.
+     * 
      * @param monitor
-     *      monitor to show progress to the user
-     *
+     *            monitor to show progress to the user
+     * 
      * @param projectMapping
-     *      mapping from remote project ids to the target local projects
-     *
+     *            mapping from remote project ids to the target local projects
+     * 
      * @param missingFiles
-     *      files missing, that should be transferred and synchronized
-     *      by this method call
-     *
-     * @throws IOException, SarosCancellationException
+     *            files missing, that should be transferred and synchronized by
+     *            this method call
+     * 
+     * @throws IOException
+     *             , SarosCancellationException
      */
     protected abstract void transfer(IProgressMonitor monitor,
         Map<String, IProject> projectMapping, List<FileList> missingFiles)
         throws IOException, SarosCancellationException;
 
     /**
+<<<<<<< HEAD
      * Cleanup ends the negotiation process, by disabling the project based
      * queue and removes acquired handlers during {@link #setup} and
      * {@link #transfer}.
+=======
+     * Cleanup acquired resources during {@link #setup} and {@link #transfer}.
+>>>>>>> 965486d73... Refactored ISarosSession
      * 
      * @param monitor
      *            mapping from remote project ids to the target local projects

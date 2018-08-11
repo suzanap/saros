@@ -1,5 +1,7 @@
 package de.fu_berlin.inf.dpp.session;
 
+import java.util.Set;
+
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
@@ -22,4 +24,6 @@ public interface IReferencePointManager {
     IFolder getFolder(IReferencePoint referencePoint, IPath relativePath);
 
     IResource findMember(IReferencePoint referencePoint, IPath relativePath);
+
+    Set<IProject> getProjects(Set<IReferencePoint> referencePoints);
 }

@@ -1,6 +1,8 @@
 package de.fu_berlin.inf.dpp.session;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
@@ -63,6 +65,17 @@ public class ReferencePointManager implements IReferencePointManager {
         IPath relativePath) {
         IProject project = get(referencePoint);
         return project.findMember(relativePath);
+    }
+
+    @Override
+    public Set<IProject> getProjects(Set<IReferencePoint> referencePoints) {
+        Set<IProject> projectSet = new HashSet<IProject>();
+        for (IReferencePoint referencePoint : referencePoints) {
+            if (referencePointToProjectMapper.containsKey(referencePoint))
+                projectSet.add(get(referencePoint));
+        }
+
+        return projectSet;
     }
 
 }

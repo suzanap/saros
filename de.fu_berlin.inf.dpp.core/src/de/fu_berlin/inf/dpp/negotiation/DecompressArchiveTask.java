@@ -14,6 +14,7 @@ import de.fu_berlin.inf.dpp.exceptions.OperationCanceledException;
 import de.fu_berlin.inf.dpp.filesystem.FileSystem;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspaceRunnable;
 import de.fu_berlin.inf.dpp.monitoring.CancelableInputStream;
@@ -40,7 +41,7 @@ public class DecompressArchiveTask implements IWorkspaceRunnable {
      *            Zip file containing the compressed data
      * @param idToProjectMapping
      *            map containing the id to project mapping (see also
-     *            {@link ISarosSession#getProjectID(de.fu_berlin.inf.dpp.filesystem.IProject)}
+     *            {@link ISarosSession#getReferencePointID(IReferencePoint)}
      * 
      * @param monitor
      *            monitor that is used for progress report and cancellation or

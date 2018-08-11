@@ -11,6 +11,7 @@ import de.fu_berlin.inf.dpp.negotiation.hooks.ISessionNegotiationHook;
 import de.fu_berlin.inf.dpp.negotiation.hooks.SessionNegotiationHookManager;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
 import de.fu_berlin.inf.dpp.preferences.IPreferenceStore;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 
 import org.apache.log4j.Logger;
@@ -44,6 +45,8 @@ public class ModuleTypeNegotiationHook implements ISessionNegotiationHook {
     private final ISarosSessionManager sessionManager;
 
     private final ModuleTypeManager moduleTypeManager;
+
+    private IReferencePointManager referencePointManager;
 
     /**
      * Creates a <code>ModuleTypeNegotiationHook</code> object and adds it to
@@ -110,8 +113,10 @@ public class ModuleTypeNegotiationHook implements ISessionNegotiationHook {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (final IProject project : sessionManager.getSession()
-            .getProjects()) {
+        referencePointManager = sessionManager.getSession().getComponent(IReferencePointManager.class);
+
+        for (final IProject project : referencePointManager.getProjects(sessionManager.getSession()
+                .getReferencePoints()   )) {
 
             IntelliJProjectImplV2 intelliJProject = (IntelliJProjectImplV2)
                 project.getAdapter(IntelliJProjectImplV2.class);

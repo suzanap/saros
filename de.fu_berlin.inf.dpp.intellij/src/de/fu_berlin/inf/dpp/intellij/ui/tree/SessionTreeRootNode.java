@@ -156,11 +156,11 @@ public class SessionTreeRootNode extends DefaultMutableTreeNode {
                 .getSession();
 
             ProjectInfo projInfo;
-            if (session.isCompletelyShared(project)) {
+            if (session.isCompletelyShared(project.getReferencePoint())) {
                 projInfo = new ProjectInfo(project);
             } else {
                 projInfo = new ProjectInfo(project,
-                    session.getSharedResources(project));
+                    session.getSharedResources(project.getReferencePoint()));
             }
 
             DefaultMutableTreeNode nProject = new DefaultMutableTreeNode(

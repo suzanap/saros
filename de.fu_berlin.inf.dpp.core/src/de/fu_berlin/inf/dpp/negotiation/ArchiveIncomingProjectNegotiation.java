@@ -26,13 +26,14 @@ import de.fu_berlin.inf.dpp.net.ITransmitter;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
 import de.fu_berlin.inf.dpp.net.xmpp.XMPPConnectionService;
 import de.fu_berlin.inf.dpp.observables.FileReplacementInProgressObservable;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.util.CoreUtils;
 
 /**
- * Implementation of {@link AbstractIncomingProjectNegotiation} utilizing
- * a transferred zip archive to exchange differences in the project files.
+ * Implementation of {@link AbstractIncomingProjectNegotiation} utilizing a
+ * transferred zip archive to exchange differences in the project files.
  */
 public class ArchiveIncomingProjectNegotiation extends
     AbstractIncomingProjectNegotiation {
@@ -56,12 +57,28 @@ public class ArchiveIncomingProjectNegotiation extends
         final ITransmitter transmitter, //
         final IReceiver receiver //
     ) {
-        super(peer, TransferType.ARCHIVE, negotiationID, projectNegotiationData,
-            sessionManager, session, fileReplacementInProgressObservable,
-            workspace, checksumCache, connectionService, transmitter, receiver);
+        super(peer, TransferType.ARCHIVE, negotiationID,
+            projectNegotiationData, sessionManager, session,
+            fileReplacementInProgressObservable, workspace, checksumCache,
+            connectionService, transmitter, receiver);
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    protected void setup(IProgressMonitor monitor) throws IOException {
+        archiveTransferListener = new ArchiveTransferListener(
+            ARCHIVE_TRANSFER_ID + getID());
+
+        if (fileTransferManager == null)
+            // FIXME: the logic will try to send this to the remote contact
+            throw new IOException("not connected to a XMPP server");
+
+        fileTransferManager.addFileTransferListener(archiveTransferListener);
+    }
+
+    @Override
+>>>>>>> 965486d73... Refactored ISarosSession
     protected void transfer(IProgressMonitor monitor,
         Map<String, IProject> projectMapping, List<FileList> missingFiles)
         throws IOException, SarosCancellationException {
@@ -83,8 +100,13 @@ public class ArchiveIncomingProjectNegotiation extends
              * functionality. This will enable a specific Queuing mechanism per
              * TransferType (see github issue #137).
              */
-            session.addProjectMapping(projectID, project);
-            session.enableQueuing(project);
+
+            IReferencePointManager referencePointManager = session
+                .getComponent(IReferencePointManager.class);
+            referencePointManager.put(project.getReferencePoint(), project);
+            session.addReferencePointMapping(projectID,
+                project.getReferencePoint());
+            session.enableQueuing(project.getReferencePoint());
         }
 
         transmitter.send(ISarosSession.SESSION_CONNECTION_ID, getPeer(),
@@ -105,6 +127,26 @@ public class ArchiveIncomingProjectNegotiation extends
         }
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    protected void cleanup(IProgressMonitor monitor,
+        Map<String, IProject> projectMapping) {
+        /*
+         * TODO Move disable queuing responsibility to SarosSession (see todo
+         * above in {@link transfer}).
+         */
+        for (IProject project : projectMapping.values())
+            session.disableQueuing(project.getReferencePoint());
+
+        if (fileTransferManager != null)
+            fileTransferManager
+                .removeFileTransferListener(archiveTransferListener);
+
+        super.cleanup(monitor, projectMapping);
+    }
+
+>>>>>>> 965486d73... Refactored ISarosSession
     /**
      * Receives the archive with all missing files and unpacks it.
      */
