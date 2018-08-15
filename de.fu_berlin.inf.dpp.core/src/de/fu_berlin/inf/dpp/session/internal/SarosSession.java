@@ -261,8 +261,7 @@ public final class SarosSession implements ISarosSession {
                 projectMapper.addReferencePoint(id, referencePoint, true);
                 projectMapper.addResources(referencePoint, allResources);
             }
-            listenerDispatch.projectAdded(referencePointManager
-                .get(referencePoint));
+            listenerDispatch.referencePointAdded(referencePoint);
         } else {
             // existing project
             if (allResources == null) {
@@ -274,8 +273,7 @@ public final class SarosSession implements ISarosSession {
             }
         }
 
-        listenerDispatch.resourcesAdded(referencePointManager
-            .get(referencePoint));
+        listenerDispatch.resourcesAdded(referencePoint);
     }
 
     /**
@@ -460,7 +458,7 @@ public final class SarosSession implements ISarosSession {
         synchronizer.syncExec(ThreadUtils.wrapSafe(log, new Runnable() {
             @Override
             public void run() {
-                listenerDispatch.userFinishedProjectNegotiation(user);
+                listenerDispatch.userFinishedReferencePointNegotiation(user);
             }
         }));
 
@@ -1032,8 +1030,7 @@ public final class SarosSession implements ISarosSession {
         if (projectMapper.getReferencePoint(referencePointID) == null) {
             projectMapper.addReferencePoint(referencePointID, referencePoint,
                 true);
-            listenerDispatch.projectAdded(referencePointManager
-                .get(referencePoint));
+            listenerDispatch.referencePointAdded(referencePoint);
         }
     }
 
@@ -1042,8 +1039,7 @@ public final class SarosSession implements ISarosSession {
         IReferencePoint referencePoint) {
         if (projectMapper.getReferencePoint(referencePointID) != null) {
             projectMapper.removeReferencePoint(referencePointID);
-            listenerDispatch.projectRemoved(referencePointManager
-                .get(referencePoint));
+            listenerDispatch.referencePointRemoved(referencePoint);
         }
     }
 

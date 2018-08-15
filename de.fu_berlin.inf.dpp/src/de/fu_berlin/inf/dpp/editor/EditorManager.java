@@ -58,6 +58,7 @@ import de.fu_berlin.inf.dpp.editor.text.LineRange;
 import de.fu_berlin.inf.dpp.editor.text.TextSelection;
 import de.fu_berlin.inf.dpp.filesystem.EclipseFileImpl;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import de.fu_berlin.inf.dpp.observables.FileReplacementInProgressObservable;
 import de.fu_berlin.inf.dpp.session.AbstractActivityConsumer;
@@ -278,7 +279,7 @@ public class EditorManager extends AbstractActivityProducer implements
         }
 
         @Override
-        public void userFinishedProjectNegotiation(User user) {
+        public void userFinishedReferencePointNegotiation(User user) {
 
             // Send awareness information
 
@@ -335,7 +336,7 @@ public class EditorManager extends AbstractActivityProducer implements
         }
 
         @Override
-        public void resourcesAdded(IProject project) {
+        public void resourcesAdded(IReferencePoint referencePoint) {
             SWTUtils.runSafeSWTSync(LOG, new Runnable() {
                 /*
                  * When Alice invites Bob to a session with a project and Alice

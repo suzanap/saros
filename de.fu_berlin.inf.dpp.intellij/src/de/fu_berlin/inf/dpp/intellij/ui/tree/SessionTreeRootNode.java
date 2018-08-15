@@ -3,9 +3,11 @@ package de.fu_berlin.inf.dpp.intellij.ui.tree;
 import com.intellij.util.ui.UIUtil;
 import de.fu_berlin.inf.dpp.SarosPluginContext;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.intellij.ui.util.IconManager;
 import de.fu_berlin.inf.dpp.session.AbstractSessionListener;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.session.ISessionLifecycleListener;
@@ -61,11 +63,13 @@ public class SessionTreeRootNode extends DefaultMutableTreeNode {
         }
 
         @Override
-        public void resourcesAdded(final IProject project) {
+        public void resourcesAdded(final IReferencePoint referencePoint) {
             UIUtil.invokeLaterIfNeeded(new Runnable() {
                 @Override
                 public void run() {
-                    addProjectNode(project);
+                    IReferencePointManager referencePointManager = sessionManager.getSession().
+                        getComponent(IReferencePointManager.class);
+                    addProjectNode(referencePointManager.get(referencePoint));
                 }
             });
         }

@@ -26,6 +26,7 @@ import de.fu_berlin.inf.dpp.editor.remote.UserEditorStateManager;
 import de.fu_berlin.inf.dpp.editor.text.LineRange;
 import de.fu_berlin.inf.dpp.editor.text.TextSelection;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.intellij.editor.colorstorage.ColorManager;
 import de.fu_berlin.inf.dpp.intellij.editor.colorstorage.ColorModel;
 import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJProjectImplV2;
@@ -35,6 +36,7 @@ import de.fu_berlin.inf.dpp.session.AbstractActivityProducer;
 import de.fu_berlin.inf.dpp.session.AbstractSessionListener;
 import de.fu_berlin.inf.dpp.session.IActivityConsumer;
 import de.fu_berlin.inf.dpp.session.IActivityConsumer.Priority;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.session.ISessionLifecycleListener;
@@ -59,6 +61,8 @@ public class EditorManager extends AbstractActivityProducer
     implements IEditorManager {
 
     private static final Logger LOG = Logger.getLogger(EditorManager.class);
+
+    private static IReferencePointManager referencePointManager;
 
     private final Blockable stopManagerListener = new Blockable() {
 
@@ -224,7 +228,7 @@ public class EditorManager extends AbstractActivityProducer
         }
 
         @Override
-        public void userFinishedProjectNegotiation(User user) {
+        public void userFinishedReferencePointNegotiation(User user) {
 
             // Send awareness-information
             User localUser = session.getLocalUser();
@@ -274,11 +278,11 @@ public class EditorManager extends AbstractActivityProducer
         }
 
         @Override
-        public void resourcesAdded(final IProject project) {
+        public void resourcesAdded(final IReferencePoint referencePoint) {
             ApplicationManager.getApplication().invokeAndWait(new Runnable() {
                     @Override
                     public void run() {
-                        addProjectResources(project);
+                        addProjectResources(referencePointManager.get(referencePoint));
                     }
                 }, ModalityState.defaultModalityState());
         }
@@ -347,6 +351,8 @@ public class EditorManager extends AbstractActivityProducer
             userEditorStateManager = session
                 .getComponent(UserEditorStateManager.class);
             remoteWriteAccessManager = new RemoteWriteAccessManager(session);
+
+            referencePointManager = session.getComponent(IReferencePointManager.class);
 
             //TODO: Test, whether this leads to problems because it is not called
             //from the UI thread.
