@@ -15,5 +15,13 @@
 	<classpathentry kind="lib" path="/de.fu_berlin.inf.dpp.intellij/lib/fest-swing-1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/org.eclipse.swtbot.eclipse.finder_2.7.0.201806111355.jar"/>
 	<classpathentry kind="lib" path="lib/org.hamcrest.core_1.1.0.v20090501071000.jar"/>
+	<classpathentry kind="var" path="INTELLIJ_LIB/junit-4.11.jar"/>
+	<classpathentry kind="var" path="INTELLIJ_LIB/annotations.jar"/>
+	<classpathentry kind="var" path="INTELLIJ_LIB/extensions.jar"/>
+	<classpathentry kind="var" path="INTELLIJ_LIB/idea.jar"/>
+	<classpathentry kind="var" path="INTELLIJ_LIB/jdom.jar"/>
+	<classpathentry kind="var" path="INTELLIJ_LIB/openapi.jar"/>
+	<classpathentry kind="var" path="INTELLIJ_LIB/util.jar"/>
+	<classpathentry kind="var" path="INTELLIJ_LIB"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

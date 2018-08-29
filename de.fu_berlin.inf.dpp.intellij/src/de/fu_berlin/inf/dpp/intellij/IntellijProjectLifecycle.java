@@ -1,7 +1,6 @@
 package de.fu_berlin.inf.dpp.intellij;
 
 import com.intellij.openapi.project.Project;
-
 import de.fu_berlin.inf.dpp.HTMLUIContextFactory;
 import de.fu_berlin.inf.dpp.context.AbstractContextLifecycle;
 import de.fu_berlin.inf.dpp.context.IContextFactory;
@@ -34,7 +33,9 @@ public class IntellijProjectLifecycle extends AbstractContextLifecycle {
      */
     public static synchronized IntellijProjectLifecycle getInstance(
         Project project) {
-        instance = new IntellijProjectLifecycle(project);
+        if (instance == null) {
+            instance = new IntellijProjectLifecycle(project);
+        }
 
         return instance;
     }

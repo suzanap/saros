@@ -1,36 +1,16 @@
 package de.fu_berlin.inf.dpp.stf.server;
 
-import java.io.File;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.rmi.AccessException;
-import java.rmi.AlreadyBoundException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
-import org.eclipse.jface.preference.IPreferenceStore;
-
 import de.fu_berlin.inf.dpp.Saros;
 import de.fu_berlin.inf.dpp.account.XMPPAccountStore;
 import de.fu_berlin.inf.dpp.context.IContainerContext;
+import de.fu_berlin.inf.dpp.intellij.SarosComponent;
 import de.fu_berlin.inf.dpp.preferences.EclipsePreferenceConstants;
 import de.fu_berlin.inf.dpp.preferences.PreferenceConstants;
 import de.fu_berlin.inf.dpp.stf.server.rmi.controlbot.impl.ControlBotImpl;
 import de.fu_berlin.inf.dpp.stf.server.rmi.controlbot.manipulation.impl.AccountManipulatorImpl;
 import de.fu_berlin.inf.dpp.stf.server.rmi.controlbot.manipulation.impl.NetworkManipulatorImpl;
 import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.EclipseHTMLWorkbenchBot;
+import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.IntelliJHTMLWorkbenchBot;
 import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.impl.HTMLBotImpl;
 import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.widget.impl.RemoteHTMLButton;
 import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.widget.impl.RemoteHTMLCheckbox;
@@ -94,6 +74,27 @@ import de.fu_berlin.inf.dpp.stf.server.rmi.superbot.component.view.whiteboard.im
 import de.fu_berlin.inf.dpp.stf.server.rmi.superbot.impl.SuperBot;
 import de.fu_berlin.inf.dpp.stf.server.rmi.superbot.internal.impl.InternalImpl;
 import de.fu_berlin.inf.dpp.stf.shared.Constants;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.dialogs.MessageDialogWithToggle;
+import org.eclipse.jface.preference.IPreferenceStore;
+
+import java.io.File;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.rmi.AccessException;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * The STF Controller is responsible to register all exported objects and also
@@ -139,49 +140,13 @@ public class STFController {
         }
 
         performConfigurationCheck();
-
-        List<String> propertyKeys = Arrays.asList(System.getProperties()
-            .keySet().toArray(new String[0]));
-
-        Collections.sort(propertyKeys);
-
-        for (String key : propertyKeys)
-            log.info("java property: " + key + " = " + System.getProperty(key));
+        logProperties();
 
         StfRemoteObject.setContext(context);
 
-        IPreferenceStore preferenceStore = context
-            .getComponent(IPreferenceStore.class);
-
-        if (preferenceStore != null) {
-            preferenceStore.setDefault(
-                EclipsePreferenceConstants.AUTO_STOP_EMPTY_SESSION,
-                MessageDialogWithToggle.ALWAYS);
-            preferenceStore
-                .setToDefault(EclipsePreferenceConstants.AUTO_STOP_EMPTY_SESSION);
-        }
-
-        // Revert March 2013 color hack
-        if (preferenceStore != null)
-            preferenceStore
-                .setToDefault(PreferenceConstants.FAVORITE_SESSION_COLOR_ID);
-
-        /*
-         * as the default account file is shared across all Eclipse instances
-         * create / use a file located in the current workspace
-         */
-
-        XMPPAccountStore store = context.getComponent(XMPPAccountStore.class);
-
-        if (store != null) {
-
-            File file = ResourcesPlugin.getWorkspace().getRoot().getLocation()
-                .toFile();
-
-            file = new File(file, ".metadata");
-            file = new File(file, ".saros_stf_accounts");
-
-            store.setAccountFile(file, null);
+        if (isPluginEclipse()) {
+            setDefaultPreferences(context);
+            setAccountFileForWorkspace(context);
         }
 
         try {
@@ -191,13 +156,20 @@ public class STFController {
         }
 
         // remove this conditional when the HTML GUI replaces the old one
-        if (Saros.useHtmlGui()) {
+        if (Saros.useHtmlGui() || SarosComponent.isSwtBrowserEnabled()) {
             HTMLSTFRemoteObject.setContext(context);
 
             /*
              * export HTML bots
              */
-            exportObject(EclipseHTMLWorkbenchBot.getInstance(), "htmlViewBot");
+            if(isPluginEclipse()) {
+                exportObject(EclipseHTMLWorkbenchBot.getInstance(),
+                    "htmlViewBot");
+            }
+            if(isPluginIDEA()){
+                exportObject(IntelliJHTMLWorkbenchBot.getInstance(),
+                    "htmlViewBot");
+            }
             exportObject(HTMLBotImpl.getInstance(), "htmlBot");
 
             /*
@@ -218,7 +190,9 @@ public class STFController {
         /*
          * bots' family
          */
-        exportObject(RemoteWorkbenchBot.getInstance(), "workbenchBot");
+        if(isPluginEclipse()) {
+            exportObject(RemoteWorkbenchBot.getInstance(), "workbenchBot");
+        }
         exportObject(SuperBot.getInstance(), "superBot");
         exportObject(ControlBotImpl.getInstance(), "controlBot");
 
@@ -300,7 +274,10 @@ public class STFController {
          * ControlBot components
          */
 
-        exportObject(NetworkManipulatorImpl.getInstance(), "networkManipulator");
+        if(isPluginEclipse()) { //TODO NetworkManipulator should also be available for IntelliJ
+            exportObject(NetworkManipulatorImpl.getInstance(),
+                "networkManipulator");
+        }
         exportObject(AccountManipulatorImpl.getInstance(), "accountManipulator");
 
         try {
@@ -312,6 +289,85 @@ public class STFController {
             log.error("failed", e);
         }
 
+    }
+
+    private static boolean isPluginIDEA() throws RemoteException {
+        return getPluginIdFromProperties().equals(SarosComponent.PLUGIN_ID);
+    }
+
+    private static boolean isPluginEclipse() throws RemoteException {
+        return getPluginIdFromProperties().equals(Saros.PLUGIN_ID);
+    }
+
+    private static String getPluginIdFromProperties() throws RemoteException {
+        List<String> propertyKeys = Arrays
+            .asList(System.getProperties().keySet().toArray(new String[0]));
+
+        if (propertyKeys.contains("idea.launcher.bin.path")) {
+            return SarosComponent.PLUGIN_ID; //IntelliJ Plugin ID
+        } else if (propertyKeys.contains("eclipse.launcher")) {
+            return Saros.PLUGIN_ID; //Eclipse Plugin ID
+        } else {
+            throw new RemoteException(
+                "Cannot start STF because the IDE is unkown.");
+        }
+    }
+
+    /**
+     * As the default account file is shared across all Eclipse instances
+     * create / use a file located in the current workspace
+     *
+     * @param context
+     */
+    private static void setAccountFileForWorkspace(IContainerContext context) {
+        XMPPAccountStore store = context
+            .getComponent(XMPPAccountStore.class);
+
+        if (store != null) {
+
+            File file = ResourcesPlugin.getWorkspace().getRoot()
+                .getLocation().toFile();
+
+            file = new File(file, ".metadata");
+            file = new File(file, ".saros_stf_accounts");
+
+            store.setAccountFile(file, null);
+        }
+    }
+
+    /**
+     * Set some default preferences for Saros/E in the PreferenceStore
+     * @param context
+     */
+    private static void setDefaultPreferences(IContainerContext context) {
+        IPreferenceStore preferenceStore = context
+            .getComponent(IPreferenceStore.class);
+
+        if (preferenceStore != null) {
+            preferenceStore.setDefault(
+                EclipsePreferenceConstants.AUTO_STOP_EMPTY_SESSION,
+                MessageDialogWithToggle.ALWAYS);
+            preferenceStore.setToDefault(
+                EclipsePreferenceConstants.AUTO_STOP_EMPTY_SESSION);
+        }
+
+        // Revert March 2013 color hack
+        if (preferenceStore != null)
+            preferenceStore.setToDefault(
+                PreferenceConstants.FAVORITE_SESSION_COLOR_ID);
+    }
+
+    /**
+     * Sort and log all system properties
+     */
+    private static void logProperties() {
+        List<String> propertyKeys = Arrays.asList(System.getProperties()
+            .keySet().toArray(new String[0]));
+
+        Collections.sort(propertyKeys);
+
+        for (String key : propertyKeys)
+            log.info("java property: " + key + " = " + System.getProperty(key));
     }
 
     /**

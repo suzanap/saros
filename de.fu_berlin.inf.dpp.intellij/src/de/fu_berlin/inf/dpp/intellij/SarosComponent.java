@@ -27,11 +27,7 @@ public class SarosComponent
 
     public SarosComponent(final Project project) {
         loadLoggers();
-
-        Keymap keymap = KeymapManager.getInstance().getActiveKeymap();
-        keymap.addShortcut("ActivateSarosToolWindow", new KeyboardShortcut(
-            KeyStroke.getKeyStroke(KeyEvent.VK_F11,
-                java.awt.event.InputEvent.ALT_DOWN_MASK), null));
+        initShortcuts();
 
         try {
             InputStream sarosProperties = SarosComponent.class.getClassLoader()
@@ -75,6 +71,13 @@ public class SarosComponent
         } finally {
             Thread.currentThread().setContextClassLoader(contextClassLoader);
         }
+    }
+
+    public static void initShortcuts() {
+        Keymap keymap = KeymapManager.getInstance().getActiveKeymap();
+        keymap.addShortcut("ActivateSarosToolWindow", new KeyboardShortcut(
+            KeyStroke.getKeyStroke(KeyEvent.VK_F11,
+                java.awt.event.InputEvent.ALT_DOWN_MASK), null));
     }
 
     @Override
