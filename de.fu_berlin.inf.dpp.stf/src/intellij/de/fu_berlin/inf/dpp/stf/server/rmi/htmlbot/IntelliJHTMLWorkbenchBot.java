@@ -1,7 +1,6 @@
 package de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot;
 
 import de.fu_berlin.inf.dpp.intellij.ui.swt_browser.SwtBrowserPanel;
-import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.IHTMLWorkbenchBot;
 import org.fest.swing.core.BasicRobot;
 import org.fest.swing.core.GenericTypeMatcher;
 import org.fest.swing.core.Robot;
@@ -50,7 +49,9 @@ public class IntelliJHTMLWorkbenchBot implements IHTMLWorkbenchBot {
 
     @Override
     public void closeSarosBrowserView() throws RemoteException {
-        // TODO Auto-generated method stub
+        if (isSarosBrowserViewOpen()) {
+            toggleBrowserView();
+        }
     }
 
     @Override

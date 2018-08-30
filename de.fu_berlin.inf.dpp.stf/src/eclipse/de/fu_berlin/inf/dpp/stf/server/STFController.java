@@ -22,6 +22,7 @@ import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.widget.impl.RemoteHTMLSelect;
 import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.widget.impl.RemoteHTMLTextElement;
 import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.widget.impl.RemoteHTMLTree;
 import de.fu_berlin.inf.dpp.stf.server.rmi.htmlbot.widget.impl.RemoteHTMLView;
+import de.fu_berlin.inf.dpp.stf.server.rmi.remotebot.impl.IntelliJRemoteWorkbenchBot;
 import de.fu_berlin.inf.dpp.stf.server.rmi.remotebot.impl.RemoteWorkbenchBot;
 import de.fu_berlin.inf.dpp.stf.server.rmi.remotebot.widget.impl.RemoteBotButton;
 import de.fu_berlin.inf.dpp.stf.server.rmi.remotebot.widget.impl.RemoteBotCCombo;
@@ -102,6 +103,8 @@ import java.util.List;
  * cases.
  */
 public class STFController {
+
+
 
     private static final transient Logger log = Logger
         .getLogger(STFController.class);
@@ -192,6 +195,9 @@ public class STFController {
          */
         if(isPluginEclipse()) {
             exportObject(RemoteWorkbenchBot.getInstance(), "workbenchBot");
+        }
+        if(isPluginIDEA()){
+            exportObject(IntelliJRemoteWorkbenchBot.getInstance(), "workbenchBot");
         }
         exportObject(SuperBot.getInstance(), "superBot");
         exportObject(ControlBotImpl.getInstance(), "controlBot");
@@ -303,7 +309,7 @@ public class STFController {
         List<String> propertyKeys = Arrays
             .asList(System.getProperties().keySet().toArray(new String[0]));
 
-        if (propertyKeys.contains("idea.launcher.bin.path")) {
+        if (propertyKeys.contains("idea.registered")) {
             return SarosComponent.PLUGIN_ID; //IntelliJ Plugin ID
         } else if (propertyKeys.contains("eclipse.launcher")) {
             return Saros.PLUGIN_ID; //Eclipse Plugin ID
