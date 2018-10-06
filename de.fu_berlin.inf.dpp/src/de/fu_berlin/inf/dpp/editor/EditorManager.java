@@ -1524,8 +1524,7 @@ public class EditorManager extends AbstractActivityProducer implements
 
                 for (final SPath path : editorPaths) {
                     if (referencePoint == null
-                        || referencePoint.equals(path.getProject()
-                            .getReferencePoint()))
+                        || referencePoint.equals(path.getReferencePoint()))
                         saveLazy(path);
                 }
             }
@@ -1770,7 +1769,6 @@ public class EditorManager extends AbstractActivityProducer implements
         assert editorPool.getAllEditors().size() == 0 : "EditorPool was not correctly reset!";
 
         session = newSession;
-
         session.getStopManager().addBlockable(stopManagerListener);
 
         hasWriteAccess = session.hasWriteAccess();
@@ -1835,7 +1833,7 @@ public class EditorManager extends AbstractActivityProducer implements
             }
         });
 
-        editorPool.removeAllEditors();
+        editorPool.removeAllEditors(this.referencePointManager);
 
         customAnnotationManager.uninstallAllPainters(true);
 
@@ -1861,5 +1859,9 @@ public class EditorManager extends AbstractActivityProducer implements
     private void checkThreadAccess() {
         if (!SWTUtils.isSWT())
             throw new IllegalStateException("method must be invoked from EDT");
+    }
+
+    public IReferencePointManager getReferencePointManager() {
+        return this.referencePointManager;
     }
 }

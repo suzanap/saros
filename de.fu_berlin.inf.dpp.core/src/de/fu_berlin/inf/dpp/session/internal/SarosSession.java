@@ -49,7 +49,6 @@ import de.fu_berlin.inf.dpp.concurrent.management.ConcurrentDocumentServer;
 import de.fu_berlin.inf.dpp.context.IContainerContext;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.net.IConnectionManager;
@@ -816,15 +815,15 @@ public final class SarosSession implements ISarosSession {
     private boolean updatePartialSharedResources(
         final IFileSystemModificationActivity activity) {
 
-        final IProject project = activity.getPath().getProject();
+        final IReferencePoint referencePoint = activity.getPath()
+            .getReferencePoint();
 
         /*
          * The follow 'if check' assumes that move operations where at least one
          * project is not part of the sharing is announced as create and delete
          * activities.
          */
-        if (!sharedReferencePointMapper.isPartiallyShared(project
-            .getReferencePoint()))
+        if (!sharedReferencePointMapper.isPartiallyShared(referencePoint))
             return true;
 
         if (activity instanceof FileActivity) {
@@ -849,8 +848,7 @@ public final class SarosSession implements ISarosSession {
                     return false;
                 }
 
-                sharedReferencePointMapper.addResources(
-                    project.getReferencePoint(),
+                sharedReferencePointMapper.addResources(referencePoint,
                     Collections.singletonList(file));
 
                 break;
@@ -870,8 +868,7 @@ public final class SarosSession implements ISarosSession {
                     return false;
                 }
 
-                sharedReferencePointMapper.removeResources(
-                    project.getReferencePoint(),
+                sharedReferencePointMapper.removeResources(referencePoint,
                     Collections.singletonList(file));
 
                 break;
@@ -907,8 +904,7 @@ public final class SarosSession implements ISarosSession {
                     return false;
                 }
                 sharedReferencePointMapper.removeAndAddResources(
-                    project.getReferencePoint(),
-                    Collections.singletonList(oldFile),
+                    referencePoint, Collections.singletonList(oldFile),
                     Collections.singletonList(file));
 
                 break;
@@ -929,8 +925,8 @@ public final class SarosSession implements ISarosSession {
                 return false;
             }
 
-            sharedReferencePointMapper.addResources(
-                project.getReferencePoint(), Collections.singletonList(folder));
+            sharedReferencePointMapper.addResources(referencePoint,
+                Collections.singletonList(folder));
 
         } else if (activity instanceof FolderDeletedActivity) {
             IFolder folder = activity.getPath().getFolder();
@@ -948,8 +944,8 @@ public final class SarosSession implements ISarosSession {
                 return false;
             }
 
-            sharedReferencePointMapper.removeResources(
-                project.getReferencePoint(), Collections.singletonList(folder));
+            sharedReferencePointMapper.removeResources(referencePoint,
+                Collections.singletonList(folder));
         }
 
         return true;

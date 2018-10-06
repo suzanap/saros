@@ -68,7 +68,7 @@ public class LocalEditorManipulator {
             path.getProject().getAdapter(IntelliJProjectImplV2.class);
 
         VirtualFile virtualFile = intelliJProject
-            .findVirtualFile(path.getProjectRelativePath());
+            .findVirtualFile(path.getRelativePathFromReferencePoint());
 
         if (virtualFile == null || !virtualFile.exists()) {
             LOG.warn("Could not open Editor for path " + path + " as a " +
@@ -102,7 +102,7 @@ public class LocalEditorManipulator {
             path.getProject().getAdapter(IntelliJProjectImplV2.class);
 
         VirtualFile virtualFile = intelliJProject
-            .findVirtualFile(path.getProjectRelativePath());
+            .findVirtualFile(path.getRelativePathFromReferencePoint());
 
         if (virtualFile == null || !virtualFile.exists()) {
             LOG.warn("Could not close Editor for path " + path + " as a " +
@@ -160,7 +160,7 @@ public class LocalEditorManipulator {
                 path.getProject().getAdapter(IntelliJProjectImplV2.class);
 
             VirtualFile virtualFile = module
-                .findVirtualFile(path.getProjectRelativePath());
+                .findVirtualFile(path.getRelativePathFromReferencePoint());
 
             if (virtualFile == null || !virtualFile.exists()) {
                 LOG.warn("Could not apply TextOperations " + operations

@@ -244,7 +244,7 @@ public class ConsistencyButton extends ToolbarButton {
             sbInconsistentFiles.append(path.getProject().getName());
             sbInconsistentFiles.append(", file: ");
             sbInconsistentFiles
-                .append(path.getProjectRelativePath().toOSString());
+                .append(path.getRelativePathFromReferencePoint().toOSString());
             sbInconsistentFiles.append("\n");
 
         }

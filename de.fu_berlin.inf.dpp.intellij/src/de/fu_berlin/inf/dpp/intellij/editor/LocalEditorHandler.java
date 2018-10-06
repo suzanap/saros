@@ -126,7 +126,10 @@ public class LocalEditorHandler {
             return null;
         }
 
-        return openEditor(virtualFile, new SPath(resource), activate);
+        IReferencePointManager referencePointManager = manager.getSession().
+            getComponent(IReferencePointManager.class);
+
+        return openEditor(virtualFile, new SPath(resource, referencePointManager), activate);
     }
 
     /**
@@ -214,7 +217,7 @@ public class LocalEditorHandler {
                 .getProject().getAdapter(IntelliJProjectImplV2.class);
 
             VirtualFile file = project
-                .findVirtualFile(path.getProjectRelativePath());
+                .findVirtualFile(path.getRelativePathFromReferencePoint());
 
             if (file == null || !file.exists()) {
                 LOG.warn("Failed to save document for " + path
@@ -294,9 +297,9 @@ public class LocalEditorHandler {
             if(resource != null){
                 break;
             }
-        }
-
-        return resource == null ? null : new SPath(resource);
+        }        
+        
+        return resource == null ? null : new SPath(resource, referencePointManager);
     }
 
     /**

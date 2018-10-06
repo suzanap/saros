@@ -14,6 +14,7 @@ import org.eclipse.ui.texteditor.IElementStateListener;
 
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.ui.util.SWTUtils;
 
 /**
@@ -54,6 +55,9 @@ public class DirtyStateListener implements IElementStateListener {
 
         final IFile file = ((FileEditorInput) element).getFile();
 
+        final IReferencePointManager referencePointManager = editorManager
+            .getReferencePointManager();
+
         /*
          * FIXME why must we sync on SWT ? This should only be called in SWT
          * already
@@ -74,7 +78,7 @@ public class DirtyStateListener implements IElementStateListener {
 
                 LOG.debug("Dirty state reset for: " + file);
                 editorManager.sendEditorActivitySaved(new SPath(
-                    ResourceAdapterFactory.create(file)));
+                    ResourceAdapterFactory.create(file), referencePointManager));
             }
         });
     }
