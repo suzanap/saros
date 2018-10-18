@@ -54,7 +54,7 @@ public class FileListTest {
     }
 
     private IProject project;
-    private IReferencePoint referencePoint;
+    private static IReferencePoint referencePoint;
     private IReferencePointManager referencePointManager;
 
     @Before
@@ -62,9 +62,12 @@ public class FileListTest {
         project = createProjectLayout();
         referencePointManager = EasyMock
             .createMock(IReferencePointManager.class);
+        // referencePoint = EasyMock.createNiceMock(IReferencePoint.class);
         referencePoint = EasyMock.createMock(IReferencePoint.class);
+
         EasyMock.expect(referencePointManager.get(referencePoint))
             .andStubReturn(project);
+
         EasyMock.replay(referencePoint, referencePointManager);
     }
 
@@ -169,7 +172,8 @@ public class FileListTest {
 
         final IFile fileMock = EasyMock.createMock(IFile.class);
 
-        EasyMock.expect(fileMock.getProject()).andStubReturn(project);
+        EasyMock.expect(fileMock.getReferencePoint()).andStubReturn(
+            referencePoint);
         EasyMock.expect(fileMock.getProjectRelativePath()).andStubReturn(
             relativePath);
 
@@ -216,7 +220,8 @@ public class FileListTest {
 
         final IFolder folderMock = EasyMock.createMock(IFolder.class);
 
-        EasyMock.expect(folderMock.getProject()).andStubReturn(project);
+        EasyMock.expect(folderMock.getReferencePoint()).andStubReturn(
+            referencePoint);
         EasyMock.expect(folderMock.getProjectRelativePath()).andStubReturn(
             relativePath);
 

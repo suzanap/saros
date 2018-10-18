@@ -7,8 +7,8 @@ import org.eclipse.core.runtime.OperationCanceledException;
 
 public class EclipseFolderImpl extends EclipseContainerImpl implements IFolder {
 
-    EclipseFolderImpl(org.eclipse.core.resources.IFolder delegate) {
-        super(delegate);
+    EclipseFolderImpl(org.eclipse.core.resources.IFolder delegate, IPath path) {
+        super(delegate, path);
     }
 
     EclipseFolderImpl(org.eclipse.core.resources.IFolder delegate,

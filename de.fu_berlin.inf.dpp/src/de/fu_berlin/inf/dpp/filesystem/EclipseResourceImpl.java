@@ -10,15 +10,9 @@ public class EclipseResourceImpl implements IResource {
     protected final org.eclipse.core.resources.IResource delegate;
     protected IReferencePoint referencePoint;
 
-    EclipseResourceImpl(org.eclipse.core.resources.IResource delegate) {
-        if (delegate == null)
-            throw new NullPointerException("delegate is null");
-
-        this.delegate = delegate;
-
-        if (delegate.getProject() != null)
-            referencePoint = new EclipseReferencePointImpl(new EclipsePathImpl(
-                delegate.getProject().getLocation()));
+    EclipseResourceImpl(org.eclipse.core.resources.IResource delegate,
+        IPath path) {
+        this(delegate, new EclipseReferencePointImpl(path));
     }
 
     EclipseResourceImpl(org.eclipse.core.resources.IResource delegate,
@@ -27,7 +21,7 @@ public class EclipseResourceImpl implements IResource {
             throw new NullPointerException("delegate is null");
 
         if (referencePoint == null)
-            throw new NullPointerException("referencePoint is null");
+            throw new NullPointerException("path is null");
 
         this.delegate = delegate;
         this.referencePoint = referencePoint;
@@ -58,7 +52,7 @@ public class EclipseResourceImpl implements IResource {
         switch (container.getType()) {
         case org.eclipse.core.resources.IResource.FOLDER:
             return new EclipseFolderImpl(
-                (org.eclipse.core.resources.IFolder) container);
+                (org.eclipse.core.resources.IFolder) container, referencePoint);
         case org.eclipse.core.resources.IResource.PROJECT:
             return new EclipseProjectImpl(
                 (org.eclipse.core.resources.IProject) container);
@@ -72,12 +66,7 @@ public class EclipseResourceImpl implements IResource {
 
     @Override
     public IProject getProject() {
-        org.eclipse.core.resources.IProject project = delegate.getProject();
-
-        if (project == null)
-            return null;
-
-        return new EclipseProjectImpl(project);
+        return null;
     }
 
     @Override

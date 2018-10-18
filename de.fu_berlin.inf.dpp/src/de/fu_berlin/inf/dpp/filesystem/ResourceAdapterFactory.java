@@ -135,11 +135,13 @@ public class ResourceAdapterFactory {
         case IResource.FILE:
             return new EclipseFileImpl(
                 (org.eclipse.core.resources.IFile) resource
-                    .getAdapter(org.eclipse.core.resources.IFile.class));
+                    .getAdapter(org.eclipse.core.resources.IFile.class),
+                new EclipsePathImpl(resource.getProject().getLocation()));
         case IResource.FOLDER:
             return new EclipseFolderImpl(
                 (org.eclipse.core.resources.IFolder) resource
-                    .getAdapter(org.eclipse.core.resources.IFolder.class));
+                    .getAdapter(org.eclipse.core.resources.IFolder.class),
+                new EclipsePathImpl(resource.getProject().getLocation()));
         case IResource.PROJECT:
             return new EclipseProjectImpl(
                 (org.eclipse.core.resources.IProject) resource
@@ -149,7 +151,8 @@ public class ResourceAdapterFactory {
                 (org.eclipse.core.resources.IWorkspaceRoot) resource
                     .getAdapter(org.eclipse.core.resources.IWorkspaceRoot.class));
         default:
-            return new EclipseResourceImpl(resource);
+            return new EclipseResourceImpl(resource, new EclipsePathImpl(
+                resource.getProject().getLocation()));
         }
     }
 }

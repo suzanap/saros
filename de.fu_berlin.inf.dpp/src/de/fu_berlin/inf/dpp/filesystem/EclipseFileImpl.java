@@ -10,8 +10,8 @@ import org.eclipse.core.runtime.OperationCanceledException;
 
 public class EclipseFileImpl extends EclipseResourceImpl implements IFile {
 
-    EclipseFileImpl(org.eclipse.core.resources.IFile delegate) {
-        super(delegate);
+    EclipseFileImpl(org.eclipse.core.resources.IFile delegate, IPath path) {
+        super(delegate, path);
     }
 
     EclipseFileImpl(org.eclipse.core.resources.IFile delegate,

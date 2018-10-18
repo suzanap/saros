@@ -4,15 +4,7 @@ public class EclipseProjectImpl extends EclipseContainerImpl implements
     IProject {
 
     EclipseProjectImpl(org.eclipse.core.resources.IProject delegate) {
-        super(delegate);
-
-        referencePoint = new EclipseReferencePointImpl(new EclipsePathImpl(
-            delegate.getLocation()));
-    }
-
-    EclipseProjectImpl(org.eclipse.core.resources.IProject delegate,
-        IReferencePoint referencePoint) {
-        super(delegate, referencePoint);
+        super(delegate, new EclipsePathImpl(delegate.getLocation()));
     }
 
     @Override
@@ -28,24 +20,26 @@ public class EclipseProjectImpl extends EclipseContainerImpl implements
 
     @Override
     public IFile getFile(String name) {
-        return new EclipseFileImpl(getDelegate().getFile(name));
+        return new EclipseFileImpl(getDelegate().getFile(name),
+            this.getLocation());
     }
 
     @Override
     public IFile getFile(IPath path) {
         return new EclipseFileImpl(getDelegate().getFile(
-            ((EclipsePathImpl) path).getDelegate()));
+            ((EclipsePathImpl) path).getDelegate()), this.getLocation());
     }
 
     @Override
     public IFolder getFolder(String name) {
-        return new EclipseFolderImpl(getDelegate().getFolder(name));
+        return new EclipseFolderImpl(getDelegate().getFolder(name),
+            this.getLocation());
     }
 
     @Override
     public IFolder getFolder(IPath path) {
         return new EclipseFolderImpl(getDelegate().getFolder(
-            ((EclipsePathImpl) path).getDelegate()));
+            ((EclipsePathImpl) path).getDelegate()), this.getLocation());
     }
 
     /**

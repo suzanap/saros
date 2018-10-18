@@ -34,7 +34,8 @@ public class IResourceTest {
 
         EasyMock.replay(folder, project, path);
 
-        final IFolder coreFolder = new EclipseFolderImpl(folder);
+        final IFolder coreFolder = new EclipseFolderImpl(folder,
+            new EclipsePathImpl(path));
 
         final Object adapted = coreFolder.getAdapter(IFolder.class);
 

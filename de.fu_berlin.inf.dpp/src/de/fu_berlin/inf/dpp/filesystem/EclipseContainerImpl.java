@@ -10,8 +10,9 @@ import org.eclipse.core.runtime.CoreException;
 public abstract class EclipseContainerImpl extends EclipseResourceImpl
     implements IContainer {
 
-    EclipseContainerImpl(org.eclipse.core.resources.IResource delegate) {
-        super(delegate);
+    EclipseContainerImpl(org.eclipse.core.resources.IResource delegate,
+        IPath path) {
+        super(delegate, path);
     }
 
     EclipseContainerImpl(org.eclipse.core.resources.IResource delegate,

@@ -14,7 +14,7 @@ public class EclipseWorkspaceRootImpl extends EclipseContainerImpl implements
 
     public EclipseWorkspaceRootImpl(
         org.eclipse.core.resources.IWorkspaceRoot delegate) {
-        super(delegate);
+        super(delegate, ResourceAdapterFactory.create(delegate.getLocation()));
     }
 
     @Override

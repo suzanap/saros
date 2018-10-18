@@ -88,8 +88,8 @@ public class SPath {
      */
     public SPath(IResource resource,
         IReferencePointManager referencePointmanager) {
-        this(resource.getProject().getReferencePoint(), resource
-            .getProjectRelativePath(), referencePointmanager);
+        this(resource.getReferencePoint(), resource.getProjectRelativePath(),
+            referencePointmanager);
 
     }
 

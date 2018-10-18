@@ -7,7 +7,7 @@ import de.fu_berlin.inf.dpp.session.ISarosSession;
 /**
  * Stream consists of infinite Stream entries. Stream end is signaled by empty
  * <em>projectID</em>.
- *
+ * 
  * <p>
  * <b>Stream entry</b>
  * <table>
@@ -36,7 +36,7 @@ import de.fu_berlin.inf.dpp.session.ISarosSession;
  * </tr>
  * </table>
  * </p>
- *
+ * 
  * <b>Handle of Character Encoding</b>
  * <p>
  * The used Character Encoding for a file is an IDE/Editor handled setting.
@@ -73,14 +73,14 @@ abstract class AbstractStreamProtocol {
 
     /**
      * generates project and filename combination for user visualization
-     *
+     * 
      * @param file
      * @return String of local project name and filename
      */
     String displayName(IFile file) {
-        String projectName = file.getProject().getName();
+        String referencePointName = file.getReferencePoint().toString();
         String fileName = file.getProjectRelativePath().toOSString();
 
-        return projectName + ": " + fileName;
+        return referencePointName + ": " + fileName;
     }
 }
