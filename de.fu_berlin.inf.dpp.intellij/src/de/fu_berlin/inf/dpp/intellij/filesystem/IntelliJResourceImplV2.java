@@ -10,6 +10,10 @@ public abstract class IntelliJResourceImplV2 implements IResource {
 
     protected IReferencePoint referencePoint;
 
+    public IntelliJResourceImplV2(IReferencePoint referencePoint){
+        this.referencePoint = referencePoint;
+    }
+
     @Nullable
     @Override
     public Object getAdapter(@NotNull Class<? extends IResource> clazz) {

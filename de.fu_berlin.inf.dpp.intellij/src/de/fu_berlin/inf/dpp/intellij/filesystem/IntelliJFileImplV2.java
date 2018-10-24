@@ -33,17 +33,10 @@ public final class IntelliJFileImplV2 extends IntelliJResourceImplV2 implements
     private final IntelliJProjectImplV2 project;
 
     public IntelliJFileImplV2(@NotNull final IntelliJProjectImplV2 project,
-        @NotNull final IPath path) {
-        this.project = project;
-        this.path = path;
-        this.referencePoint = project.getReferencePoint();
-    }
-
-    public IntelliJFileImplV2(@NotNull final IntelliJProjectImplV2 project,
         @NotNull final IPath path, IReferencePoint referencePoint) {
+        super(referencePoint);
         this.project = project;
         this.path = path;
-        this.referencePoint = referencePoint;
     }
 
     /**
@@ -92,7 +85,7 @@ public final class IntelliJFileImplV2 extends IntelliJResourceImplV2 implements
         if (path.segmentCount() == 1)
             return project;
 
-        return new IntelliJFolderImplV2(project, path.removeLastSegments(1));
+        return new IntelliJFolderImplV2(project, path.removeLastSegments(1), referencePoint);
     }
 
     @NotNull

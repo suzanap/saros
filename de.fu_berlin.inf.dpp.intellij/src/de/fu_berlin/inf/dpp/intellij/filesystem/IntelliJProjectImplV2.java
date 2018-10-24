@@ -70,47 +70,26 @@ public final class IntelliJProjectImplV2 extends IntelliJResourceImplV2
      *            an IntelliJ <i>module</i>
      */
     public IntelliJProjectImplV2(@NotNull final Module module) {
+        super(null);
         this.module = module;
         this.moduleName = module.getName();
-        this.referencePoint = new IntelliJReferencePointImpl((IntelliJPathImpl)
+
+        ModuleRootManager moduleRootManager = ModuleRootManager
+            .getInstance(module);
+
+        final VirtualFile[] contentRoots = moduleRootManager.getContentRoots();
+
+        if (contentRoots.length == 0)
+            throw new IllegalArgumentException("module: " + module
+                + " does not have a content root");
+
+        if (contentRoots.length > 1)
+            throw new IllegalArgumentException("module: " + module
+                + " has more than one content root");
+
+        moduleRoot = contentRoots[0];
+        referencePoint = new IntelliJReferencePointImpl((IntelliJPathImpl)
             this.getLocation());
-
-        ModuleRootManager moduleRootManager = ModuleRootManager
-            .getInstance(module);
-
-        final VirtualFile[] contentRoots = moduleRootManager.getContentRoots();
-
-        if (contentRoots.length == 0)
-            throw new IllegalArgumentException("module: " + module
-                + " does not have a content root");
-
-        if (contentRoots.length > 1)
-            throw new IllegalArgumentException("module: " + module
-                + " has more than one content root");
-
-        moduleRoot = contentRoots[0];
-    }
-
-    public IntelliJProjectImplV2(@NotNull final Module module, @NotNull
-        IReferencePoint referencePoint) {
-        this.module = module;
-        this.moduleName = module.getName();
-        this.referencePoint = referencePoint;
-
-        ModuleRootManager moduleRootManager = ModuleRootManager
-            .getInstance(module);
-
-        final VirtualFile[] contentRoots = moduleRootManager.getContentRoots();
-
-        if (contentRoots.length == 0)
-            throw new IllegalArgumentException("module: " + module
-                + " does not have a content root");
-
-        if (contentRoots.length > 1)
-            throw new IllegalArgumentException("module: " + module
-                + " has more than one content root");
-
-        moduleRoot = contentRoots[0];
     }
 
     /**
@@ -202,7 +181,8 @@ public final class IntelliJProjectImplV2 extends IntelliJResourceImplV2
                 .fromString(child.getName());
 
             result.add(child.isDirectory() ? new IntelliJFolderImplV2(this,
-                childPath) : new IntelliJFileImplV2(this, childPath));
+                childPath, referencePoint) :
+                new IntelliJFileImplV2(this, childPath, referencePoint));
 
         }
 
@@ -335,8 +315,9 @@ public final class IntelliJProjectImplV2 extends IntelliJResourceImplV2
         if (file == null)
             return null;
 
-        return file.isDirectory() ? new IntelliJFolderImplV2(this, path)
-            : new IntelliJFileImplV2(this, path);
+        return file.isDirectory() ? new IntelliJFolderImplV2(this, path,
+            referencePoint)
+            : new IntelliJFileImplV2(this, path, referencePoint);
     }
 
     @NotNull
@@ -353,7 +334,7 @@ public final class IntelliJProjectImplV2 extends IntelliJResourceImplV2
             throw new IllegalArgumentException(
                 "cannot create file handle for an empty path");
 
-        return new IntelliJFileImplV2(this, path);
+        return new IntelliJFileImplV2(this, path, referencePoint);
     }
 
     /**
@@ -375,7 +356,7 @@ public final class IntelliJProjectImplV2 extends IntelliJResourceImplV2
         IPath relativePath = getProjectRelativePath(file);
 
         return relativePath != null ?
-            new IntelliJFileImplV2(this, relativePath) :
+            new IntelliJFileImplV2(this, relativePath, referencePoint) :
             null;
     }
 
@@ -393,7 +374,7 @@ public final class IntelliJProjectImplV2 extends IntelliJResourceImplV2
             throw new IllegalArgumentException(
                 "cannot create folder handle for an empty path");
 
-        return new IntelliJFolderImplV2(this, path);
+        return new IntelliJFolderImplV2(this, path, referencePoint);
     }
 
     /**
@@ -415,7 +396,7 @@ public final class IntelliJProjectImplV2 extends IntelliJResourceImplV2
         IPath relativePath = getProjectRelativePath(file);
 
         return relativePath != null ?
-            new IntelliJFolderImplV2(this, relativePath) :
+            new IntelliJFolderImplV2(this, relativePath, referencePoint) :
             null;
     }
 
