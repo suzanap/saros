@@ -25,7 +25,6 @@ import de.fu_berlin.inf.dpp.editor.remote.EditorState;
 import de.fu_berlin.inf.dpp.editor.remote.UserEditorStateManager;
 import de.fu_berlin.inf.dpp.editor.text.LineRange;
 import de.fu_berlin.inf.dpp.editor.text.TextSelection;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.intellij.editor.colorstorage.ColorManager;
 import de.fu_berlin.inf.dpp.intellij.editor.colorstorage.ColorModel;
@@ -282,24 +281,24 @@ public class EditorManager extends AbstractActivityProducer
             ApplicationManager.getApplication().invokeAndWait(new Runnable() {
                     @Override
                     public void run() {
-                        addProjectResources(referencePointManager.get(referencePoint));
+                        addProjectResources(referencePoint);
                     }
                 }, ModalityState.defaultModalityState());
         }
     };
 
     /**
-     * Adds all currently open editors belonging to the passed project to the
+     * Adds all currently open editors belonging to the passed referencePoint to the
      * pool of open editors.
      *
-     * @param project the added project
+     * @param referencePoint the added referencePoint
      */
-    private void addProjectResources(IProject project) {
+    private void addProjectResources(IReferencePoint referencePoint) {
         VirtualFile[] openFiles = projectAPI.getOpenFiles();
         VirtualFile[] activeFiles = projectAPI.getSelectedFiles();
 
         for(VirtualFile openFile: openFiles){
-            localEditorHandler.openEditor(openFile, project,false);
+            localEditorHandler.openEditor(openFile, referencePoint,false);
         }
 
         //TODO consider duplicated open editors during screen splitting
@@ -307,7 +306,6 @@ public class EditorManager extends AbstractActivityProducer
         for(int i = activeFiles.length-1; i >= 0; i--) {
             projectAPI.openEditor(activeFiles[i],true);
         }
-
     }
 
     private final ISessionLifecycleListener sessionLifecycleListener = new NullSessionLifecycleListener() {

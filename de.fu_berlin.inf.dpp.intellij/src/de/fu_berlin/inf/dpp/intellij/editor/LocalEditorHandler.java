@@ -6,6 +6,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJProjectImplV2;
 
@@ -91,20 +92,20 @@ public class LocalEditorHandler {
      * @param project module the file belongs to
      * @param activate activate editor after opening
      */
-    public void openEditor(VirtualFile virtualFile, IProject project,
+    public void openEditor(VirtualFile virtualFile, IReferencePoint referencePoint,
         boolean activate){
-
-        IResource resource = getResource(virtualFile, project);
-
-        if (resource == null) {
-            LOG.debug("Could not open Editor for file " + virtualFile +
-                " as it does not belong to the given module " + project);
-
-            return;
-        }
 
         IReferencePointManager referencePointManager = manager.getSession().
             getComponent(IReferencePointManager.class);
+
+        IResource resource = getResource(virtualFile, referencePoint, referencePointManager);
+
+        if (resource == null) {
+            LOG.debug("Could not open Editor for file " + virtualFile
+                + " as it does not belong to the given referencePoint " + referencePoint);
+
+            return;
+        }
         
         openEditor(virtualFile, new SPath(resource, referencePointManager), activate);
     }
@@ -237,9 +238,8 @@ public class LocalEditorHandler {
         IReferencePointManager referencePointManager = manager.getSession()
         .getComponent(IReferencePointManager.class);
 
-        for (IProject project : referencePointManager.getProjects(
-            manager.getSession().getReferencePoints())) {
-            resource = getResource(virtualFile, project);
+        for (IReferencePoint referencePoint : manager.getSession().getReferencePoints()) {
+            resource = getResource(virtualFile, referencePoint, referencePointManager);
 
             if(resource != null){
                 break;
@@ -253,16 +253,18 @@ public class LocalEditorHandler {
      * Returns an <code>IResource</code> for the passed VirtualFile.
      *
      * @param virtualFile file to get the <code>IResource</code> for
-     * @param project module the file belongs to
+     * @param referencePoint referencePoint the file belongs to
+     * @param referencePointManager
      * @return an <code>IResource</code> for the passed file or
-     *         <code>null</code> it does not belong to the passed module.
+     *         <code>null</code> it does not belong to the passed referencePoint.
      */
     @Nullable
     private static IResource getResource(@NotNull VirtualFile virtualFile,
-        @NotNull IProject project) {
+        @NotNull IReferencePoint referencePoint, @NotNull IReferencePointManager
+        referencePointManager) {
 
-        IntelliJProjectImplV2 module = (IntelliJProjectImplV2) project
-            .getAdapter(IntelliJProjectImplV2.class);
+        IntelliJProjectImplV2 module = (IntelliJProjectImplV2) referencePointManager
+            .get(referencePoint).getAdapter(IntelliJProjectImplV2.class);
 
         return module.getResource(virtualFile);
     }
