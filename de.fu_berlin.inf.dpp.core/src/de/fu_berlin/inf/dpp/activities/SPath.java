@@ -140,13 +140,6 @@ public class SPath {
     }
 
     /**
-     * Returns the project in which the referenced resource is located.
-     */
-    public IProject getProject() {
-        return referencePointManager.get(referencePoint);
-    }
-
-    /**
      * Returns the referencePoint in which the resource referenced to.
      */
     public IReferencePoint getReferencePoint() {

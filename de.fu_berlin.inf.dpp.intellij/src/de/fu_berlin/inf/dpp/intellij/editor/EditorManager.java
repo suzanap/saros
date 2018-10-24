@@ -520,8 +520,11 @@ public class EditorManager extends AbstractActivityProducer
 
                 @Override
                 public String compute() {
-                    IntelliJProjectImplV2 module = (IntelliJProjectImplV2) path
-                        .getProject().getAdapter(IntelliJProjectImplV2.class);
+
+                    IReferencePoint referencePoint = path.getReferencePoint();
+
+                    IntelliJProjectImplV2 module = (IntelliJProjectImplV2) referencePointManager
+                        .get(referencePoint).getAdapter(IntelliJProjectImplV2.class);
 
                     VirtualFile virtualFile = module
                         .findVirtualFile(path.getRelativePathFromReferencePoint());
@@ -959,7 +962,7 @@ public class EditorManager extends AbstractActivityProducer
 
                 for (SPath editorPath : editorPaths) {
                     if (referencePoint == null || referencePoint.equals(editorPath
-                        .getProject().getReferencePoint())) {
+                        .getReferencePoint())) {
                         saveDocument(editorPath);
                     }
                 }
