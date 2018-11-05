@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Generiert durch Microsoft Visio 11.0, SVG Export, v1.0 architecture_UserStates.svg Aktivität-8 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="3.23425in" height="3.41412in"
+		viewBox="0 0 232.866 245.816" xml:space="preserve" color-interpolation-filters="sRGB" class="st11">
+	<v:documentProperties v:langID="1031" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+			<v:ud v:nameU="msvNoApplyDataGraphicAfterLink" v:val="VT0(1):5"/>
+			<v:ud v:nameU="msvNoSubprocess" v:prompt="" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#f2f2f2;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st2 {fill:#f2f2f2;font-family:Calibri;font-size:1.00001em}
+		.st3 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st4 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st5 {fill:#000000;font-family:Calibri;font-size:0.75em}
+		.st6 {marker-end:url(#mrkr3-44);stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st7 {fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.10810810810811}
+		.st8 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:7.2}
+		.st9 {fill:#000000;font-family:Calibri;font-size:0.666664em}
+		.st10 {font-size:1em}
+		.st11 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Markers">
+		<g id="lend3">
+			<path d="M 2 1 L 0 0 L 2 -1 " style="stroke-linecap:round;stroke-linejoin:round;fill:none"/>
+		</g>
+		<marker id="mrkr3-44" class="st7" v:arrowType="3" v:arrowSize="4" orient="auto" markerUnits="strokeWidth"
+				overflow="visible">
+			<use xlink:href="#lend3" transform="scale(-9.25,-9.25) "/>
+		</marker>
+	</defs>
+	<g v:mID="27" v:index="16" v:groupContext="foregroundPage">
+		<v:userDefs>
+			<v:ud v:nameU="UMLPageGUID" v:prompt="" v:val="VT14({DABCAA69-ABB9-429F-A784-3A97CDD91D89}):41"/>
+		</v:userDefs>
+		<title>Aktivität-8</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<v:layer v:name="Verantwortlichkeitsbereiche" v:index="0" v:snap="false" v:glue="false"/>
+		<g id="shape29-1" v:mID="29" v:groupContext="shape" v:layerMember="0" transform="translate(18.75,-156.23)">
+			<title>Verantwortlichkeitsbereich.29</title>
+			<desc>Partition2</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(63):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({20467004-5EE5-446A-96B0-878CDBDBD1D1})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Partition zum Organisieren der Aktivitätsverantwortlichkeit dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="65.3825" cy="224.131" width="130.4" height="42.5197"/>
+			<rect x="0" y="203.297" width="130.394" height="42.5197" class="st1"/>
+			<text x="41.19" y="217.67" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Partition2</text>		</g>
+		<g id="shape26-4" v:mID="26" v:groupContext="shape" v:layerMember="0" transform="translate(18.75,-53.1909)">
+			<title>Verantwortlichkeitsbereich</title>
+			<desc>Partition2</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(63):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({A612D00F-59DD-45C8-8772-A27C32807321})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Partition zum Organisieren der Aktivitätsverantwortlichkeit dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="65.3825" cy="210.383" width="130.4" height="70.8661"/>
+			<rect x="0" y="174.95" width="130.394" height="70.8661" class="st1"/>
+			<text x="41.19" y="189.75" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Partition2</text>		</g>
+		<g id="group2-7" transform="translate(57.5683,-201.585)" v:mID="2" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(40):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({6DF7746E-7086-4BF2-8259-310D8EDF3B39})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(32):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Bedingung dar, während der ein Objekt eine Bedingung erfüllt, eine Aktion ausführt oder auf ein Ereignis wartet.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Zustand</title>
+			<g id="shape3-8" v:mID="3" v:groupContext="shape">
+				<title>Tabelle.3</title>
+				<path d="M9 245.82 L49.43 245.82 A9 9 -180 0 0 58.43 236.82 L58.43 229.3 A9 9 -180 0 0 49.43 220.3 L9 220.3 A9 9
+							 -180 0 0 0 229.3 L0 236.82 A9 9 -180 0 0 9 245.82 Z" class="st3"/>
+			</g>
+			<g id="shape4-10" v:mID="4" v:groupContext="shape">
+				<title>Transitions</title>
+				<path d="M0 245.82 L53.86 245.82 L0 245.82 Z" class="st4"/>
+			</g>
+			<g id="shape5-12" v:mID="5" v:groupContext="shape">
+				<title>Name</title>
+				<desc>outOfSession</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="29.2132" cy="233.216" width="58.43" height="25.2"/>
+				<rect x="0" y="220.616" width="58.4265" height="25.2" class="st4"/>
+				<text x="5.02" y="235.92" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>outOfSession</text>			</g>
+		</g>
+		<g id="group14-15" transform="translate(59.7815,-127.559)" v:mID="14" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(40):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({09F30D84-0472-4E34-9E03-0814F48764B7})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(32):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Bedingung dar, während der ein Objekt eine Bedingung erfüllt, eine Aktion ausführt oder auf ein Ereignis wartet.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Zustand.14</title>
+			<g id="shape15-16" v:mID="15" v:groupContext="shape">
+				<title>Tabelle.15</title>
+				<path d="M9 245.82 L45 245.82 A9 9 -180 0 0 54 236.82 L54 229.3 A9 9 -180 0 0 45 220.3 L9 220.3 A9 9 -180 0 0 0 229.3
+							 L0 236.82 A9 9 -180 0 0 9 245.82 Z" class="st3"/>
+			</g>
+			<g id="shape16-18" v:mID="16" v:groupContext="shape">
+				<title>Transitions</title>
+				<path d="M0 245.82 L53.86 245.82 L0 245.82 Z" class="st4"/>
+			</g>
+			<g id="shape17-20" v:mID="17" v:groupContext="shape">
+				<title>Name</title>
+				<desc>inSession</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="27" cy="233.216" width="54" height="25.2"/>
+				<rect x="0" y="220.616" width="54" height="25.2" class="st4"/>
+				<text x="10.01" y="235.92" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>inSession</text>			</g>
+		</g>
+		<g id="group18-23" transform="translate(59.7815,-71.1909)" v:mID="18" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(40):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({CBCFA60D-5BB9-48CA-8DB5-F0673C652C16})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(32):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Bedingung dar, während der ein Objekt eine Bedingung erfüllt, eine Aktion ausführt oder auf ein Ereignis wartet.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Zustand.18</title>
+			<g id="shape19-24" v:mID="19" v:groupContext="shape">
+				<title>Tabelle.19</title>
+				<path d="M9 245.82 L45 245.82 A9 9 -180 0 0 54 236.82 L54 229.3 A9 9 -180 0 0 45 220.3 L9 220.3 A9 9 -180 0 0 0 229.3
+							 L0 236.82 A9 9 -180 0 0 9 245.82 Z" class="st3"/>
+			</g>
+			<g id="shape20-26" v:mID="20" v:groupContext="shape">
+				<title>Transitions</title>
+				<path d="M0 245.82 L53.86 245.82 L0 245.82 Z" class="st4"/>
+			</g>
+			<g id="shape21-28" v:mID="21" v:groupContext="shape">
+				<title>Name</title>
+				<desc>isQueuing</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="27" cy="233.216" width="54" height="25.2"/>
+				<rect x="0" y="220.616" width="54" height="25.2" class="st4"/>
+				<text x="8.7" y="235.92" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>isQueuing</text>			</g>
+		</g>
+		<g id="group22-31" transform="translate(59.7106,-18.75)" v:mID="22" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(40):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({0BEE16B7-D5C1-4998-9BAC-0B902F46A3BF})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLSuppressOption" v:val="VT0(32):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Bedingung dar, während der ein Objekt eine Bedingung erfüllt, eine Aktion ausführt oder auf ein Ereignis wartet.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Zustand.22</title>
+			<g id="shape23-32" v:mID="23" v:groupContext="shape">
+				<title>Tabelle.23</title>
+				<path d="M9 245.82 L45 245.82 A9 9 -180 0 0 54 236.82 L54 229.3 A9 9 -180 0 0 45 220.3 L9 220.3 A9 9 -180 0 0 0 229.3
+							 L0 236.82 A9 9 -180 0 0 9 245.82 Z" class="st3"/>
+			</g>
+			<g id="shape24-34" v:mID="24" v:groupContext="shape">
+				<title>Transitions</title>
+				<path d="M0 245.82 L53.86 245.82 L0 245.82 Z" class="st4"/>
+			</g>
+			<g id="shape25-36" v:mID="25" v:groupContext="shape">
+				<title>Name</title>
+				<desc>hasProjects</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="27" cy="233.216" width="54" height="25.2"/>
+				<rect x="0" y="220.616" width="54" height="25.2" class="st4"/>
+				<text x="5.97" y="235.92" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>hasProjects</text>			</g>
+		</g>
+		<g id="shape7-39" v:mID="7" v:groupContext="shape" transform="translate(79.6949,-201.585)">
+			<title>Kontrollfluss.7</title>
+			<desc>[Invitation]</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({B729139A-0906-4273-BF09-8C08093CEBE6})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="4.25197" cy="261.167" width="47.65" height="17.6036"/>
+			<path d="M7.09 245.82 L7.09 294.33" class="st6"/>
+			<rect v:rectContext="textBkgnd" x="-13.7597" y="256.367" width="36.0233" height="9.59985" class="st8"/>
+			<text x="-13.76" y="263.57" class="st9" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>[Invitation]  </text>		</g>
+		<g id="shape8-47" v:mID="8" v:groupContext="shape" transform="translate(79.6949,-127.559)">
+			<title>Kontrollfluss.8</title>
+			<desc>[Queuing request send]</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({A3EE9704-0DA6-4358-A7E4-AC5DFF4BA5D9})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="8.43307" cy="260.433" width="88.2" height="17.6036"/>
+			<path d="M7.09 245.82 L7.09 276.67" class="st6"/>
+			<rect v:rectContext="textBkgnd" x="-29.8557" y="255.634" width="76.5775" height="9.59985" class="st8"/>
+			<text x="-29.86" y="262.83" class="st9" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>[Queuing request send]  </text>		</g>
+		<g id="shape9-54" v:mID="9" v:groupContext="shape" transform="translate(93.8327,-71.1909)">
+			<title>Kontrollfluss.9</title>
+			<desc>[Project Negotiation finished]</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({E074EE76-2B70-4C54-8D50-702D1951928E})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="1.45275" cy="257.16" width="107.49" height="17.6036"/>
+			<path d="M-7.05 245.82 L-7.12 272.75" class="st6"/>
+			<rect v:rectContext="textBkgnd" x="-46.4804" y="252.36" width="95.8661" height="9.59985" class="st8"/>
+			<text x="-46.48" y="259.56" class="st9" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>[Project Negotiation finished]  </text>		</g>
+		<g id="shape27-61" v:mID="27" v:groupContext="shape" transform="translate(-207.066,186.956) rotate(-90)">
+			<title>Tabelle.27</title>
+			<desc>Project Negotiation</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="27.1417" cy="235.816" width="73.28" height="20"/>
+			<rect x="0" y="225.816" width="73.2756" height="20" class="st4"/>
+			<text x="-4.52" y="238.22" class="st9" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Project Negotiation</text>		</g>
+		<g id="shape28-64" v:mID="28" v:groupContext="shape" transform="translate(-205.728,88.5153) rotate(-90)">
+			<title>Tabelle.28</title>
+			<desc>Session Negotiation</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="19.5197" cy="236.116" width="47.55" height="20"/>
+			<rect x="0" y="225.816" width="47.5433" height="20" class="st4"/>
+			<text x="7.43" y="233.72" class="st9" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Session<v:newlineChar/><tspan
+						x="0.31" dy="1.2em" class="st10">Negotiation</tspan></text>		</g>
+		<g id="shape30-68" v:mID="30" v:groupContext="shape" transform="translate(107.801,-140.315)">
+			<title>Kontrollfluss</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({889196B6-B620-4FA1-860B-0A8056191D26})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<path d="M5.98 245.82 L50.37 245.82 L50.37 171.79 L8.19 171.79" class="st6"/>
+		</g>
+		<g id="shape31-73" v:mID="31" v:groupContext="shape" transform="translate(107.801,-83.9469)">
+			<title>Kontrollfluss.31</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({8E5CE452-8D23-4DD5-8614-987405F5B140})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<path d="M5.98 245.82 L50.37 245.82 L50.37 115.42 L8.19 115.42" class="st6"/>
+		</g>
+		<g id="shape32-78" v:mID="32" v:groupContext="shape" transform="translate(107.766,-31.5059)">
+			<title>Kontrollfluss.32</title>
+			<desc>[Leave Session]</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({0C89C923-35EB-4DBC-A314-6C8ACE1104E0})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76.4617" cy="137.305" width="61.28" height="17.6036"/>
+			<path d="M5.94 245.82 L50.41 245.82 L50.41 62.98 L8.23 62.98" class="st6"/>
+			<rect v:rectContext="textBkgnd" x="51.6336" y="132.506" width="49.656" height="9.59985" class="st8"/>
+			<text x="51.63" y="139.71" class="st9" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>[Leave Session]  </text>		</g>
+	</g>
+</svg>

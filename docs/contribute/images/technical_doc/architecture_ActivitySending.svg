@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Generiert durch Microsoft Visio 11.0, SVG Export, v1.0 architecture_ActivitySending.svg Zeichenblatt-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="9.80869in" height="4.27197in"
+		viewBox="0 0 706.226 307.582" xml:space="preserve" color-interpolation-filters="sRGB" class="st15">
+	<v:documentProperties v:langID="1031" v:metric="true" v:viewMarkup="false"/>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st2 {fill:#000000;font-family:Calibri;font-size:1.00001em;font-weight:bold}
+		.st3 {font-size:1em;text-decoration:underline}
+		.st4 {fill:#b7dde8;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st5 {fill:#000000;font-family:Calibri;font-size:1.00001em}
+		.st6 {fill:#d7e3bf;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.72}
+		.st7 {fill:#d7e3bf;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st8 {font-size:1em}
+		.st9 {fill:#e5b9b5;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st10 {marker-end:url(#mrkr3-62);stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st11 {fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.10810810810811}
+		.st12 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:7.2}
+		.st13 {fill:#000000;font-family:Calibri;font-size:0.833336em}
+		.st14 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st15 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Markers">
+		<g id="lend3">
+			<path d="M 2 1 L 0 0 L 2 -1 " style="stroke-linecap:round;stroke-linejoin:round;fill:none"/>
+		</g>
+		<marker id="mrkr3-62" class="st11" v:arrowType="3" v:arrowSize="4" orient="auto" markerUnits="strokeWidth"
+				overflow="visible">
+			<use xlink:href="#lend3" transform="scale(-9.25,-9.25) "/>
+		</marker>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>Zeichenblatt-1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394" v:shadowType="1"/>
+		<v:layer v:name="Verantwortlichkeitsbereiche" v:index="0" v:snap="false" v:glue="false"/>
+		<g id="shape22-1" v:mID="22" v:groupContext="shape" v:layerMember="0" transform="translate(2.37205,-0.72)">
+			<title>Verantwortlichkeitsbereich.22</title>
+			<desc>Legende</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(63):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({6770DA27-F130-418D-A011-7BE95AAC0D08})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Partition zum Organisieren der Aktivitätsverantwortlichkeit dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="79.5118" cy="275.692" width="159.03" height="63.7795"/>
+			<rect x="0" y="243.802" width="159.024" height="63.7795" class="st1"/>
+			<text x="58.63" y="258.6" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st3">Legende</tspan></text>		</g>
+		<g id="shape6-5" v:mID="6" v:groupContext="shape" v:layerMember="0" transform="translate(563.774,-71.5861)">
+			<title>Verantwortlichkeitsbereich.6</title>
+			<desc>NL: ITransmitter</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(63):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({13EEDD33-B081-4B4E-BF48-9B5A29CA8535})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Partition zum Organisieren der Aktivitätsverantwortlichkeit dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="70.8661" cy="189.944" width="141.74" height="235.276"/>
+			<rect x="0" y="72.3061" width="141.732" height="235.276" class="st1"/>
+			<text x="30.42" y="87.11" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st3">NL</tspan><tspan
+						class="st3">: </tspan><tspan class="st3">ITransmitter</tspan></text>		</g>
+		<g id="shape5-11" v:mID="5" v:groupContext="shape" v:layerMember="0" transform="translate(399.364,-71.5861)">
+			<title>Verantwortlichkeitsbereich.5</title>
+			<desc>SM: Activity Sequencer</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(63):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({7F2D84D0-12D6-43C3-96DA-14AFF5655D72})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Partition zum Organisieren der Aktivitätsverantwortlichkeit dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="82.2047" cy="189.944" width="164.41" height="235.276"/>
+			<rect x="0" y="72.3061" width="164.409" height="235.276" class="st1"/>
+			<text x="24.62" y="87.11" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st3">SM</tspan><tspan
+						class="st3">: </tspan><tspan class="st3">Activity Sequencer</tspan></text>		</g>
+		<g id="shape4-17" v:mID="4" v:groupContext="shape" v:layerMember="0" transform="translate(266.136,-199.145)">
+			<title>Verantwortlichkeitsbereich.4</title>
+			<desc>SM: Concurrency Management</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(63):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({20D5C066-7384-4BD3-8294-08CA75375099})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Partition zum Organisieren der Aktivitätsverantwortlichkeit dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="66.6142" cy="253.723" width="133.23" height="107.717"/>
+			<rect x="0" y="199.865" width="133.228" height="107.717" class="st1"/>
+			<text x="24.31" y="214.67" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st3">SM</tspan><tspan
+						class="st3">: </tspan><tspan class="st3">Concurrency </tspan><tspan x="33.16" dy="1.2em" class="st3">Management</tspan></text>		</g>
+		<g id="shape3-24" v:mID="3" v:groupContext="shape" v:layerMember="0" transform="translate(124.404,-71.5861)">
+			<title>Verantwortlichkeitsbereich.3</title>
+			<desc>SM: Activity Handling</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(63):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({5FA0FF13-217E-4B0E-B948-9104048D8216})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Partition zum Organisieren der Aktivitätsverantwortlichkeit dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="70.8661" cy="189.944" width="141.74" height="235.276"/>
+			<rect x="0" y="72.3061" width="141.732" height="235.276" class="st1"/>
+			<text x="17.28" y="87.11" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st3">SM</tspan><tspan
+						class="st3">: </tspan><tspan class="st3">Activity Handling</tspan></text>		</g>
+		<g id="shape2-30" v:mID="2" v:groupContext="shape" v:layerMember="0" transform="translate(2.23031,-71.5861)">
+			<title>Verantwortlichkeitsbereich</title>
+			<desc>UI: Activity Provider</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(63):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({A17FEF82-1A63-4FD9-9152-857113473795})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(1):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Partition zum Organisieren der Aktivitätsverantwortlichkeit dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="61.0866" cy="189.944" width="122.18" height="235.276"/>
+			<rect x="0" y="72.3061" width="122.173" height="235.276" class="st1"/>
+			<text x="11.03" y="87.11" class="st2" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st3">UI</tspan><tspan
+						class="st3">: </tspan><tspan class="st3">Activity Provider</tspan></text>		</g>
+		<g id="shape7-36" v:mID="7" v:groupContext="shape" transform="translate(24.385,-230.326)">
+			<title>Aktionszustand</title>
+			<desc>fire activity</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(61):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({10E95F9A-3B9A-4390-8835-21FF9EA97D1D})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt einen Aktionszustand dar, der eine Aktion ausführt und dann in einen anderen Zustand übergeht.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="32.6103" cy="294.826" width="65.23" height="25.5118"/>
+			<rect x="0" y="282.07" width="65.2207" height="25.5118" rx="12.7559" ry="12.7559" class="st4"/>
+			<text x="5.36" y="298.43" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>fire activity</text>		</g>
+		<g id="shape8-39" v:mID="8" v:groupContext="shape" transform="translate(181.096,-233.161)">
+			<title>Entscheidung</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(62):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({E1CC9C21-78EE-42ED-B59F-AF052125398C})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Entscheidung, wenn Wächterbedingungen zur Kennzeichnung der versch. mögl., boolesch-abhäng. Übergänge verwendet werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<path d="M9.92 287.74 L19.84 297.66 L9.92 307.58 L0 297.66 L9.92 287.74 Z" class="st6"/>
+		</g>
+		<g id="shape9-41" v:mID="9" v:groupContext="shape" transform="translate(283.837,-230.326)">
+			<title>Aktionszustand.9</title>
+			<desc>transform as Client</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(61):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({EAFB159F-23D8-431E-94E0-3270A89D8F0A})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt einen Aktionszustand dar, der eine Aktion ausführt und dann in einen anderen Zustand übergeht.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="51.7471" cy="294.826" width="103.5" height="25.5118"/>
+			<rect x="0" y="282.07" width="103.494" height="25.5118" rx="12.7559" ry="12.7559" class="st7"/>
+			<text x="5.36" y="298.43" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>transform as Client</text>		</g>
+		<g id="shape10-44" v:mID="10" v:groupContext="shape" transform="translate(142.835,-170.799)">
+			<title>Aktionszustand.10</title>
+			<desc>set Host as target</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(61):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({D958E020-A121-4F87-BA3C-DD8CA7F714DD})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt einen Aktionszustand dar, der eine Aktion ausführt und dann in einen anderen Zustand übergeht.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="48.0439" cy="294.826" width="96.09" height="25.5118"/>
+			<rect x="0" y="282.07" width="96.0879" height="25.5118" rx="12.7559" ry="12.7559" class="st7"/>
+			<text x="5.36" y="298.43" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>set Host as target</text>		</g>
+		<g id="shape11-47" v:mID="11" v:groupContext="shape" transform="translate(435.549,-170.799)">
+			<title>Aktionszustand.11</title>
+			<desc>queue Activity</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(61):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({AA8906F2-6115-411C-9940-E2EC0923F8E3})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt einen Aktionszustand dar, der eine Aktion ausführt und dann in einen anderen Zustand übergeht.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="40.3508" cy="294.826" width="80.71" height="25.5118"/>
+			<rect x="0" y="282.07" width="80.7015" height="25.5118" rx="12.7559" ry="12.7559" class="st7"/>
+			<text x="5.36" y="298.43" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>queue Activity</text>		</g>
+		<g id="shape12-50" v:mID="12" v:groupContext="shape" transform="translate(405.713,-111.271)">
+			<title>Aktionszustand.12</title>
+			<desc>take Activity from queue and pass to Network Layer</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(61):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({29320283-4D1E-4BF2-A82F-D9C479234486})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt einen Aktionszustand dar, der eine Aktion ausführt und dann in einen anderen Zustand übergeht.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="70.1865" cy="289.18" width="140.38" height="36.8038"/>
+			<rect x="0" y="270.778" width="140.373" height="36.8038" rx="18.4019" ry="18.4019" class="st7"/>
+			<text x="10" y="285.58" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>take Activity from queue<v:newlineChar/><tspan
+						x="5.36" dy="1.2em" class="st8">and pass to Network Layer</tspan></text>		</g>
+		<g id="shape13-54" v:mID="13" v:groupContext="shape" transform="translate(574.032,-116.94)">
+			<title>Aktionszustand.13</title>
+			<desc>send Activity to Server</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(61):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({8AA00F62-E988-4381-B515-420DA1E72681})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt einen Aktionszustand dar, der eine Aktion ausführt und dann in einen anderen Zustand übergeht.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="60.0675" cy="294.826" width="120.14" height="25.5118"/>
+			<rect x="0" y="282.07" width="120.135" height="25.5118" rx="12.7559" ry="12.7559" class="st9"/>
+			<text x="5.36" y="298.43" class="st5" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>send Activity to Server</text>		</g>
+		<g id="shape14-57" v:mID="14" v:groupContext="shape" transform="translate(89.6056,-235.996)">
+			<title>Kontrollfluss</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({DD186FAC-AC14-45DB-83A4-AEC48B5A2680})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<path d="M0 300.5 L91.49 300.5" class="st10"/>
+		</g>
+		<g id="shape15-63" v:mID="15" v:groupContext="shape" transform="translate(200.939,-235.996)">
+			<title>Kontrollfluss.15</title>
+			<desc>[Jupiter related]</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({7D6E852D-DBC2-4460-B9AA-20B3816111DD})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="31.1811" cy="288.693" width="77.85" height="20.0036"/>
+			<path d="M0 300.5 L82.9 300.5" class="st10"/>
+			<rect v:rectContext="textBkgnd" x="-1.48032" y="282.694" width="65.3228" height="12.0001" class="st12"/>
+			<text x="-1.48" y="291.69" class="st13" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>[Jupiter related]  </text>		</g>
+		<g id="shape16-70" v:mID="16" v:groupContext="shape" transform="translate(198.035,-233.161)">
+			<title>Kontrollfluss.16</title>
+			<desc>[other]</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({60556892-7183-41B5-8E47-F43A364CD580})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="-21.7024" cy="316.014" width="50" height="20.0036"/>
+			<path d="M-7.02 307.58 L-7.16 344.43" class="st10"/>
+			<rect v:rectContext="textBkgnd" x="-35.9383" y="310.015" width="28.4716" height="12.0001" class="st12"/>
+			<text x="-35.94" y="319.01" class="st13" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>[other]  </text>		</g>
+		<g id="shape17-77" v:mID="17" v:groupContext="shape" transform="translate(335.585,-230.326)">
+			<title>Kontrollfluss.17</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({DFE94998-25DA-4A89-B8EA-07D04B0582DE})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<path d="M0 307.58 L0 324.59 L-128.98 324.59 L-128.98 341.6" class="st10"/>
+		</g>
+		<g id="shape18-82" v:mID="18" v:groupContext="shape" transform="translate(238.923,-176.468)">
+			<title>Kontrollfluss.18</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({1989A241-E124-4A2A-A93B-5BB9C35C5857})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<path d="M0 300.5 L196.63 300.5" class="st10"/>
+		</g>
+		<g id="shape19-87" v:mID="19" v:groupContext="shape" transform="translate(468.813,-170.799)">
+			<title>Kontrollfluss.19</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({6A7F08A1-B220-44F3-8D9A-42F77682DCE7})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<path d="M7.09 307.58 L7.09 330.31" class="st10"/>
+		</g>
+		<g id="shape20-92" v:mID="20" v:groupContext="shape" transform="translate(546.086,-122.598)">
+			<title>Kontrollfluss.20</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(88):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({45940E46-5BF8-47A8-BA94-101A9A4658C3})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(98306):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt einen Übergang von einem Zustand in einen anderen dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<path d="M0 300.51 L27.95 300.48" class="st10"/>
+		</g>
+		<g id="shape21-97" v:mID="21" v:groupContext="shape" transform="translate(0.75,-14.8932)">
+			<title>Tabelle.21</title>
+			<desc>SM = Session Management NL = Network Layer UI = User Inferface</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="297.582" width="152" height="20"/>
+			<rect x="0" y="287.582" width="152" height="20" class="st14"/>
+			<text x="4" y="286.78" class="st5" v:langID="1031"><v:paragraph/><v:tabList/>SM = Session Management<v:newlineChar/><tspan
+						x="4" dy="1.2em" class="st8">NL </tspan>= Network Layer<v:newlineChar/><tspan x="4" dy="1.2em" class="st8">UI </tspan>= User Inferface</text>		</g>
+	</g>
+</svg>

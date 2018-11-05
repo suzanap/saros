@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" 
+"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 width="616" height="576">
+
+	<style type="text/css">
+	<![CDATA[
+		.textHeading {fill:#000000;font-family:Arial;font-size:16pt;text-anchor:middle}
+		.textTitle {fill:#000000;font-family:Arial;font-size:12pt;text-anchor:middle}
+		.textBox {fill:#000000;font-family:Arial;font-size:10pt;text-anchor:middle}
+		.textArrow {fill:#ffffff;font-family:Arial;font-size:9pt;text-anchor:middle}
+		.arrow {fill:black;fill-opacity:0.75;fill-rule:evenodd;stroke:black;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;marker-end:url(#Arrow);stroke-opacity:1;}
+		.gTextBox {fill:url(#grad_bluegrey);stroke:#404040;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.gInvitation {fill:url(#grad_blue);stroke:#262626;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+	]]>
+	</style>
+
+	<defs id="Patterns_And_Gradients">
+		<linearGradient id="grad_blue" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#A8C2E0;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#356DB2;stop-opacity:1"/>
+		</linearGradient>
+		<linearGradient id="grad_bluegrey" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#cedce7;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#88A1AD;stop-opacity:1"/>
+		</linearGradient>
+	</defs>
+	<defs id="Markers">
+		<marker orient="auto" refY="0.0" refX="0.0" id="Arrow" style="overflow:visible;">
+			<path style="fill-rule:evenodd; stroke-width:0.625; stroke-linejoin:round;" d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z" transform="scale(1.1) rotate(180) translate(-5)"/>
+		</marker>
+	</defs>
+	<g>
+		<g transform="translate(8,8)">
+			<rect rx="8" ry="8" width="600" height="200" class="gInvitation"/>
+			<text x="300" y="40" class="textHeading">Session Invitation</text>
+			<text x="108" y="48" class="textTitle">Host</text>
+			<text x="492" y="48" class="textTitle">Invitee</text>
+		</g>
+		<g transform="translate(16,72)">
+			<rect rx="8" ry="8" width="200" height="48" class="gTextBox"/>
+			<text x="100" y="20" class="textBox">create List of</text>
+			<text x="100" y="40" class="textBox">ProjectExchangeInfos</text>
+		</g>
+		<g transform="translate(16,128)">
+			<rect rx="8" ry="8" width="200" height="32" class="gTextBox"/>
+			<text x="100" y="22" class="textBox">establish Saros session</text>
+		</g>
+		<g transform="translate(16,168)">
+			<rect rx="8" ry="8" width="200" height="32" class="gTextBox"/>
+			<text x="100" y="22" class="textBox">invitation acception received</text>
+		</g>
+		<g transform="translate(398,148)">
+			<rect rx="8" ry="8" width="200" height="32" class="gTextBox"/>
+			<text x="100" y="22" class="textBox">process session invitation</text>
+		</g>
+		<g transform="translate(216,144)">
+			<path d="M 0,0 L 174,20" class="arrow"/>
+			<text x="92" y="0" class="textArrow">send session invitation</text>
+			<path d="M 182,20 L 8,40" class="arrow"/>
+			<text x="92" y="46" class="textArrow">accept invitation</text>
+		</g>
+	</g>
+	<g>
+		<g transform="translate(8,256)">
+			<rect rx="8" ry="8" width="600" height="312" class="gInvitation"/>
+			<text x="300" y="40" class="textHeading">Project Invitation</text>
+			<text x="108" y="48" class="textTitle">Host</text>
+			<text x="492" y="48" class="textTitle">Participant</text>
+		</g>
+		<g transform="translate(398,320)">
+			<rect rx="8" ry="8" width="200" height="32" class="gTextBox"/>
+			<text x="100" y="22" class="textBox">process ProjectExchangeInfos</text>
+		</g>
+		<g transform="translate(398,360)">
+			<rect rx="8" ry="8" width="200" height="48" class="gTextBox"/>
+			<text x="100" y="20" class="textBox">select project to use</text>
+			<text x="100" y="40" class="textBox">or new project</text>
+		</g>
+		<g transform="translate(398,416)">
+			<rect rx="8" ry="8" width="200" height="32" class="gTextBox"/>
+			<text x="100" y="22" class="textBox">create FileList differences</text>
+		</g>
+		<g transform="translate(398,456)">
+			<rect rx="8" ry="8" width="200" height="48" class="gTextBox"/>
+			<text x="100" y="20" class="textBox">delete removed file(s)/folder(s)</text>
+			<text x="100" y="40" class="textBox">create new folder(s)</text>
+		</g>
+		<g transform="translate(398,512)">
+			<rect rx="8" ry="8" width="200" height="48" class="gTextBox"/>
+			<text x="100" y="20" class="textBox">process archive and insert</text>
+			<text x="100" y="40" class="textBox">new files to project</text>
+		</g>
+		<g transform="translate(16,484)">
+			<rect rx="8" ry="8" width="200" height="48" class="gTextBox"/>
+			<text x="100" y="20" class="textBox">process list and</text>
+			<text x="100" y="40" class="textBox">zip new and altered files</text>
+		</g>
+		
+		<g transform="translate(216,480)">
+			<path d="M 182,0 L 8,28" class="arrow"/>
+			<text x="92" y="-18" class="textArrow">send list of missing files</text>
+			<text x="92" y="-4" class="textArrow">(altered and non existend)</text>
+			<path d="M 0,28 L 174,56" class="arrow"/>
+			<text x="92" y="62" class="textArrow">send ZIP with files</text>
+		</g>
+	</g>
+	<g transform="translate(116,200)">
+		<path d="M 0,0 L 382,118" class="arrow"/>
+		<text x="272" y="38" class="textArrow" style="fill:#000000;">send ProjectExchangeInfos to session participant(s)</text>
+	</g>
+</svg>

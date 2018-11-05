@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.1"
+   id="svg2"
+   class="st14"
+   color-interpolation-filters="sRGB"
+   xml:space="preserve"
+   viewBox="0 0 311.144 163.742"
+   height="2.2742in"
+   width="4.32144in"><metadata
+     id="metadata110"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><style
+     id="style4"
+     type="text/css"><![CDATA[
+		.st1 {fill:#d7e3bf;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st2 {fill:#000000;font-family:Calibri;font-size:0.833336em;font-style:italic}
+		.st3 {fill:#9dbb61;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st4 {fill:#000000;font-family:Calibri;font-size:0.833336em}
+		.st5 {marker-end:url(#mrkr3-12);stroke:#000000;stroke-dasharray:2.25,2.25;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st6 {fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:1;stroke-width:0.22935779816514}
+		.st7 {fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st8 {fill:#ab9ac0;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st9 {marker-end:url(#mrkr4-27);stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st10 {fill:#4bacc6;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st11 {fill:#92cddc;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st12 {fill:#ffc000;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st13 {fill:#f59d56;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st14 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]></style><defs
+     id="Markers"><g
+       id="lend3"><path
+         id="path8"
+         style="stroke-linecap:round;stroke-linejoin:round;fill:none"
+         d="M 2 1 L 0 0 L 2 -1 " /></g><marker
+       overflow="visible"
+       markerUnits="strokeWidth"
+       orient="auto"
+       class="st6"
+       id="mrkr3-12"><use
+         id="use11"
+         transform="scale(-4.36,-4.36) "
+         xlink:href="#lend3" /></marker><g
+       id="lend4"><path
+         id="path14"
+         style="stroke:none"
+         d="M 2 1 L 0 0 L 2 -1 L 2 1 " /></g><marker
+       overflow="visible"
+       markerUnits="strokeWidth"
+       orient="auto"
+       refX="-8.72"
+       class="st6"
+       id="mrkr4-27"><use
+         id="use17"
+         transform="scale(-4.36,-4.36) "
+         xlink:href="#lend4" /></marker></defs><g
+     id="g19"><g
+       transform="translate(25.6034,-120.847)"
+       id="shape68-1"><desc
+         id="desc22">IA</desc><rect
+         id="rect24"
+         class="st1"
+         height="28.3465"
+         width="45.3543"
+         y="135.396"
+         x="0" /><text
+         id="text26"
+         class="st2"
+         y="152.57"
+         x="18.52">IA</text>
+</g><g
+       transform="translate(178.958,-120.847)"
+       id="shape69-4"><desc
+         id="desc29">A</desc><rect
+         id="rect31"
+         class="st3"
+         height="28.3465"
+         width="45.3543"
+         y="135.396"
+         x="0" /><text
+         id="text33"
+         class="st4"
+         y="152.57"
+         x="19.78">A</text>
+</g><g
+       transform="translate(178.958,-127.934)"
+       id="shape70-7"><path
+         id="path36"
+         class="st5"
+         d="M0 156.66 L-108 156.66" /></g><g
+       transform="translate(325.692,0.375005) rotate(90)"
+       id="shape71-13"><desc
+         id="desc39">Saros / Eclipse</desc><rect
+         id="rect41"
+         class="st7"
+         height="148.819"
+         width="162.992"
+         y="14.9232"
+         x="0" /><text
+         id="text43"
+         class="st4"
+         y="27.92"
+         x="52.36">Saros / Eclipse</text>
+</g><g
+       transform="translate(-10.2963,163.367) rotate(-90)"
+       id="shape72-16"><desc
+         id="desc46">Saros / Core</desc><rect
+         id="rect48"
+         class="st7"
+         height="153.071"
+         width="162.992"
+         y="10.6713"
+         x="0" /><text
+         id="text50"
+         class="st4"
+         y="23.67"
+         x="56.74">Saros / Core</text>
+</g><g
+       transform="translate(25.6034,-71.2411)"
+       id="shape73-19"><desc
+         id="desc53">E</desc><rect
+         id="rect55"
+         class="st8"
+         height="28.3465"
+         width="45.3543"
+         y="135.396"
+         x="0" /><text
+         id="text57"
+         class="st4"
+         y="152.57"
+         x="20.24">E</text>
+</g><g
+       transform="translate(201.635,-120.847)"
+       id="shape76-22"><path
+         id="path60"
+         class="st9"
+         d="M0 163.74 L0 174.37 L-153.35 174.37 L-153.35 178.46" /></g><g
+       transform="translate(178.958,-20.2175)"
+       id="shape77-28"><desc
+         id="desc63">B</desc><rect
+         id="rect65"
+         class="st10"
+         height="28.3465"
+         width="45.3543"
+         y="135.396"
+         x="0" /><text
+         id="text67"
+         class="st4"
+         y="152.57"
+         x="19.96">B</text>
+</g><g
+       transform="translate(91.0837,-71.2411)"
+       id="shape78-31"><desc
+         id="desc70">IB</desc><rect
+         id="rect72"
+         class="st11"
+         height="28.3465"
+         width="45.3543"
+         y="135.396"
+         x="0" /><text
+         id="text74"
+         class="st2"
+         y="152.57"
+         x="18.7">IB</text>
+</g><g
+       transform="translate(70.9577,-92.501)"
+       id="shape79-34"><path
+         id="path77"
+         class="st9"
+         d="M0 170.83 L13.59 170.83" /></g><g
+       transform="translate(201.635,-48.564)"
+       id="shape80-39"><path
+         id="path80"
+         class="st5"
+         d="M0 163.74 L0 153.11 L-87.87 153.11 L-87.87 141.06" /></g><g
+       transform="translate(25.6034,-20.2175)"
+       id="shape81-44"><desc
+         id="desc83">D</desc><rect
+         id="rect85"
+         class="st12"
+         height="28.3465"
+         width="45.3543"
+         y="135.396"
+         x="0" /><text
+         id="text87"
+         class="st4"
+         y="152.57"
+         x="19.6">D</text>
+</g><g
+       transform="translate(178.958,-27.3041)"
+       id="shape84-47"><path
+         id="path90"
+         class="st9"
+         d="M0 156.66 L-101.46 156.66" /></g><g
+       transform="translate(41.1939,-71.2411)"
+       id="shape85-52"><path
+         id="path93"
+         class="st9"
+         d="M7.09 163.74 L7.09 179.88" /></g><g
+       transform="translate(244.155,-20.2175)"
+       id="shape87-57"><desc
+         id="desc96">C</desc><rect
+         id="rect98"
+         class="st13"
+         height="28.3465"
+         width="45.3543"
+         y="135.396"
+         x="0" /><text
+         id="text100"
+         class="st4"
+         y="152.57"
+         x="20.01">C</text>
+</g><g
+       transform="translate(224.312,-27.3041)"
+       id="shape89-60"><path
+         id="path103"
+         class="st9"
+         d="M0 156.66 L13.3 156.66" /></g><g
+       transform="translate(224.312,-135.021)"
+       id="shape90-65"><path
+         id="path106"
+         class="st9"
+         d="M0 163.74 L10.63 163.74 L10.63 213.35 L-81.33 213.35" /></g></g></svg>

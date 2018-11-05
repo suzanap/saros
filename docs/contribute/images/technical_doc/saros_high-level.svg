@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="632" height="520">
+
+	<style type="text/css">
+	<![CDATA[
+		.textHeading {fill:#000000;font-family:Arial;font-size:16pt;text-anchor:middle}
+		.gSarosFrame {fill:none;stroke:#356DB2;stroke-linecap:round;stroke-linejoin:round;stroke-width:6}
+		.gSaros {fill:url(#grad_blue);stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.25}
+		.gEclipse {fill:url(#grad_purple);stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.25}
+		.gSmack {fill:url(#grad_orange);stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.25}	.gJava{fill:url(#grad_red);stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.25}
+		.gOS {fill:url(#grad_grey);stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.25}
+	]]>
+	</style>
+	<defs id="Patterns_And_Gradients">
+		<linearGradient id="grad_blue" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#A8C2E0;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#356DB2;stop-opacity:1"/>
+		</linearGradient>
+		<linearGradient id="grad_purple" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#C8BCD1;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#8D7A99;stop-opacity:1"/>
+		</linearGradient>
+		<linearGradient id="grad_orange" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#F9D47C;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#EFA977;stop-opacity:1"/>
+		</linearGradient>
+		<linearGradient id="grad_red" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#CC6666;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#894444;stop-opacity:1"/>
+		</linearGradient>
+		<linearGradient id="grad_grey" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#aebcbf;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#6e7774;stop-opacity:1"/>
+		</linearGradient>
+	</defs>
+	<g>
+		<rect x="10" y="50" rx="8" ry="8" width="540" height="244" class="gSarosFrame"/>
+		<g transform="translate(20,60)">
+			<a xlink:href="http://www.saros-project.org/FeedbackModule" xlink:title="Feedback" target="_top">	
+				<rect rx="8" ry="8" width="64" height="224" class="gSaros"/>
+				<text x="0" y="8" transform="translate(32,112) rotate(270,0,0)" class="textHeading">Feedback</text>
+			</a>
+		</g>
+		<g transform="translate(92,60)">
+			<rect rx="8" ry="8" width="64" height="224" class="gSaros"/>
+			<text x="0" y="8" transform="translate(32,112) rotate(270,0,0)" class="textHeading">Utility</text>
+		</g>
+		<g transform="translate(164,60)">
+			<a xlink:href="http://www.saros-project.org/SharedSession" xlink:title="Shared Session" target="_top">	
+				<rect rx="8" ry="8" width="376" height="64" class="gSaros"/>
+				<text x="188" y="40" class="textHeading">Shared Session</text>
+			</a>
+		</g>
+		<g transform="translate(164,132)">
+			<a xlink:href="http://www.saros-project.org/EclipseBridge" xlink:title="Eclipse Bridge" target="_top">
+				<rect rx="8" ry="8" width="64" height="152" class="gSaros"/>
+				<text x="0" y="8" transform="translate(32,76) rotate(270,0,0)" class="textHeading">Eclipse Bridge</text>
+			</a>
+		</g>
+		<g transform="translate(236,132)">
+			<a xlink:href="http://www.saros-project.org/UI" xlink:title="User Interface" target="_top">
+				<rect rx="8" ry="8" width="64" height="152" class="gSaros"/>
+				<text x="32" y="92" class="textHeading">UI</text>
+			</a>
+		</g>
+		<g transform="translate(308,132)">
+			<a xlink:href="http://www.saros-project.org/Concurrent" xlink:title="Concurrency Control" target="_top">
+				<rect rx="8" ry="8" width="128" height="80" class="gSaros"/>
+				<text x="64" y="38" class="textHeading">Concurrency</text>
+				<text x="64" y="58" class="textHeading">Control</text>
+			</a>
+		</g>
+		<g transform="translate(444,132)">
+			<a xlink:href="http://www.saros-project.org/Invitation" xlink:title="Invitation" target="_top">	
+				<rect rx="8" ry="8" width="96" height="80" class="gSaros"/>
+				<text x="48" y="48" class="textHeading">Invitation</text>
+			</a>
+		</g>
+		<g transform="translate(308,220)">
+			<a xlink:href="http://www.saros-project.org/Net" xlink:title="Network Layer" target="_top">	
+				<rect rx="8" ry="8" width="232" height="64" class="gSaros"/>
+				<text x="120" y="40" class="textHeading">Network Layer</text>
+			</a>
+		</g>
+	</g>
+	<g transform="translate(444,8)">
+		<path d="M 172,0 C 176,0 180,4 180,8      V 280 C 180,284 176,288 172,288      H 124 C 120,288 116,284 116,280      V 40  C 116,36 112,32 108,32       H 8 C 4,32 0,28 0,24      V 8  C 0,4 4,0 8,0      Z" class="gSaros"/>
+		<text x="0" y="8" transform="translate(148,144) rotate(270,0,0)" class="textHeading">Whiteboard</text>
+	</g>
+	<g transform="translate(8,304)">
+		<path d="M 284,0 C 288,0 292,4 292,8      V 56  C 292,60 288,64 284,64      H 156 C 152,64 148,68 148,72      V 128 C 148,132 144,136 140,136      H 8   C 4,136 0,134 0,128      V 8   C 0,4 4,0 8,0      Z" class="gEclipse"/>
+		<text x="146" y="40" class="textHeading">Eclipse</text>
+	</g>
+	<g transform="translate(308,304)">
+		<rect rx="8" ry="8" width="316" height="64" class="gSmack"/>
+		<text x="158" y="40" class="textHeading">Smack XMPP</text>
+	</g>	
+	<g transform="translate(164,376)">
+		<rect rx="8" ry="8" width="460" height="64" class="gJava"/>
+		<text x="230" y="40" class="textHeading">JVM</text>
+	</g>	
+	<g transform="translate(8,448)">
+		<rect rx="8" ry="8" width="616" height="64" class="gOS"/>
+		<text x="308" y="40" class="textHeading">OS</text>
+	</g>	
+
+</svg>

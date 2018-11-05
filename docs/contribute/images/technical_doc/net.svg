@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="356" height="240">
+
+	<style type="text/css">
+	<![CDATA[
+		.textBox {fill:#000000;font-family:Arial;font-size:16pt;text-anchor:middle}
+		.gNet {fill:url(#grad_yellow);stroke:#404040;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.gFrame {fill:none;stroke:#356DB2;stroke-linecap:round;stroke-linejoin:round;stroke-width:6}
+	]]>
+	</style>
+
+	<defs id="Patterns_And_Gradients">
+		<linearGradient id="grad_yellow" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#F4DD71;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#ED940D;stop-opacity:1"/>
+		</linearGradient>
+	</defs>
+	<g>
+		<rect x="8" y="8" rx="8" ry="8" width="340" height="224" class="gFrame"/>
+		<g transform="translate(16,16)">
+			<rect rx="8" ry="8" width="64" height="208" class="gNet"/>
+			<text x="0" y="8" transform="translate(32,112) rotate(270,0,0)" class="textBox">Discovery</text>
+		</g>
+		<g transform="translate(88,16)">
+			<rect rx="8" ry="8" width="180" height="64" class="gNet"/>
+			<text x="90" y="28" class="textBox">XMPP Transmitter</text>
+			<text x="90" y="48" class="textBox">XMPP Receiver</text>
+		</g>
+		<g transform="translate(88,88)">
+			<rect rx="8" ry="8" width="180" height="64" class="gNet"/>
+			<text x="90" y="28" class="textBox">Data Transfer</text>
+			<text x="90" y="48" class="textBox">Manager</text>
+		</g>
+		<g transform="translate(88,160)">
+			<rect rx="8" ry="8" width="180" height="64" class="gNet"/>
+			<text x="90" y="38" class="textBox">Transport</text>
+		</g>
+		<g transform="translate(276,16)">
+			<rect rx="8" ry="8" width="64" height="208" class="gNet"/>
+			<text x="8" y="8" transform="translate(22,112) rotate(270,0,0)" class="textBox">XMPP Connection</text>
+            <text x="8" y="8" transform="translate(44,112) rotate(270,0,0)" class="textBox">Service</text>
+		</g>
+	</g>
+</svg>

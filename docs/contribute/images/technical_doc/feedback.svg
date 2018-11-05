@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 width="176" height="200">
+
+	<style type="text/css">
+	<![CDATA[
+		.textBox {fill:#000000;font-family:Arial;font-size:16pt;text-anchor:middle}
+		.gFeedback {fill:url(#grad_yellow);stroke:#404040;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.gFrame {fill:none;stroke:#356DB2;stroke-linecap:round;stroke-linejoin:round;stroke-width:6}
+	]]>
+	</style>
+	<defs id="Patterns_And_Gradients">
+		<linearGradient id="grad_yellow" x1="0" y1="0" x2="0" y2="1">
+			<stop offset="0" style="stop-color:#F4DD71;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#ED940D;stop-opacity:1"/>
+		</linearGradient>
+	</defs>
+	<g>
+		<rect x="10" y="10" rx="8" ry="8" width="156" height="180" class="gFrame"/>
+		<g transform="translate(20,20)">
+			<rect rx="8" ry="8" width="64" height="160" class="gFeedback"/>
+			<text x="0" y="8" transform="translate(32,80) rotate(270,0,0)" class="textBox">User Survey</text>
+		</g>
+		<g transform="translate(92,20)">
+			<rect rx="8" ry="8" width="64" height="160" class="gFeedback"/>
+			<text  x="0" y="8" transform="translate(32,80) rotate(270,0,0)" class="textBox">Statistics</text>
+		</g>
+	</g>	
+</svg>

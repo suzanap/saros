@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Generiert durch Microsoft Visio 11.0, SVG Export, v1.0 architecture_ProjectNegotiation.svg PN V2 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="7.60745in" height="4.54738in"
+		viewBox="0 0 547.736 327.412" xml:space="preserve" color-interpolation-filters="sRGB" class="st15">
+	<v:documentProperties v:langID="1031" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+			<v:ud v:nameU="msvNoApplyDataGraphicAfterLink" v:val="VT0(1):5"/>
+			<v:ud v:nameU="msvNoSubprocess" v:prompt="" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {stroke:#000000;stroke-dasharray:3.36,2.4;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st2 {fill:#ffff99;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st3 {fill:#000000;font-family:Calibri;font-size:0.666664em}
+		.st4 {font-size:1em;text-decoration:underline}
+		.st5 {fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st6 {fill:#000000;font-family:Calibri;font-size:1.16666em;font-weight:bold}
+		.st7 {stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st8 {fill:#ffffff;stroke:none;stroke-linecap:butt;stroke-width:7.2}
+		.st9 {fill:#d7e3bf;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st10 {fill:#b7dde8;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st11 {stroke:#000000;stroke-dasharray:5.25,3.75;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st12 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.24}
+		.st13 {font-size:1em}
+		.st14 {fill:#e5b9b5;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.48}
+		.st15 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g v:mID="25" v:index="14" v:groupContext="foregroundPage">
+		<v:userDefs>
+			<v:ud v:nameU="UMLPageGUID" v:prompt="" v:val="VT14({86E20F9C-8FA5-40D9-A698-80DE997538BB}):41"/>
+		</v:userDefs>
+		<title>PN_components</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<g id="group8-1" transform="translate(94.7851,-242.939)" v:mID="8" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(54):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({C17D8D66-9403-456C-8BA7-269BE6A5B7B0})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLInstanceType" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt die Existenz eines Objekts zu einem bestimmten Zeitpunkt dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Objekt-Lebenslinie.14</title>
+			<g id="shape9-2" v:mID="9" v:groupContext="shape" transform="translate(28.8147,204.256)">
+				<title>Tabelle.9</title>
+			</g>
+			<g id="shape10-4" v:mID="10" v:groupContext="shape" transform="translate(-284.19,513.658) rotate(-90)">
+				<title>Tabelle.10</title>
+				<path d="M0 327.41 L186.25 327.41" class="st1"/>
+			</g>
+			<g id="shape11-7" v:mID="11" v:groupContext="shape" transform="translate(7.22203,5.38583)">
+				<title>Use Case</title>
+			</g>
+			<g id="shape12-9" v:mID="12" v:groupContext="shape" transform="translate(32.422,23.3858)">
+				<title>Actor</title>
+			</g>
+			<g id="shape13-11" v:mID="13" v:groupContext="shape">
+				<title>Object</title>
+				<desc>Invitation Management</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="43.222" cy="314.798" width="86.45" height="25.2283"/>
+				<rect x="0" y="302.183" width="86.4441" height="25.2283" class="st2"/>
+				<text x="4.91" y="317.2" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st4">Invitation Management</tspan></text>			</g>
+		</g>
+		<g id="shape15-15" v:mID="15" v:groupContext="shape" transform="translate(18.75,-42.3881)">
+			<title>Systemgrenze</title>
+			<desc>Host</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(71):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Dient der Darstellung einer Systemgrenze.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="92.9764" cy="80.9132" width="185.96" height="12.6409"/>
+			<rect x="0" y="74.5927" width="185.953" height="252.819" class="st5"/>
+			<text x="79.58" y="91.19" class="st6" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Host</text>		</g>
+		<g id="shape16-18" v:mID="16" v:groupContext="shape" transform="translate(231.348,-42.3881)">
+			<title>Systemgrenze.22</title>
+			<desc>Client (1..4)</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(71):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Dient der Darstellung einer Systemgrenze.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
+			<v:textRect cx="148.819" cy="80.9132" width="297.64" height="12.6409"/>
+			<rect x="0" y="74.5927" width="297.638" height="252.819" class="st5"/>
+			<text x="115.19" y="91.19" class="st6" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Client (1..4)</text>		</g>
+		<g id="group18-21" transform="translate(253.121,-242.971)" v:mID="18" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(54):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({E74FCEF8-4778-46FA-ABA5-A7A7E45DE285})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLInstanceType" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt die Existenz eines Objekts zu einem bestimmten Zeitpunkt dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Objekt-Lebenslinie.23</title>
+			<g id="shape19-22" v:mID="19" v:groupContext="shape" transform="translate(28.8147,210.089)">
+				<title>Tabelle.19</title>
+			</g>
+			<g id="shape20-24" v:mID="20" v:groupContext="shape" transform="translate(-284.19,519.49) rotate(-90)">
+				<title>Tabelle.20</title>
+				<path d="M0 327.41 L192.08 327.41" class="st1"/>
+			</g>
+			<g id="shape21-27" v:mID="21" v:groupContext="shape" transform="translate(7.22203,5.38583)">
+				<title>Use Case</title>
+			</g>
+			<g id="shape22-29" v:mID="22" v:groupContext="shape" transform="translate(32.422,23.3858)">
+				<title>Actor</title>
+			</g>
+			<g id="shape23-31" v:mID="23" v:groupContext="shape">
+				<title>Object</title>
+				<desc>Invitation Management</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="43.222" cy="314.798" width="86.45" height="25.2283"/>
+				<rect x="0" y="302.183" width="86.4441" height="25.2283" class="st2"/>
+				<text x="4.91" y="317.2" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st4">Invitation Management</tspan></text>			</g>
+		</g>
+		<g id="shape24-35" v:mID="24" v:groupContext="shape" transform="translate(-184.905,120.472) rotate(-90)">
+			<title>Aktivierung</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({DB723D6B-8FB0-43E1-9B34-343DDB2258D6})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="18" height="9" class="st2"/>
+		</g>
+		<g id="shape35-37" v:mID="35" v:groupContext="shape" transform="translate(619.255,120.441) rotate(90)">
+			<title>Aktivierung.33</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({54A13634-4B98-402E-B1D5-3CF80F510055})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="54" height="9" class="st2"/>
+		</g>
+		<g id="shape50-39" v:mID="50" v:groupContext="shape" transform="translate(-26.5684,246.441) rotate(-90)">
+			<title>Aktivierung.50</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({C5E053CC-6CFF-4C55-87EB-FF95FE218B3D})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="54" height="9" class="st2"/>
+		</g>
+		<g id="shape53-41" v:mID="53" v:groupContext="shape" transform="translate(142.507,-127.868)">
+			<title>Nachricht.53</title>
+			<desc>StartActivityQueuingRequest</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(39):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({4B98161C-9C93-4EDF-BA3E-07D2DA026395})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauf folgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="74.6677" cy="312.13" width="103.84" height="17.6036"/>
+			<path d="M0 320.34 L149.34 320.31" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="27.655" y="307.331" width="94.0257" height="9.59985" class="st8"/>
+			<text x="27.66" y="314.53" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>StartActivityQueuingRequest</text>		</g>
+		<g id="group57-46" transform="translate(446.717,-242.939)" v:mID="57" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(54):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({D55A341F-9F98-46A5-9F21-23E664DCED14})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLInstanceType" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt die Existenz eines Objekts zu einem bestimmten Zeitpunkt dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Objekt-Lebenslinie.57</title>
+			<g id="shape58-47" v:mID="58" v:groupContext="shape" transform="translate(26.4996,210.057)">
+				<title>Tabelle.58</title>
+			</g>
+			<g id="shape59-49" v:mID="59" v:groupContext="shape" transform="translate(-287.662,519.459) rotate(-90)">
+				<title>Tabelle.59</title>
+				<path d="M0 327.41 L192.05 327.41" class="st1"/>
+			</g>
+			<g id="shape60-52" v:mID="60" v:groupContext="shape" transform="translate(3.74939,5.38583)">
+				<title>Use Case</title>
+			</g>
+			<g id="shape61-54" v:mID="61" v:groupContext="shape" transform="translate(28.9494,23.3858)">
+				<title>Actor</title>
+			</g>
+			<g id="shape62-56" v:mID="62" v:groupContext="shape">
+				<title>Object</title>
+				<desc>Session Management</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="39.7494" cy="314.798" width="79.5" height="25.2283"/>
+				<rect x="0" y="302.183" width="79.4988" height="25.2283" class="st9"/>
+				<text x="4.91" y="317.2" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st4">Session Management</tspan></text>			</g>
+		</g>
+		<g id="shape2-60" v:mID="2" v:groupContext="shape" transform="translate(142.507,-199.868)">
+			<title>Nachricht (Aufruf)</title>
+			<desc>ProjectNegotiationOffering</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(78):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({D0625D93-BEC0-4912-A2F6-2CC31727E244})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauffolgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="74.6677" cy="309.723" width="98.08" height="17.6036"/>
+			<path d="M0 320.34 L149.34 320.31" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="30.5356" y="304.924" width="88.2644" height="9.59985" class="st8"/>
+			<text x="30.54" y="312.12" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>ProjectNegotiationOffering</text>		</g>
+		<g id="group3-65" transform="translate(388.895,-242.939)" v:mID="3" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(54):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({91D191F5-40D0-4A1D-A97D-FD0015BDCF9F})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLInstanceType" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt die Existenz eines Objekts zu einem bestimmten Zeitpunkt dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Objekt-Lebenslinie.3</title>
+			<g id="shape4-66" v:mID="4" v:groupContext="shape" transform="translate(18.6522,96.6715)">
+				<title>Tabelle.4</title>
+			</g>
+			<g id="shape5-68" v:mID="5" v:groupContext="shape" transform="translate(-299.433,406.073) rotate(-90)">
+				<title>Tabelle.5</title>
+				<path d="M0 327.41 L78.66 327.41" class="st1"/>
+			</g>
+			<g id="shape6-71" v:mID="6" v:groupContext="shape" transform="translate(-8.02177,5.38583)">
+				<title>Use Case</title>
+			</g>
+			<g id="shape7-73" v:mID="7" v:groupContext="shape" transform="translate(17.1782,23.3858)">
+				<title>Actor</title>
+			</g>
+			<g id="shape14-75" v:mID="14" v:groupContext="shape">
+				<title>Object</title>
+				<desc>User Interface</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="27.9782" cy="314.798" width="55.96" height="25.2283"/>
+				<rect x="0" y="302.183" width="55.9565" height="25.2283" class="st10"/>
+				<text x="4.91" y="317.2" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st4">User Interface</tspan></text>			</g>
+		</g>
+		<g id="shape17-79" v:mID="17" v:groupContext="shape" transform="translate(93.9612,156.472) rotate(-90)">
+			<title>Aktivierung.17</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({B8A160C6-F4E9-49B3-A66B-09D5C1CE5E72})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="36" height="9" class="st10"/>
+		</g>
+		<g id="shape25-81" v:mID="25" v:groupContext="shape" transform="translate(300.843,-196.042)">
+			<title>Nachricht (Aufruf).25</title>
+			<desc>open AddProjectToSessionWizard</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(78):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({4239ED82-83E4-49CE-B49A-08F18C37357F})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauffolgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="55.7653" cy="323.897" width="119.59" height="17.6036"/>
+			<path d="M0 334.48 L111.53 334.51" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="0.879107" y="319.097" width="109.773" height="9.59985" class="st8"/>
+			<text x="0.88" y="326.3" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>open AddProjectToSessionWizard</text>		</g>
+		<g id="shape26-86" v:mID="26" v:groupContext="shape" transform="translate(412.373,-163.868)">
+			<title>Nachricht (Aufruf).26</title>
+			<desc>accept</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(78):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({32F910DB-743A-4EAA-8270-59ED365F8017})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauffolgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="-55.7653" cy="313.323" width="40" height="17.6036"/>
+			<path d="M0 320.34 L-111.53 320.31" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="-66.4956" y="308.524" width="21.4604" height="9.59985" class="st8"/>
+			<text x="-66.5" y="315.72" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>accept</text>		</g>
+		<g id="shape27-91" v:mID="27" v:groupContext="shape" transform="translate(291.843,-160.042)">
+			<title>Nachricht (Aufruf).27</title>
+			<desc>FileList</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(78):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({0163721E-3D24-40B2-AEC6-39DA9963EDF7})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauffolgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="-74.6677" cy="327.497" width="40" height="17.6036"/>
+			<path d="M0 334.48 L-149.34 334.51" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="-85.8353" y="322.697" width="22.3352" height="9.59985" class="st8"/>
+			<text x="-85.84" y="329.9" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>FileList</text>		</g>
+		<g id="shape28-96" v:mID="28" v:groupContext="shape" transform="translate(-184.905,264.472) rotate(-90)">
+			<title>Aktivierung.28</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({7C794329-8E08-43E2-AD7F-F0AE7F0C9C89})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="90" height="9" class="st2"/>
+		</g>
+		<g id="group29-98" transform="translate(24.8495,-135.931)" v:mID="29" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(45):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({E21E2F95-3A7F-4457-90E8-1884EAB7FB26})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Zum Platzieren eines Kommentars auf einem Diagramm verwenden. )"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Hinweis.47</title>
+			<g id="shape30-99" v:mID="30" v:groupContext="shape" transform="translate(50.8085,-18)">
+				<title>Tabelle.30</title>
+				<path d="M0 327.41 L62.67 375.04" class="st11"/>
+			</g>
+			<g id="shape31-102" v:mID="31" v:groupContext="shape">
+				<title>Name</title>
+				<desc>Determine files to send and compress them</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="50.8085" cy="309.412" width="101.62" height="36"/>
+				<path d="M101.62 302.21 L92.62 291.41 L92.62 302.21 L101.62 302.21 ZM0 327.41 L101.62 327.41 L101.62 302.21 L92.62
+							 302.21 L92.62 291.41 L0 291.41 L0 327.41 Z" class="st12"/>
+				<text x="4" y="307.01" class="st3" v:langID="1031"><v:paragraph/><v:tabList/>Determine files to send<v:newlineChar/><tspan
+							x="4" dy="1.2em" class="st13">and compress them</tspan></text>			</g>
+		</g>
+		<g id="shape32-106" v:mID="32" v:groupContext="shape" transform="translate(300.843,-88.0416)">
+			<title>Nachricht (Aufruf).32</title>
+			<desc>addSharedReources</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(78):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({2E1A4096-315A-4CB2-ABE7-F4DEB365D7F2})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauffolgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="90.5619" cy="323.897" width="74.77" height="17.6036"/>
+			<path d="M0 334.48 L181.12 334.51" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="58.0877" y="319.097" width="64.9487" height="9.59985" class="st8"/>
+			<text x="58.09" y="326.3" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>addSharedReources</text>		</g>
+		<g id="shape41-111" v:mID="41" v:groupContext="shape" transform="translate(163.555,264.472) rotate(-90)">
+			<title>Aktivierung.41</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({5671F020-9432-4703-B190-2B2235906389})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="18" height="9" class="st9"/>
+		</g>
+		<g id="group33-113" transform="translate(33.2915,-260.798)" v:mID="33" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(54):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({8D14E9CE-3BE3-42AF-91CA-A3BB32A79134})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLInstanceType" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt die Existenz eines Objekts zu einem bestimmten Zeitpunkt dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Objekt-Lebenslinie.33</title>
+			<g id="shape34-114" v:mID="34" v:groupContext="shape" transform="translate(18.6522,61.2385)">
+				<title>Tabelle.34</title>
+			</g>
+			<g id="shape36-116" v:mID="36" v:groupContext="shape" transform="translate(-299.433,370.64) rotate(-90)">
+				<title>Tabelle.36</title>
+				<path d="M0 327.41 L43.23 327.41" class="st1"/>
+			</g>
+			<g id="shape37-119" v:mID="37" v:groupContext="shape" transform="translate(-8.02177,5.38583)">
+				<title>Use Case</title>
+			</g>
+			<g id="shape38-121" v:mID="38" v:groupContext="shape" transform="translate(17.1782,23.3858)">
+				<title>Actor</title>
+			</g>
+			<g id="shape39-123" v:mID="39" v:groupContext="shape">
+				<title>Object</title>
+				<desc>User Interface</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="27.9782" cy="314.798" width="55.96" height="25.2283"/>
+				<rect x="0" y="302.183" width="55.9565" height="25.2283" class="st10"/>
+				<text x="4.91" y="317.2" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st4">User Interface</tspan></text>			</g>
+		</g>
+		<g id="shape40-127" v:mID="40" v:groupContext="shape" transform="translate(-261.642,102.614) rotate(-90)">
+			<title>Aktivierung.40</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({F3657DED-032D-4244-B524-A6FFA4B6925A})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="18" height="9" class="st10"/>
+		</g>
+		<g id="shape42-129" v:mID="42" v:groupContext="shape" transform="translate(65.7697,-217.782)">
+			<title>Nachricht (Aufruf).42</title>
+			<desc>initiate Project Negotiation</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(78):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({12143534-C2CD-40B2-AE83-5311DA11D682})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauffolgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="46.2511" cy="312.586" width="97.83" height="17.6036"/>
+			<path d="M0 320.4 L67.74 320.25" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="2.24616" y="307.787" width="88.0101" height="9.59985" class="st8"/>
+			<text x="2.25" y="314.99" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>initiate Project Negotiation</text>		</g>
+		<g id="group43-134" transform="translate(188.128,-242.939)" v:mID="43" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(54):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({3AE699A6-78AD-4FFC-A71E-5A948FD37933})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLInstanceType" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="UMLAutoLockTextEdit" v:val="VT0(1):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt die Existenz eines Objekts zu einem bestimmten Zeitpunkt dar.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<title>Objekt-Lebenslinie</title>
+			<g id="shape44-135" v:mID="44" v:groupContext="shape" transform="translate(19.1313,224.939)">
+				<title>Tabelle.44</title>
+			</g>
+			<g id="shape45-137" v:mID="45" v:groupContext="shape" transform="translate(-298.715,534.341) rotate(-90)">
+				<title>Tabelle.45</title>
+				<path d="M0 327.41 L206.93 327.41" class="st1"/>
+			</g>
+			<g id="shape46-140" v:mID="46" v:groupContext="shape" transform="translate(-7.30299,5.38583)">
+				<title>Use Case</title>
+			</g>
+			<g id="shape47-142" v:mID="47" v:groupContext="shape" transform="translate(17.897,23.3858)">
+				<title>Actor</title>
+			</g>
+			<g id="shape48-144" v:mID="48" v:groupContext="shape">
+				<title>Object</title>
+				<desc>Network Layer</desc>
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="28.697" cy="314.798" width="57.4" height="25.2283"/>
+				<rect x="0" y="302.183" width="57.394" height="25.2283" class="st14"/>
+				<text x="4.91" y="317.2" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/><tspan class="st4">Network Layer</tspan></text>			</g>
+		</g>
+		<g id="shape49-148" v:mID="49" v:groupContext="shape" transform="translate(-106.087,123.449) rotate(-90)">
+			<title>Aktivierung.49</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({7B335583-D35E-49B1-AA9C-66E0430A7A4A})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="5.66929" height="9" class="st14"/>
+		</g>
+		<g id="shape51-150" v:mID="51" v:groupContext="shape" transform="translate(-106.087,177.307) rotate(-90)">
+			<title>Aktivierung.51</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({D51435FA-7E78-4083-B294-99A4B7ADB219})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="5.66929" height="9" class="st14"/>
+		</g>
+		<g id="shape52-152" v:mID="52" v:groupContext="shape" transform="translate(-106.087,194.183) rotate(-90)">
+			<title>Aktivierung.52</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({A10ACEC8-8BDF-4244-85F3-799859A92FD2})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="5.66929" height="9" class="st14"/>
+		</g>
+		<g id="shape63-154" v:mID="63" v:groupContext="shape" transform="translate(291.843,-124.042)">
+			<title>Nachricht.63</title>
+			<desc>StartActivityQueuingResponse</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(39):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({4DF385FE-D871-43CF-B848-76192B158740})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauf folgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="-74.6677" cy="326.729" width="108.51" height="17.6036"/>
+			<path d="M0 334.48 L-149.34 334.51" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="-124.015" y="321.929" width="98.6938" height="9.59985" class="st8"/>
+			<text x="-124.01" y="329.13" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>StartActivityQueuingResponse</text>		</g>
+		<g id="shape64-159" v:mID="64" v:groupContext="shape" transform="translate(-106.087,214.026) rotate(-90)">
+			<title>Aktivierung.64</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({045C9917-C510-4481-A450-7870D5D9ECEB})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="5.66929" height="9" class="st14"/>
+		</g>
+		<g id="shape65-161" v:mID="65" v:groupContext="shape" transform="translate(142.507,-91.8684)">
+			<title>Nachricht.65</title>
+			<desc>send files</desc>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(39):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({B3078E93-B1A1-4F7A-BDFA-8B09A9A540DB})"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:val="VT0(3):26"/>
+				<v:ud v:nameU="UMLPresOption2" v:val="VT0(4):26"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription"
+						v:val="VT4(Stellt eine Kommunikation zwischen Objekten dar, bei der Informationen in Erwartung darauf folgender Aktionen übermittelt werden.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="74.6677" cy="312.981" width="40.36" height="17.6036"/>
+			<path d="M0 320.34 L149.34 320.31" class="st7"/>
+			<rect v:rectContext="textBkgnd" x="59.3946" y="308.181" width="30.5464" height="9.59985" class="st8"/>
+			<text x="59.39" y="315.38" class="st3" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>send files</text>		</g>
+		<g id="shape66-166" v:mID="66" v:groupContext="shape" transform="translate(-106.087,231.034) rotate(-90)">
+			<title>Aktivierung.66</title>
+			<v:userDefs>
+				<v:ud v:nameU="UMLShapeType" v:val="VT0(55):26"/>
+				<v:ud v:nameU="UMLError" v:val="VT0(0):26"/>
+				<v:ud v:nameU="UMLObjectGUID" v:val="VT4({A5B43EB9-E9DD-4A6D-BEA7-EC84718AC8C9})"/>
+				<v:ud v:nameU="UMLVersion" v:val="VT0(2):26"/>
+				<v:ud v:nameU="visDescription" v:val="VT4(Stellt den Zeitraum dar, in dem ein Objekt eine Aktion ausführt.)"/>
+				<v:ud v:nameU="visVersion" v:val="VT0(14):26"/>
+				<v:ud v:nameU="UMLPresOption1" v:prompt="" v:val="VT0(3):26"/>
+			</v:userDefs>
+			<rect x="0" y="318.412" width="5.66929" height="9" class="st14"/>
+		</g>
+	</g>
+</svg>
