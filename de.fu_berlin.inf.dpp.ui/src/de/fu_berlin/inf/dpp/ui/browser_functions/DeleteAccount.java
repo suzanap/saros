@@ -22,7 +22,7 @@ public class DeleteAccount extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param accountStore
      *            to redirect the delete action
      * @see HTMLUIContextFactory
@@ -37,7 +37,7 @@ public class DeleteAccount extends TypedJavascriptFunction {
      * active account cannot be deleted.
      * <p>
      * If this operation fails, an error is shown to the user.
-     * 
+     *
      * @param account
      *            to be deleted
      */
@@ -48,12 +48,12 @@ public class DeleteAccount extends TypedJavascriptFunction {
         } catch (IllegalStateException e) {
             LOG.warn("Couldn't delete active account: " + e.getMessage(), e);
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_ACCOUNT_DELETE_ACTIVE);
+                HTMLUIStrings.getERR_ACCOUNT_DELETE_ACTIVE());
         } catch (IllegalArgumentException e) {
             LOG.error("Couldn't delete account: " + e.getMessage(), e);
             // FIXME Misleading error message
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_ACCOUNT_DELETE_ACTIVE);
+                HTMLUIStrings.getERR_ACCOUNT_DELETE_ACTIVE());
         }
     }
 

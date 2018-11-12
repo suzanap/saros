@@ -14,11 +14,11 @@ public class MainPage extends AbstractBrowserPage {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @see HTMLUIContextFactory
      */
     public MainPage(AccountRenderer accountRenderer, StateRenderer stateRenderer) {
-        super(HTML_DOC_NAME, HTMLUIStrings.TITLE_MAIN_PAGE);
+        super(HTML_DOC_NAME, HTMLUIStrings.getTITLE_MAIN_PAGE());
         this.addRenderer(stateRenderer, accountRenderer);
     }
 

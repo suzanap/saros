@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package de.fu_berlin.inf.dpp.ui.renderer;
 
@@ -17,11 +17,11 @@ import de.fu_berlin.inf.dpp.ui.model.ProjectTree;
 
 /**
  * This class is responsible for sending the Project list to the HTML UI.
- * 
+ *
  * Because the concepts of what an actual project is, varies from IDE to IDE
  * this class use the {@link ProjectTree} model to form a common representation
  * for the UI to display.
- * 
+ *
  * This class use a {@link IWorkspaceRoot} to received the necessary data for
  * the model creation.
  */
@@ -34,7 +34,7 @@ public class ProjectListRenderer extends Renderer {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param projectListManager
      *            the projectListManager
      * @see HTMLUIContextFactory
@@ -56,7 +56,7 @@ public class ProjectListRenderer extends Renderer {
         } catch (IOException e) {
             LOG.error("Failed to load workspace resources: ", e);
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_SESSION_PROJECT_LIST_IOEXCEPTION);
+                HTMLUIStrings.getERR_SESSION_PROJECT_LIST_IOEXCEPTION());
         }
 
         // FIXME: Workspaces with a big number of files cause massive

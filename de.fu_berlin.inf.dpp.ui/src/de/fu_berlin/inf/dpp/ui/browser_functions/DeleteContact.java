@@ -22,7 +22,7 @@ public class DeleteContact extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param rosterFacade
      * @see HTMLUIContextFactory
      */
@@ -36,7 +36,7 @@ public class DeleteContact extends TypedJavascriptFunction {
      * account.
      * <p>
      * An error is show to the user if this operation fails.
-     * 
+     *
      * @param jid
      *            the contact to remove from the roster
      */
@@ -54,7 +54,7 @@ public class DeleteContact extends TypedJavascriptFunction {
         } catch (XMPPException e) {
             LOG.error("Error while deleting contact", e);
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_CONTACT_DELETE_FAILED);
+                HTMLUIStrings.getERR_CONTACT_DELETE_FAILED());
         }
     }
 }

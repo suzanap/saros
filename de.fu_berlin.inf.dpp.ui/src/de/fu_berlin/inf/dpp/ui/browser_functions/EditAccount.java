@@ -21,7 +21,7 @@ public class EditAccount extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param accountStore
      *            to manage the XMPPAccounts
      * @see HTMLUIContextFactory
@@ -37,7 +37,7 @@ public class EditAccount extends TypedJavascriptFunction {
      * Note that, on success, this action will trigger a re-rendering of the
      * account data to reflect the changes immediately. If this operation fails,
      * an error is shown to the user.
-     * 
+     *
      * @param oldAccount
      *            the account to be changed
      * @param newAccount
@@ -54,7 +54,7 @@ public class EditAccount extends TypedJavascriptFunction {
         } catch (IllegalArgumentException e) {
             LOG.error("Couldn't edit account " + e.getMessage(), e);
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_ACCOUNT_EDIT_FAILED);
+                HTMLUIStrings.getERR_ACCOUNT_EDIT_FAILED());
         }
     }
 

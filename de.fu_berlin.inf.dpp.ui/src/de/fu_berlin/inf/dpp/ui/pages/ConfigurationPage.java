@@ -13,10 +13,10 @@ public class ConfigurationPage extends AbstractBrowserPage {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @see HTMLUIContextFactory
      */
     public ConfigurationPage() {
-        super(HTML_DOC_NAME, HTMLUIStrings.TITLE_CONFIGURATION_PAGE);
+        super(HTML_DOC_NAME, HTMLUIStrings.getTITLE_CONFIGURATION_PAGE());
     }
 }

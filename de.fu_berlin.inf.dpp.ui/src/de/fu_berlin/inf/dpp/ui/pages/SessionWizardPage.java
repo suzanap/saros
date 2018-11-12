@@ -15,12 +15,12 @@ public class SessionWizardPage extends AbstractBrowserPage {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @see HTMLUIContextFactory
      */
     public SessionWizardPage(StateRenderer stateRenderer,
         ProjectListRenderer projectListRenderer) {
-        super(HTML_DOC_NAME, HTMLUIStrings.TITLE_START_SESSION_WIZARD);
+        super(HTML_DOC_NAME, HTMLUIStrings.getTITLE_START_SESSION_WIZARD());
         this.addRenderer(stateRenderer, projectListRenderer);
     }
 }

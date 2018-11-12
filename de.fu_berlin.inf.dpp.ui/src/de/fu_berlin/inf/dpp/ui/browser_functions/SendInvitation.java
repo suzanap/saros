@@ -29,7 +29,7 @@ public class SendInvitation extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param projectListManager
      * @param collaborationUtils
      * @see HTMLUIContextFactory
@@ -48,7 +48,7 @@ public class SendInvitation extends TypedJavascriptFunction {
      * <p>
      * Note that this will fail if
      * {@link ProjectListManager#createProjectModels()} hasn't been called yet.
-     * 
+     *
      * @param projectTrees
      *            The models containing the selected resources to start the
      *            session with
@@ -66,7 +66,7 @@ public class SendInvitation extends TypedJavascriptFunction {
             if (!JID.isValid(contactJID)) {
                 LOG.error("Received jid is invalid");
                 JavaScriptAPI.showError(browser,
-                    HTMLUIStrings.ERR_SESSION_START_CANCELED);
+                    HTMLUIStrings.getERR_SESSION_START_CANCELED());
                 return;
             }
             usersToInvite.add(contactJID);

@@ -22,7 +22,7 @@ public class RenameContact extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param rosterFacade
      * @see HTMLUIContextFactory
      */
@@ -36,7 +36,7 @@ public class RenameContact extends TypedJavascriptFunction {
      * active account to the given new name.
      * <p>
      * An error is shown to the user if this operation fails.
-     * 
+     *
      * @param jid
      *            the contact to be renamed
      * @param newNickname
@@ -56,7 +56,7 @@ public class RenameContact extends TypedJavascriptFunction {
         } catch (XMPPException e) {
             LOG.error("Error while renaming contact", e);
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_CONTACT_RENAME_FAILED);
+                HTMLUIStrings.getERR_CONTACT_RENAME_FAILED());
         }
 
     }

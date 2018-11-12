@@ -22,7 +22,7 @@ public class SetActiveAccount extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param accountStore
      *            to redirect the set action.
      * @see HTMLUIContextFactory
@@ -38,7 +38,7 @@ public class SetActiveAccount extends TypedJavascriptFunction {
      * Note that, on success, this action will trigger a re-rendering of the
      * account data to reflect the changes immediately. If this operation fails,
      * an error is shown to the user.
-     * 
+     *
      * @param account
      *            the account to be activated
      */
@@ -50,7 +50,7 @@ public class SetActiveAccount extends TypedJavascriptFunction {
             LOG.error("Couldn't activate account " + account.toString()
                 + ". Error:" + e.getMessage(), e);
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_ACCOUNT_SET_ACTIVE_FAILED);
+                HTMLUIStrings.getERR_ACCOUNT_SET_ACTIVE_FAILED());
         }
     }
 }

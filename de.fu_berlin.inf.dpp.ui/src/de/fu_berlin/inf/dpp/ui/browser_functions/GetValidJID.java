@@ -14,7 +14,7 @@ public class GetValidJID extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @see HTMLUIContextFactory
      */
     public GetValidJID() {
@@ -23,7 +23,7 @@ public class GetValidJID extends TypedJavascriptFunction {
 
     /**
      * Validate if a given string is a valid {@link JID}.
-     * 
+     *
      * @param jid
      *            the JID to validate
      * @return both the boolean result and an explanatory message (optional)
@@ -34,7 +34,7 @@ public class GetValidJID extends TypedJavascriptFunction {
         String message = "";
 
         if (!valid) {
-            message = HTMLUIStrings.ERR_CONTACT_INVALID_JID;
+            message = HTMLUIStrings.getERR_CONTACT_INVALID_JID();
         }
 
         return new ValidationResult(valid, message);

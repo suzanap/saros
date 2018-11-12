@@ -22,7 +22,7 @@ public class SaveAccount extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param accountStore
      *            the save action is delegated to
      * @see HTMLUIContextFactory
@@ -39,7 +39,7 @@ public class SaveAccount extends TypedJavascriptFunction {
      * account with the same values for all of <br>
      * {@link XMPPAccount#getUsername()}; {@link XMPPAccount#getDomain()};
      * {@link XMPPAccount#getServer()}; {@link XMPPAccount#getPort()},
-     * 
+     *
      * @param acc
      *            the JID of the new account
      */
@@ -54,7 +54,7 @@ public class SaveAccount extends TypedJavascriptFunction {
             // present accounts
             LOG.debug("Account " + acc.getUsername() + " already present");
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_ACCOUNT_ALREADY_PRESENT);
+                HTMLUIStrings.getERR_ACCOUNT_ALREADY_PRESENT());
         }
     }
 }

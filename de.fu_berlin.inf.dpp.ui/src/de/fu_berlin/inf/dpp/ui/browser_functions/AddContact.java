@@ -22,7 +22,7 @@ public class AddContact extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param rosterFacade
      * @see HTMLUIContextFactory
      */
@@ -35,7 +35,7 @@ public class AddContact extends TypedJavascriptFunction {
      * Adds contact (given by its JID) to the roster of the active user.
      * <p>
      * An error is shown to the user if this operation fails.
-     * 
+     *
      * @param jid
      *            The JID of the new contact
      * @param nickname
@@ -62,7 +62,7 @@ public class AddContact extends TypedJavascriptFunction {
         } catch (XMPPException e) {
             LOG.error("Error while adding contact", e);
             JavaScriptAPI.showError(browser,
-                HTMLUIStrings.ERR_CONTACT_ADD_FAILED);
+                HTMLUIStrings.getERR_CONTACT_ADD_FAILED());
         }
     }
 }

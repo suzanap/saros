@@ -14,11 +14,11 @@ public class AccountPage extends AbstractBrowserPage {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @see HTMLUIContextFactory
      */
     public AccountPage() {
-        super(HTML_DOC_NAME, HTMLUIStrings.TITLE_ADD_ACCOUNT_PAGE);
+        super(HTML_DOC_NAME, HTMLUIStrings.getTITLE_ADD_ACCOUNT_PAGE());
         // No renderer used, so let renderers list be empty
     }
 }
