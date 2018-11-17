@@ -26,7 +26,7 @@ import de.fu_berlin.inf.dpp.util.Pair;
  * This class is responsible for transferring information about the state of
  * Saros to the browser so they can be displayed. This information are
  * encapsulated in {@link de.fu_berlin.inf.dpp.ui.model.State}.
- * 
+ *
  * This class also manages the {@link de.fu_berlin.inf.dpp.ui.model.State} via
  * listeners for the {@link de.fu_berlin.inf.dpp.net.ConnectionState} and the
  * {@link org.jivesoftware.smack.Roster}, from which the list of
@@ -38,7 +38,7 @@ public class StateRenderer extends Renderer {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @see HTMLUIContextFactory
      */
     public StateRenderer(XMPPConnectionService connectionService,
@@ -78,7 +78,7 @@ public class StateRenderer extends Renderer {
         accountStore.addListener(new NullAccountStoreListener() {
             @Override
             public void activeAccountChanged(XMPPAccount activeAccount) {
-                state.setAccount(activeAccount);
+                state.setActiveAccount(activeAccount);
                 render();
             }
         });

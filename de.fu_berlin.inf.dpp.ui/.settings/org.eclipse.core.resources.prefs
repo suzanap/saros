@@ -2,4 +2,6 @@ eclipse.preferences.version=1
 encoding//src/de/fu_berlin/inf/dpp/HTMLUIContextFactory.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/HTMLUIStrings.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/model/Contact.kt=UTF-8
+encoding//src/de/fu_berlin/inf/dpp/ui/model/State.kt=UTF-8
+encoding//src/de/fu_berlin/inf/dpp/ui/model/ValidationResult.kt=UTF-8
 encoding/<project>=UTF-8
