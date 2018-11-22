@@ -18,7 +18,7 @@ import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspaceRoot;
 import de.fu_berlin.inf.dpp.ui.model.ProjectTree;
 import de.fu_berlin.inf.dpp.ui.model.ProjectTree.Node;
-import de.fu_berlin.inf.dpp.ui.model.ProjectTree.Node.Type;
+import de.fu_berlin.inf.dpp.ui.model.ProjectTree.NodeType;
 
 /**
  * This class is responsible for creating and managing the {@link ProjectTree}
@@ -50,7 +50,7 @@ public class ProjectListManager {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param workspaceRoot
      *            the workspace root of the current workspace
      * @see HTMLUIContextFactory
@@ -79,7 +79,7 @@ public class ProjectListManager {
      * Note that this will recreate the models every time it's called, and
      * thereby cause an iteration over all files in the workspace.
      * </p>
-     * 
+     *
      * @throws IOException
      *             if a file couldn't be extracted. This error will not be
      *             logged, so it's up to the caller to handle it
@@ -112,7 +112,7 @@ public class ProjectListManager {
     /**
      * Creates the {@link Node} for a given container (project or folder), while
      * creating a mapping to its underlying {@link IResource}.
-     * 
+     *
      * @param container
      *            the resource to create the model from.
      * @return the model for the given resource
@@ -138,8 +138,8 @@ public class ProjectListManager {
 
         // We don't expect any other container types besides projects and folder
         // here
-        Type type = (container.getType() == FOLDER) ? Type.FOLDER
-            : Type.PROJECT;
+        NodeType type = (container.getType() == FOLDER) ? NodeType.FOLDER
+            : NodeType.PROJECT;
 
         Node node = new Node(members, container.getFullPath().lastSegment(),
             type, true);
@@ -152,7 +152,7 @@ public class ProjectListManager {
     /**
      * Creates the {@link Node} for a given file, while creating a mapping to
      * its underlying {@link IResource}.
-     * 
+     *
      * @param file
      *            the resource to create the model from.
      * @return the model for the given resource
@@ -165,7 +165,7 @@ public class ProjectListManager {
 
     /**
      * Retrieve the models created by calling {@link #createProjectModels()}.
-     * 
+     *
      * @return the project models of the current workspace, or <code>null</code>
      *         if {@link #createProjectModels()} wasn't called yet.
      */
@@ -176,7 +176,7 @@ public class ProjectListManager {
     /**
      * Extracts a list of selected resources from the given {@link ProjectTree}
      * s.
-     * 
+     *
      * @param projectTreeModels
      *            the list of {@link ProjectTree}s to extract the resources list
      *            from
