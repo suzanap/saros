@@ -17,7 +17,7 @@ public class ShowSessionWizard extends TypedJavascriptFunction {
 
     /**
      * Created by PicoContainer
-     * 
+     *
      * @param dialogManager
      * @param sessionWizardPage
      * @see HTMLUIContextFactory
@@ -37,5 +37,4 @@ public class ShowSessionWizard extends TypedJavascriptFunction {
     public void showSessionWizard() {
         dialogManager.showDialogWindow(sessionWizardPage);
     }
-
 }
