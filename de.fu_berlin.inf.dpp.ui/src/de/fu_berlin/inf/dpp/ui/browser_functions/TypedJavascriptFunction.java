@@ -25,7 +25,7 @@ import de.fu_berlin.inf.dpp.util.ThreadUtils;
  * JavaScript world. Its return value (if any) will be serialized, if necessary.
  * This class ensures type-safety through reflection; furthermore, it takes care
  * of error-handling.
- * 
+ *
  * <pre>
  * class MyBrowserFunction extends TypedJavascriptFunction {
  *   {@literal @}BrowserFunction
@@ -35,7 +35,7 @@ import de.fu_berlin.inf.dpp.util.ThreadUtils;
  * }
  * </pre>
  */
-class TypedJavascriptFunction extends SelfRegisteringJavascriptFunction {
+public class TypedJavascriptFunction extends SelfRegisteringJavascriptFunction {
 
     private static final Logger LOG = Logger
         .getLogger(TypedJavascriptFunction.class);
@@ -44,7 +44,7 @@ class TypedJavascriptFunction extends SelfRegisteringJavascriptFunction {
 
     /**
      * Retrieves the callable {@link Method} of a given TypedJavascriptFunction.
-     * 
+     *
      * @param clazz
      *            The typed browser function to inspect
      * @return A method of the given class that has the {@link BrowserFunction}
@@ -77,7 +77,7 @@ class TypedJavascriptFunction extends SelfRegisteringJavascriptFunction {
      * expects that the subclass has (at least) one method annotated with
      * {@link BrowserFunction} -- otherwise this will throw an
      * {@link IllegalArgumentException}.
-     * 
+     *
      * @param name
      *            base name of this function
      */
@@ -113,10 +113,10 @@ class TypedJavascriptFunction extends SelfRegisteringJavascriptFunction {
     /**
      * First, retrieve argument types through reflection. Then,
      * refine/deserialize the inputs assuming those types.
-     * 
+     *
      * @return List of arguments, ready to pass to
      *         {@link Method#invoke(Object, Object...)} as the second argument
-     * 
+     *
      * @throws IllegalArgumentException
      *             if there is no method annotated with BrowserFunction with the
      *             right number of arguments, or if any of the arguments cannot
@@ -167,17 +167,17 @@ class TypedJavascriptFunction extends SelfRegisteringJavascriptFunction {
 
     /**
      * Invoke synchronous callables directly
-     * 
+     *
      * @return If the callable has a return type, the return value will be
      *         converted to one of the allowed JavaScript types. In particular,
      *         complex objects will serialized as JSON. If the callable is void,
      *         <code>null</code> will be returned.
-     * 
+     *
      * @throws IllegalArgumentException
      *             if the invocation of the callable failed (either because of
      *             Java reflection errors, or because of internal problems with
      *             the callable itself).
-     * 
+     *
      */
     private Object invokeSync(final List<Object> typedArguments) {
         // (1) Try to invoke the actual method

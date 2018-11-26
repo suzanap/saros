@@ -63,7 +63,7 @@ public class ProjectTree
          * {@link #type}, {@link #label}, and {@link #members} match. The field
          * {@link #isSelectedForSharing} is not considered.
          */
-         fun equals(other : Any):Boolean{
+         override fun equals(other : Any?):Boolean{
             if (!(other is Node)) {
                 return false;
             }
