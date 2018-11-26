@@ -5,6 +5,7 @@ encoding//src/de/fu_berlin/inf/dpp/ui/browser_functions/AddContact.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/browser_functions/ConnectAccount.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/browser_functions/DeleteAccount.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/core_facades/ConnectionFacade.kt=UTF-8
+encoding//src/de/fu_berlin/inf/dpp/ui/core_facades/RosterFacade.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/ide_embedding/IBrowserDialog.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/model/Contact.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/model/State.kt=UTF-8
