@@ -11,7 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import de.fu_berlin.inf.dpp.ui.model.ProjectTree.Node;
-import de.fu_berlin.inf.dpp.ui.model.ProjectTree.Node.Type;
+import de.fu_berlin.inf.dpp.ui.model.ProjectTree.NodeType;
 
 public class ProjectTreeTest {
 
@@ -19,23 +19,25 @@ public class ProjectTreeTest {
     public void hashCodeAndEquals() {
         HashSet<Node> set = new HashSet<Node>();
 
-        Node base = new Node(new ArrayList<Node>(), "root", Type.PROJECT, true);
+        Node base = new Node(new ArrayList<Node>(), "root", NodeType.PROJECT,
+            true);
         set.add(base);
 
-        Node same = new Node(new ArrayList<Node>(), "root", Type.PROJECT, true);
+        Node same = new Node(new ArrayList<Node>(), "root", NodeType.PROJECT,
+            true);
 
         assertTrue("should recognize new object with same properties as same",
             set.contains(same));
 
         Node notSelected = new Node(new ArrayList<Node>(), "root",
-            Type.PROJECT, false);
+            NodeType.PROJECT, false);
 
         assertTrue(
             "should recognize new object with irrelevant property changes as same",
             set.contains(notSelected));
 
         Node differentType = new Node(new ArrayList<Node>(), "root",
-            Type.FOLDER, true);
+            NodeType.FOLDER, true);
 
         assertFalse(
             "should detect new object with relevant property changes as different",
@@ -59,18 +61,18 @@ public class ProjectTreeTest {
         submembers.add(grandchildA);
         submembers.add(grandchildB);
 
-        Node childA = new Node(submembers, "a", Type.FOLDER, true);
+        Node childA = new Node(submembers, "a", NodeType.FOLDER, true);
         Node childB = Node.fileNode("b", true);
 
         List<Node> members = new ArrayList<Node>();
         members.add(childA);
         members.add(childB);
-        return new Node(members, "root", Type.PROJECT, true);
+        return new Node(members, "root", NodeType.PROJECT, true);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void membersNull() {
-        new Node(null, "foo", Type.PROJECT, true);
+        new Node(null, "foo", NodeType.PROJECT, true);
     }
 
     @Test
@@ -78,7 +80,7 @@ public class ProjectTreeTest {
         List<Node> members = new ArrayList<Node>();
         Node file = Node.fileNode("file.txt", false);
         members.add(file);
-        Node project = new Node(members, "root", Type.PROJECT, true);
+        Node project = new Node(members, "root", NodeType.PROJECT, true);
 
         ProjectTree tree = new ProjectTree(project);
 
@@ -86,14 +88,14 @@ public class ProjectTreeTest {
         assertEquals(project, tree.getRoot());
 
         assertEquals("root", project.getLabel());
-        assertEquals(Type.PROJECT, project.getType());
+        assertEquals(NodeType.PROJECT, project.getType());
         assertTrue(project.isSelectedForSharing());
         List<Node> projectMembers = project.getMembers();
         assertEquals(1, projectMembers.size());
 
         Node member = projectMembers.get(0);
         assertEquals("file.txt", member.getLabel());
-        assertEquals(Type.FILE, member.getType());
+        assertEquals(NodeType.FILE, member.getType());
         assertTrue(member.getMembers().isEmpty());
         assertFalse(member.isSelectedForSharing());
     }
