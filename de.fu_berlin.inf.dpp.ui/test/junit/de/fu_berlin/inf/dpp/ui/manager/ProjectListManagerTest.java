@@ -28,7 +28,7 @@ import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspaceRoot;
 import de.fu_berlin.inf.dpp.ui.model.ProjectTree;
 import de.fu_berlin.inf.dpp.ui.model.ProjectTree.Node;
-import de.fu_berlin.inf.dpp.ui.model.ProjectTree.Node.Type;
+import de.fu_berlin.inf.dpp.ui.model.ProjectTree.NodeType;
 
 public class ProjectListManagerTest {
 
@@ -117,8 +117,8 @@ public class ProjectListManagerTest {
         Node projectNode = projectTrees.get(0).getRoot();
         List<Node> members = projectNode.getMembers();
 
-        assertEquals("the root node should be of type project", Type.PROJECT,
-            projectNode.getType());
+        assertEquals("the root node should be of type project",
+            NodeType.PROJECT, projectNode.getType());
         assertEquals("the project node should have its proper label", PROJECT,
             projectNode.getLabel());
         assertEquals(
@@ -130,9 +130,9 @@ public class ProjectListManagerTest {
 
         // There is no guaranteed order in the list
         for (Node node : members) {
-            if (node.getType() == Type.FOLDER) {
+            if (node.getType() == NodeType.FOLDER) {
                 folderNode = node;
-            } else if (node.getType() == Type.FILE) {
+            } else if (node.getType() == NodeType.FILE) {
                 textFileNode = node;
             } else {
                 fail("unexpected node type " + node.getType());
@@ -157,8 +157,8 @@ public class ProjectListManagerTest {
         Node javaFileNode = folderMembers.get(0);
         assertEquals("the file node should have its proper label", JAVA_FILE,
             javaFileNode.getLabel());
-        assertEquals("the file node should have the correct type", Type.FILE,
-            javaFileNode.getType());
+        assertEquals("the file node should have the correct type",
+            NodeType.FILE, javaFileNode.getType());
         assertTrue("a file node should have no members", javaFileNode
             .getMembers().isEmpty());
 
@@ -167,7 +167,7 @@ public class ProjectListManagerTest {
         assertEquals("top-level file node should have its proper label",
             TEXT_FILE, textFileNode.getLabel());
         assertEquals("top-level file node should have the correct type",
-            Type.FILE, textFileNode.getType());
+            NodeType.FILE, textFileNode.getType());
         assertTrue("a file node should have no members", textFileNode
             .getMembers().isEmpty());
     }
