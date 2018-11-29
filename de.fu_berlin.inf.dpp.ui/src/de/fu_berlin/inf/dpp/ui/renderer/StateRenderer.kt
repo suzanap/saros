@@ -60,7 +60,7 @@ class StateRenderer
 			override fun setValue(rosterEntries: List<Pair<RosterEntry, Presence>>?) {
 				val contacts = ArrayList<Contact>()
 				for (entry in rosterEntries!!) {
-					var c = ContactRenderer.convert(entry!!.p, entry!!.v)
+					var c = ContactRenderer.convert(entry.p, entry.v)
 					if(c != null){
 						contacts.add(c)
 					}
