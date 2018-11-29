@@ -20,10 +20,11 @@ class SessionWizardPage
 	projectListRenderer: ProjectListRenderer?
 ) : AbstractBrowserPage(HTML_DOC_NAME, HTMLUIStrings.TITLE_START_SESSION_WIZARD) {
 	init {
-		this.addRenderer(stateRenderer, projectListRenderer)
+		renderers.add(stateRenderer!!)
+		renderers.add(projectListRenderer!!)
 	}
 
 	companion object {
-		val HTML_DOC_NAME: String? = "start-session-wizard.html"
+		val HTML_DOC_NAME = "start-session-wizard.html"
 	}
 }

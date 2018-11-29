@@ -17,10 +17,11 @@ class MainPage
 	(accountRenderer: AccountRenderer?, stateRenderer: StateRenderer?) :
 	AbstractBrowserPage(HTML_DOC_NAME, HTMLUIStrings.TITLE_MAIN_PAGE) {
 	init {
-		this.addRenderer(stateRenderer, accountRenderer)
+		renderers.add(accountRenderer!!)
+		renderers.add(stateRenderer!!)
 	}
 
 	companion object {
-		val HTML_DOC_NAME: String? = "main-page.html"
+		val HTML_DOC_NAME = "main-page.html"
 	}
 }

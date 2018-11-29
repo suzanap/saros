@@ -12,7 +12,7 @@ import de.fu_berlin.inf.dpp.ui.pages.IBrowserPage;
 
 /**
  * IDE-independent base class for managing HTML dialogs.
- * 
+ *
  * Those dialogs are displayed in a new window inside a browser. The
  * simultaneous display of multiple dialogs is supported. However, there may
  * only be one dialog open for each {@link IBrowserPage IBrowserPage} at the
@@ -37,7 +37,7 @@ public abstract class DialogManager {
      * happens.
      * <p/>
      * May be called from any thread.
-     * 
+     *
      * @param browserPage
      *            the BrowserPage object to be displayed in the dialog
      */
@@ -66,7 +66,7 @@ public abstract class DialogManager {
     /**
      * This method is to overwritten to implement the IDE-specific opening of
      * the dialog. This method must only be called on the UI thread.
-     * 
+     *
      * @param browserPage
      *            the BrowserPage object to be displayed in the dialog
      * @return an IDE-independent representation of the dialog
@@ -77,7 +77,7 @@ public abstract class DialogManager {
      * Closes the dialog displaying the given page.
      * <p/>
      * May be called from any thread.
-     * 
+     *
      * @param pageId
      *            a String representing the page that should be closed. Since we
      *            use the pageResource as an identifier, this string can be
@@ -87,14 +87,14 @@ public abstract class DialogManager {
         uiSynchronizer.asyncExec(new Runnable() {
             @Override
             public void run() {
-                if (!dialogIsOpen(AbstractBrowserPage.PATH + pageId)) {
-                    LOG.warn(AbstractBrowserPage.PATH + pageId
+                if (!dialogIsOpen(AbstractBrowserPage.getPATH() + pageId)) {
+                    LOG.warn(AbstractBrowserPage.getPATH() + pageId
                         + "could not be found");
                     return;
                 }
 
                 // shell is removed in the ShellLister
-                openDialogs.get(AbstractBrowserPage.PATH + pageId).close();
+                openDialogs.get(AbstractBrowserPage.getPATH() + pageId).close();
             }
         });
     }
@@ -103,7 +103,7 @@ public abstract class DialogManager {
      * Set the location of a given dialog to the center of the eclipse instance.
      * If the given browserPage is not currently displayed in a shell/dialog
      * this does nothing.
-     * 
+     *
      * @param pageId
      *            a String representing the HTML page. Since we use the
      *            pageResource as an identifier, this string can be obtained via
@@ -133,7 +133,7 @@ public abstract class DialogManager {
     /**
      * This method should be called in the IDE-specific close listeners to
      * remove the entry for the dialog.
-     * 
+     *
      * @param pageId
      *            a String representing the page. Since we use the pageResource
      *            as an identifier, this string can be obtained via

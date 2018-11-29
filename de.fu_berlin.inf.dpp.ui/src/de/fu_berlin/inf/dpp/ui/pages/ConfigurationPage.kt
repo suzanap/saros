@@ -14,6 +14,6 @@ import de.fu_berlin.inf.dpp.HTMLUIStrings
  */
 class ConfigurationPage : AbstractBrowserPage(HTML_DOC_NAME, HTMLUIStrings.TITLE_CONFIGURATION_PAGE) {
 	companion object {
-		val HTML_DOC_NAME: String? = "configuration-page.html"
+		val HTML_DOC_NAME = "configuration-page.html"
 	}
 }

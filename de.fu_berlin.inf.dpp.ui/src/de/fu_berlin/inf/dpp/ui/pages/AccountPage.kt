@@ -15,6 +15,6 @@ class AccountPage : AbstractBrowserPage(HTML_DOC_NAME, HTMLUIStrings.TITLE_ADD_A
 	companion object {
 		// TODO: NOT USED AT THE MOMENT! Create HTML page and open it in the
 // main-page.html by calling "__java_showAccountPage();".
-		val HTML_DOC_NAME: String? = "account-page.html"
+		val HTML_DOC_NAME = "account-page.html"
 	}
 }// No renderer used, so let renderers list be empty

@@ -22,6 +22,7 @@ encoding//src/de/fu_berlin/inf/dpp/ui/ide_embedding/IBrowserDialog.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/model/Contact.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/model/State.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/model/ValidationResult.kt=UTF-8
+encoding//src/de/fu_berlin/inf/dpp/ui/pages/AbstractBrowserPage.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/pages/AccountPage.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/pages/ConfigurationPage.kt=UTF-8
 encoding//src/de/fu_berlin/inf/dpp/ui/pages/IBrowserPage.kt=UTF-8
