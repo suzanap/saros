@@ -37,13 +37,13 @@ interface IBrowserPage {
 	 * as the resource name
 	 * @see IUIResourceLocator#getResourceLocation(String resourceName)
 	 */
-	val relativePath: String?
+	val relativePath: String
 	/**
 	 * Returns the title of this <code>BrowserPage</code>.
 	 *
 	 * @return the title
 	 */
-	val title: String?
+	val title: String
 	/**
 	 * Gets the list of {@link Renderer}s that can display application state in
 	 * this weppage.
@@ -51,5 +51,5 @@ interface IBrowserPage {
 	 * @return the list of renderers for this page. If the page don't uses any
 	 * renderer this can be an empty list.
 	 */
-	val renderers: List<Renderer>?
+	val renderers: List<Renderer>
 }
