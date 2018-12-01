@@ -32,9 +32,6 @@ public class SessionTreeRootNode extends DefaultMutableTreeNode {
   private final Map<User, DefaultMutableTreeNode> userNodeList =
       new HashMap<User, DefaultMutableTreeNode>();
   private final DefaultTreeModel treeModel;
-
-  @Inject private ISarosSessionManager sessionManager;
-
   private final ISessionListener sessionListener =
       new AbstractSessionListener() {
         @Override
@@ -70,7 +67,6 @@ public class SessionTreeRootNode extends DefaultMutableTreeNode {
               });
         }
       };
-
   private final ISessionLifecycleListener sessionLifecycleListener =
       new ISessionLifecycleListener() {
         @Override
@@ -98,6 +94,7 @@ public class SessionTreeRootNode extends DefaultMutableTreeNode {
               });
         }
       };
+  @Inject private ISarosSessionManager sessionManager;
 
   public SessionTreeRootNode(SessionAndContactsTreeView treeView) {
     super(treeView);
@@ -155,10 +152,11 @@ public class SessionTreeRootNode extends DefaultMutableTreeNode {
       ISarosSession session = ((SessionInfo) nSession.getUserObject()).getSession();
 
       ProjectInfo projInfo;
-      if (session.isCompletelyShared(project)) {
+      if (session.isCompletelyShared(project.getReferencePoint())) {
         projInfo = new ProjectInfo(project);
       } else {
-        projInfo = new ProjectInfo(project, session.getSharedResources(project));
+        projInfo =
+            new ProjectInfo(project, session.getSharedResources(project.getReferencePoint()));
       }
 
       DefaultMutableTreeNode nProject = new DefaultMutableTreeNode(projInfo);

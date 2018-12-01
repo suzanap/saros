@@ -55,11 +55,16 @@ public final class SharedProjectDecorator implements ILightweightLabelDecorator 
 
   private final List<ILabelProviderListener> listeners =
       new CopyOnWriteArrayList<ILabelProviderListener>();
-
+  private final ISessionListener sessionListener =
+      new AbstractSessionListener() {
+        @Override
+        public void resourcesAdded(IProject project) {
+          LOG.debug("updating project decoration for all shared projects");
+          updateDecoratorsAsync(null); // update all labels
+        }
+      };
   @Inject private ISarosSessionManager sessionManager;
-
   private volatile ISarosSession session;
-
   private final ISessionLifecycleListener sessionLifecycleListener =
       new ISessionLifecycleListener() {
 
@@ -74,15 +79,6 @@ public final class SharedProjectDecorator implements ILightweightLabelDecorator 
           session.removeListener(sessionListener);
           SharedProjectDecorator.this.session = null;
           LOG.debug("clearing project decoration for all shared projects");
-          updateDecoratorsAsync(null); // update all labels
-        }
-      };
-
-  private final ISessionListener sessionListener =
-      new AbstractSessionListener() {
-        @Override
-        public void resourcesAdded(IProject project) {
-          LOG.debug("updating project decoration for all shared projects");
           updateDecoratorsAsync(null); // update all labels
         }
       };
@@ -113,7 +109,8 @@ public final class SharedProjectDecorator implements ILightweightLabelDecorator 
 
     if (resource.getType() == IResource.PROJECT) {
       boolean isCompletelyShared =
-          currentSession.isCompletelyShared(ResourceAdapterFactory.create(resource.getProject()));
+          currentSession.isCompletelyShared(
+              ResourceAdapterFactory.create(resource).getReferencePoint());
 
       decoration.addSuffix(
           isCompletelyShared

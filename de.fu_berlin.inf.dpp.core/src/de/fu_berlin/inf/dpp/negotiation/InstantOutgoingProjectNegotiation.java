@@ -46,10 +46,6 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
 
   /** used as LIFO queue * */
   private final Deque<SPath> openedFiles = new LinkedBlockingDeque<SPath>();
-
-  private Set<SPath> transferList;
-  private Set<SPath> transmittedFiles;
-
   /** receive open editors to prioritize these files * */
   private final ISharedEditorListener listener =
       new AbstractSharedEditorListener() {
@@ -59,6 +55,8 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
         }
       };
 
+  private Set<SPath> transferList;
+  private Set<SPath> transmittedFiles;
   private List<StartHandle> stoppedUsers = null;
   private User remoteUser = null;
 
@@ -118,7 +116,7 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
       fileCount += list.getPaths().size();
 
       final String projectID = list.getProjectID();
-      final IProject project = session.getProject(projectID);
+      final IProject project = referencePointManager.get(session.getReferencePoint(projectID));
 
       if (project == null)
         throw new LocalCancellationException(
@@ -184,7 +182,7 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
   private void createTransferList(List<FileList> fileLists, int fileCount) {
     List<SPath> files = new ArrayList<SPath>(fileCount);
     for (final FileList list : fileLists) {
-      IProject project = session.getProject(list.getProjectID());
+      IProject project = referencePointManager.get(session.getReferencePoint(list.getProjectID()));
       for (String file : list.getPaths()) {
         files.add(new SPath(project.getFile(file)));
       }
