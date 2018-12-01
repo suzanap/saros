@@ -82,72 +82,35 @@ import org.picocontainer.annotations.Inject;
 public final class SarosSession implements ISarosSession {
 
   private static final Logger log = Logger.getLogger(SarosSession.class);
-
-  @Inject private UISynchronizer synchronizer;
-
-  /* Dependencies */
-
-  @Inject private ITransmitter transmitter;
-
-  @Inject private XMPPConnectionService connectionService;
-
-  @Inject private IConnectionManager connectionManager;
-
-  private IReferencePointManager referencePointManager;
-
   private final IContainerContext containerContext;
 
+  /* Dependencies */
   private final ConcurrentDocumentClient concurrentDocumentClient;
-
   private final ConcurrentDocumentServer concurrentDocumentServer;
-
   private final ActivityHandler activityHandler;
-
   private final CopyOnWriteArrayList<IActivityProducer> activityProducers =
       new CopyOnWriteArrayList<IActivityProducer>();
-
   private final List<IActivityConsumer> activeActivityConsumers =
       new CopyOnWriteArrayList<IActivityConsumer>();
   private final List<IActivityConsumer> passiveActivityConsumers =
       new CopyOnWriteArrayList<IActivityConsumer>();
-
   /* Instance fields */
   private final User localUser;
-
   private final ConcurrentHashMap<JID, User> participants = new ConcurrentHashMap<JID, User>();
-
   private final ConcurrentHashMap<User, IPreferenceStore> userProperties =
       new ConcurrentHashMap<User, IPreferenceStore>();
-
   private final SessionListenerDispatch listenerDispatch = new SessionListenerDispatch();
-
   private final User hostUser;
-
-  private final SharedProjectMapper projectMapper;
-
+  private final SharedReferencePointMapper sharedReferencePointMapper;
   private final MutablePicoContainer sessionContainer;
-
   private final StopManager stopManager;
-
   private final ChangeColorManager changeColorManager;
-
   private final PermissionManager permissionManager;
-
   private final ActivitySequencer activitySequencer;
-
   private final UserInformationHandler userListHandler;
-
   private final String sessionID;
-
-  private boolean started = false;
-  private boolean stopped = false;
-
   private final ActivityQueuer activityQueuer;
-  private boolean starting = false;
-  private boolean stopping = false;
-
   private final Object componentAccessLock = new Object();
-
   /**
    * @JTourBusStop 5, Activity sending, Forwarding the IActivity:
    *
@@ -219,6 +182,15 @@ public final class SarosSession implements ISarosSession {
             updatePartialSharedResources((IFileSystemModificationActivity) activity);
         }
       };
+  @Inject private UISynchronizer synchronizer;
+  @Inject private ITransmitter transmitter;
+  @Inject private XMPPConnectionService connectionService;
+  @Inject private IConnectionManager connectionManager;
+  private IReferencePointManager referencePointManager;
+  private boolean started = false;
+  private boolean stopped = false;
+  private boolean starting = false;
+  private boolean stopping = false;
 
   // FIXME those parameter passing feels strange, find a better way
   /** Constructor for host. */
@@ -237,6 +209,80 @@ public final class SarosSession implements ISarosSession {
     this(id, containerContext, localProperties, hostJID, hostProperties);
   }
 
+  private SarosSession(
+      final String id,
+      IContainerContext context,
+      IPreferenceStore localProperties,
+      JID host,
+      IPreferenceStore hostProperties) {
+
+    context.initComponent(this);
+
+    this.sessionID = id;
+    this.sharedReferencePointMapper = new SharedReferencePointMapper();
+    this.activityQueuer = new ActivityQueuer();
+    this.containerContext = context;
+
+    // FIXME that should be passed in !
+    JID localUserJID = connectionService.getJID();
+
+    assert localUserJID != null;
+
+    int localColorID = localProperties.getInt(ColorNegotiationHook.KEY_INITIAL_COLOR);
+    int localFavoriteColorID = localProperties.getInt(ColorNegotiationHook.KEY_FAV_COLOR);
+    localUser = new User(localUserJID, host == null, true, localColorID, localFavoriteColorID);
+
+    localUser.setInSession(true);
+
+    if (host == null) {
+      hostUser = localUser;
+      participants.put(hostUser.getJID(), hostUser);
+      userProperties.put(hostUser, localProperties);
+    } else {
+      int hostColorID = hostProperties.getInt(ColorNegotiationHook.KEY_INITIAL_COLOR);
+      int hostFavoriteColorID = hostProperties.getInt(ColorNegotiationHook.KEY_FAV_COLOR);
+      hostUser = new User(host, true, false, hostColorID, hostFavoriteColorID);
+      hostUser.setInSession(true);
+      participants.put(hostUser.getJID(), hostUser);
+      participants.put(localUser.getJID(), localUser);
+      userProperties.put(hostUser, hostProperties);
+      userProperties.put(localUser, localProperties);
+    }
+
+    sessionContainer = context.createChildContainer();
+    sessionContainer.addComponent(ISarosSession.class, this);
+    sessionContainer.addComponent(IActivityHandlerCallback.class, activityCallback);
+    sessionContainer.addComponent(IReferencePointManager.class, new ReferencePointManager());
+    ISarosSessionContextFactory factory = context.getComponent(ISarosSessionContextFactory.class);
+    factory.createComponents(this, sessionContainer);
+
+    // Force the creation of the components added to the session container.
+    sessionContainer.getComponents();
+
+    concurrentDocumentServer = sessionContainer.getComponent(ConcurrentDocumentServer.class);
+
+    concurrentDocumentClient = sessionContainer.getComponent(ConcurrentDocumentClient.class);
+
+    activityHandler = sessionContainer.getComponent(ActivityHandler.class);
+
+    stopManager = sessionContainer.getComponent(StopManager.class);
+
+    changeColorManager = sessionContainer.getComponent(ChangeColorManager.class);
+
+    permissionManager = sessionContainer.getComponent(PermissionManager.class);
+
+    activitySequencer = sessionContainer.getComponent(ActivitySequencer.class);
+
+    userListHandler = sessionContainer.getComponent(UserInformationHandler.class);
+
+    referencePointManager = sessionContainer.getComponent(IReferencePointManager.class);
+
+    // ensure that the container uses caching
+    assert sessionContainer.getComponent(ActivityHandler.class)
+            == sessionContainer.getComponent(ActivityHandler.class)
+        : "container is wrongly configured - no cache support";
+  }
+
   @Override
   public void addSharedResources(IProject project, String id, List<IResource> resources) {
 
@@ -247,15 +293,15 @@ public final class SarosSession implements ISarosSession {
       for (IResource resource : resources) allResources.addAll(getAllNonSharedChildren(resource));
     }
 
-    if (!projectMapper.isShared(project.getReferencePoint())) {
+    if (!sharedReferencePointMapper.isShared(project.getReferencePoint())) {
       // new project
       if (allResources == null) {
         // new fully shared project
-        projectMapper.addReferencePoint(id, project.getReferencePoint(), false);
+        sharedReferencePointMapper.addReferencePoint(id, project.getReferencePoint(), false);
       } else {
         // new partially shared project
-        projectMapper.addReferencePoint(id, project.getReferencePoint(), true);
-        projectMapper.addResources(project.getReferencePoint(), allResources);
+        sharedReferencePointMapper.addReferencePoint(id, project.getReferencePoint(), true);
+        sharedReferencePointMapper.addResources(project.getReferencePoint(), allResources);
       }
 
       referencePointManager.put(project.getReferencePoint(), project);
@@ -264,10 +310,10 @@ public final class SarosSession implements ISarosSession {
       // existing project
       if (allResources == null) {
         // upgrade partially shared to fully shared project
-        projectMapper.addReferencePoint(id, project.getReferencePoint(), false);
+        sharedReferencePointMapper.addReferencePoint(id, project.getReferencePoint(), false);
       } else {
         // increase scope of partially shared project
-        projectMapper.addResources(project.getReferencePoint(), allResources);
+        sharedReferencePointMapper.addResources(project.getReferencePoint(), allResources);
       }
     }
 
@@ -315,7 +361,7 @@ public final class SarosSession implements ISarosSession {
 
   @Override
   public boolean userHasProject(User user, IProject project) {
-    return projectMapper.userHasReferencePoint(user, project.getReferencePoint());
+    return sharedReferencePointMapper.userHasReferencePoint(user, project.getReferencePoint());
   }
 
   @Override
@@ -434,7 +480,7 @@ public final class SarosSession implements ISarosSession {
      * Updates the projects for the given user, so that host knows that he can now send ever
      * Activity
      */
-    projectMapper.addMissingReferencePointsToUser(user);
+    sharedReferencePointMapper.addMissingReferencePointsToUser(user);
 
     synchronizer.syncExec(
         ThreadUtils.wrapSafe(
@@ -499,7 +545,7 @@ public final class SarosSession implements ISarosSession {
 
     activitySequencer.unregisterUser(user);
 
-    projectMapper.userLeft(user);
+    sharedReferencePointMapper.userLeft(user);
 
     List<User> currentRemoteUsers = getRemoteUsers();
 
@@ -571,7 +617,7 @@ public final class SarosSession implements ISarosSession {
 
   @Override
   public Set<IProject> getProjects() {
-    return referencePointManager.getProjects(projectMapper.getReferencePoints());
+    return referencePointManager.getProjects(sharedReferencePointMapper.getReferencePoints());
   }
 
   // FIXME synchronization
@@ -732,7 +778,7 @@ public final class SarosSession implements ISarosSession {
     if (activity == null) throw new IllegalArgumentException();
 
     // If we don't have any shared projects don't send ResourceActivities
-    if (projectMapper.size() == 0 && (activity instanceof IResourceActivity)) {
+    if (sharedReferencePointMapper.size() == 0 && (activity instanceof IResourceActivity)) {
       return;
     }
 
@@ -793,7 +839,7 @@ public final class SarosSession implements ISarosSession {
      * activities.
      */
 
-    if (!projectMapper.isPartiallyShared(project.getReferencePoint())) return true;
+    if (!sharedReferencePointMapper.isPartiallyShared(project.getReferencePoint())) return true;
 
     if (activity instanceof FileActivity) {
       FileActivity fileActivity = ((FileActivity) activity);
@@ -820,7 +866,8 @@ public final class SarosSession implements ISarosSession {
             return false;
           }
 
-          projectMapper.addResources(project.getReferencePoint(), Collections.singletonList(file));
+          sharedReferencePointMapper.addResources(
+              project.getReferencePoint(), Collections.singletonList(file));
 
           break;
 
@@ -839,7 +886,7 @@ public final class SarosSession implements ISarosSession {
             return false;
           }
 
-          projectMapper.removeResources(
+          sharedReferencePointMapper.removeResources(
               project.getReferencePoint(), Collections.singletonList(file));
 
           break;
@@ -885,7 +932,7 @@ public final class SarosSession implements ISarosSession {
             return false;
           }
 
-          projectMapper.removeAndAddResources(
+          sharedReferencePointMapper.removeAndAddResources(
               project.getReferencePoint(),
               Collections.singletonList(oldFile),
               Collections.singletonList(file));
@@ -908,7 +955,8 @@ public final class SarosSession implements ISarosSession {
         return false;
       }
 
-      projectMapper.addResources(project.getReferencePoint(), Collections.singletonList(folder));
+      sharedReferencePointMapper.addResources(
+          project.getReferencePoint(), Collections.singletonList(folder));
 
     } else if (activity instanceof FolderDeletedActivity) {
       IFolder folder = activity.getPath().getFolder();
@@ -927,7 +975,8 @@ public final class SarosSession implements ISarosSession {
         return false;
       }
 
-      projectMapper.removeResources(project.getReferencePoint(), Collections.singletonList(folder));
+      sharedReferencePointMapper.removeResources(
+          project.getReferencePoint(), Collections.singletonList(folder));
     }
 
     return true;
@@ -966,28 +1015,28 @@ public final class SarosSession implements ISarosSession {
 
   @Override
   public boolean isShared(IResource resource) {
-    return projectMapper.isShared(resource);
+    return sharedReferencePointMapper.isShared(resource);
   }
 
   @Override
   public List<IResource> getSharedResources() {
-    return projectMapper.getPartiallySharedResources();
+    return sharedReferencePointMapper.getPartiallySharedResources();
   }
 
   @Override
   public String getProjectID(IProject project) {
-    return projectMapper.getID(project.getReferencePoint());
+    return sharedReferencePointMapper.getID(project.getReferencePoint());
   }
 
   @Override
   public IProject getProject(String projectID) {
-    return referencePointManager.get(projectMapper.getReferencePoint(projectID));
+    return referencePointManager.get(sharedReferencePointMapper.getReferencePoint(projectID));
   }
 
   @Override
   public Map<IProject, List<IResource>> getProjectResourcesMapping() {
     Map<IReferencePoint, List<IResource>> referencePointResourceMap =
-        projectMapper.getReferencePointResourceMapping();
+        sharedReferencePointMapper.getReferencePointResourceMapping();
 
     Map<IProject, List<IResource>> projectResourceMap = new HashMap<IProject, List<IResource>>();
 
@@ -1000,27 +1049,27 @@ public final class SarosSession implements ISarosSession {
 
   @Override
   public List<IResource> getSharedResources(IProject project) {
-    return projectMapper.getReferencePointResourceMapping().get(project);
+    return sharedReferencePointMapper.getReferencePointResourceMapping().get(project);
   }
 
   @Override
   public boolean isCompletelyShared(IProject project) {
-    return projectMapper.isCompletelyShared(project.getReferencePoint());
+    return sharedReferencePointMapper.isCompletelyShared(project.getReferencePoint());
   }
 
   @Override
   public void addProjectMapping(String projectID, IProject project) {
-    if (projectMapper.getReferencePoint(projectID) == null) {
+    if (sharedReferencePointMapper.getReferencePoint(projectID) == null) {
       referencePointManager.put(project.getReferencePoint(), project);
-      projectMapper.addReferencePoint(projectID, project.getReferencePoint(), true);
+      sharedReferencePointMapper.addReferencePoint(projectID, project.getReferencePoint(), true);
       listenerDispatch.projectAdded(project);
     }
   }
 
   @Override
   public void removeProjectMapping(String projectID, IProject project) {
-    if (projectMapper.getReferencePoint(projectID) != null) {
-      projectMapper.removeReferencePoint(projectID);
+    if (sharedReferencePointMapper.getReferencePoint(projectID) != null) {
+      sharedReferencePointMapper.removeReferencePoint(projectID);
       listenerDispatch.projectRemoved(project);
     }
   }
@@ -1066,80 +1115,6 @@ public final class SarosSession implements ISarosSession {
     activityQueuer.disableQueuing(project);
     // send us a dummy activity to ensure the queues get flushed
     sendActivity(Collections.singletonList(localUser), new NOPActivity(localUser, localUser, 0));
-  }
-
-  private SarosSession(
-      final String id,
-      IContainerContext context,
-      IPreferenceStore localProperties,
-      JID host,
-      IPreferenceStore hostProperties) {
-
-    context.initComponent(this);
-
-    this.sessionID = id;
-    this.projectMapper = new SharedProjectMapper();
-    this.activityQueuer = new ActivityQueuer();
-    this.containerContext = context;
-
-    // FIXME that should be passed in !
-    JID localUserJID = connectionService.getJID();
-
-    assert localUserJID != null;
-
-    int localColorID = localProperties.getInt(ColorNegotiationHook.KEY_INITIAL_COLOR);
-    int localFavoriteColorID = localProperties.getInt(ColorNegotiationHook.KEY_FAV_COLOR);
-    localUser = new User(localUserJID, host == null, true, localColorID, localFavoriteColorID);
-
-    localUser.setInSession(true);
-
-    if (host == null) {
-      hostUser = localUser;
-      participants.put(hostUser.getJID(), hostUser);
-      userProperties.put(hostUser, localProperties);
-    } else {
-      int hostColorID = hostProperties.getInt(ColorNegotiationHook.KEY_INITIAL_COLOR);
-      int hostFavoriteColorID = hostProperties.getInt(ColorNegotiationHook.KEY_FAV_COLOR);
-      hostUser = new User(host, true, false, hostColorID, hostFavoriteColorID);
-      hostUser.setInSession(true);
-      participants.put(hostUser.getJID(), hostUser);
-      participants.put(localUser.getJID(), localUser);
-      userProperties.put(hostUser, hostProperties);
-      userProperties.put(localUser, localProperties);
-    }
-
-    sessionContainer = context.createChildContainer();
-    sessionContainer.addComponent(ISarosSession.class, this);
-    sessionContainer.addComponent(IActivityHandlerCallback.class, activityCallback);
-    sessionContainer.addComponent(IReferencePointManager.class, new ReferencePointManager());
-    ISarosSessionContextFactory factory = context.getComponent(ISarosSessionContextFactory.class);
-    factory.createComponents(this, sessionContainer);
-
-    // Force the creation of the components added to the session container.
-    sessionContainer.getComponents();
-
-    concurrentDocumentServer = sessionContainer.getComponent(ConcurrentDocumentServer.class);
-
-    concurrentDocumentClient = sessionContainer.getComponent(ConcurrentDocumentClient.class);
-
-    activityHandler = sessionContainer.getComponent(ActivityHandler.class);
-
-    stopManager = sessionContainer.getComponent(StopManager.class);
-
-    changeColorManager = sessionContainer.getComponent(ChangeColorManager.class);
-
-    permissionManager = sessionContainer.getComponent(PermissionManager.class);
-
-    activitySequencer = sessionContainer.getComponent(ActivitySequencer.class);
-
-    userListHandler = sessionContainer.getComponent(UserInformationHandler.class);
-
-    referencePointManager = sessionContainer.getComponent(IReferencePointManager.class);
-
-    // ensure that the container uses caching
-    assert sessionContainer.getComponent(ActivityHandler.class)
-            == sessionContainer.getComponent(ActivityHandler.class)
-        : "container is wrongly configured - no cache support";
   }
 
   /**
