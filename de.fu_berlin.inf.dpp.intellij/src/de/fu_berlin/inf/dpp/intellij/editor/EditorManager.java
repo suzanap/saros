@@ -29,6 +29,7 @@ import de.fu_berlin.inf.dpp.editor.text.LineRange;
 import de.fu_berlin.inf.dpp.editor.text.TextSelection;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.intellij.editor.annotations.AnnotationDocumentListener;
 import de.fu_berlin.inf.dpp.intellij.editor.annotations.AnnotationManager;
 import de.fu_berlin.inf.dpp.intellij.filesystem.Filesystem;
@@ -40,6 +41,7 @@ import de.fu_berlin.inf.dpp.session.AbstractActivityProducer;
 import de.fu_berlin.inf.dpp.session.AbstractSessionListener;
 import de.fu_berlin.inf.dpp.session.IActivityConsumer;
 import de.fu_berlin.inf.dpp.session.IActivityConsumer.Priority;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.session.ISessionLifecycleListener;
@@ -62,7 +64,18 @@ import org.jetbrains.annotations.Nullable;
 public class EditorManager extends AbstractActivityProducer implements IEditorManager {
 
   private static final Logger LOG = Logger.getLogger(EditorManager.class);
-
+  private final LocalEditorHandler localEditorHandler;
+  private final LocalEditorManipulator localEditorManipulator;
+  private final AnnotationManager annotationManager;
+  private final FileReplacementInProgressObservable fileReplacementInProgressObservable;
+  private final EditorPool editorPool = new EditorPool();
+  private final SharedEditorListenerDispatch editorListenerDispatch =
+      new SharedEditorListenerDispatch();
+  private final StoppableDocumentListener documentListener;
+  private final StoppableEditorFileListener fileListener;
+  private final StoppableSelectionListener selectionListener;
+  private final StoppableViewPortListener viewportListener;
+  private final AnnotationDocumentListener annotationDocumentListener;
   private final Blockable stopManagerListener =
       new Blockable() {
 
@@ -88,7 +101,15 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
               });
         }
       };
+  private IReferencePointManager referencePointManager;
+  private UserEditorStateManager userEditorStateManager;
+  private RemoteWriteAccessManager remoteWriteAccessManager;
+  private ISarosSession session;
+  /** The user that is followed or <code>null</code> if no user is followed. */
+  private User followedUser = null;
 
+  private boolean hasWriteAccess;
+  private boolean isLocked;
   private final IActivityConsumer consumer =
       new AbstractActivityConsumer() {
 
@@ -263,7 +284,10 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
           }
         }
       };
-
+  private SelectionEvent localSelection;
+  private LineRange localViewport;
+  private SPath activeEditor;
+  private ProjectAPI projectAPI;
   private final ISessionListener sessionListener =
       new AbstractSessionListener() {
 
@@ -331,38 +355,18 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
         }
 
         @Override
-        public void resourcesAdded(final IProject project) {
+        public void resourcesAdded(final IReferencePoint referencePoint) {
           ApplicationManager.getApplication()
               .invokeAndWait(
                   new Runnable() {
                     @Override
                     public void run() {
-                      addProjectResources(project);
+                      addProjectResources(referencePointManager.get(referencePoint));
                     }
                   },
                   ModalityState.defaultModalityState());
         }
       };
-
-  /**
-   * Adds all currently open editors belonging to the passed project to the pool of open editors.
-   *
-   * @param project the added project
-   */
-  private void addProjectResources(IProject project) {
-    VirtualFile[] openFiles = projectAPI.getOpenFiles();
-
-    SelectedEditorState selectedEditorState = new SelectedEditorState();
-    selectedEditorState.captureState();
-
-    for (VirtualFile openFile : openFiles) {
-      localEditorHandler.openEditor(openFile, project, false);
-      // TODO create selection activity if there is a current selection
-    }
-
-    selectedEditorState.applyCapturedState();
-  }
-
   private final ISessionLifecycleListener sessionLifecycleListener =
       new ISessionLifecycleListener() {
 
@@ -407,6 +411,8 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
           // TODO: Test, whether this leads to problems because it is not called
           // from the UI thread.
           LocalFileSystem.getInstance().refresh(true);
+
+          referencePointManager = session.getComponent(IReferencePointManager.class);
         }
 
         private void endSession() {
@@ -435,35 +441,6 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
         }
       };
 
-  private final LocalEditorHandler localEditorHandler;
-  private final LocalEditorManipulator localEditorManipulator;
-  private final AnnotationManager annotationManager;
-  private final FileReplacementInProgressObservable fileReplacementInProgressObservable;
-
-  private final EditorPool editorPool = new EditorPool();
-
-  private final SharedEditorListenerDispatch editorListenerDispatch =
-      new SharedEditorListenerDispatch();
-  private UserEditorStateManager userEditorStateManager;
-  private RemoteWriteAccessManager remoteWriteAccessManager;
-  private ISarosSession session;
-
-  private final StoppableDocumentListener documentListener;
-  private final AnnotationDocumentListener annotationDocumentListener;
-  private final StoppableEditorFileListener fileListener;
-  private final StoppableSelectionListener selectionListener;
-  private final StoppableViewPortListener viewportListener;
-
-  /** The user that is followed or <code>null</code> if no user is followed. */
-  private User followedUser = null;
-
-  private boolean hasWriteAccess;
-  private boolean isLocked;
-  private SelectionEvent localSelection;
-  private LineRange localViewport;
-  private SPath activeEditor;
-  private ProjectAPI projectAPI;
-
   public EditorManager(
       ISarosSessionManager sessionManager,
       LocalEditorHandler localEditorHandler,
@@ -490,6 +467,25 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
     localEditorManipulator.initialize(this);
 
     this.projectAPI = projectAPI;
+  }
+
+  /**
+   * Adds all currently open editors belonging to the passed project to the pool of open editors.
+   *
+   * @param project the added project
+   */
+  private void addProjectResources(IProject project) {
+    VirtualFile[] openFiles = projectAPI.getOpenFiles();
+
+    SelectedEditorState selectedEditorState = new SelectedEditorState();
+    selectedEditorState.captureState();
+
+    for (VirtualFile openFile : openFiles) {
+      localEditorHandler.openEditor(openFile, project, false);
+      // TODO create selection activity if there is a current selection
+    }
+
+    selectedEditorState.applyCapturedState();
   }
 
   @Override

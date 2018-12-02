@@ -26,6 +26,7 @@ import de.fu_berlin.inf.dpp.editor.text.LineRange;
 import de.fu_berlin.inf.dpp.editor.text.TextSelection;
 import de.fu_berlin.inf.dpp.filesystem.EclipseFileImpl;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import de.fu_berlin.inf.dpp.observables.FileReplacementInProgressObservable;
 import de.fu_berlin.inf.dpp.session.AbstractActivityConsumer;
@@ -322,12 +323,12 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
         }
 
         @Override
-        public void resourcesAdded(IProject project) {
+        public void resourcesAdded(IReferencePoint referencePoint) {
           SWTUtils.runSafeSWTSync(
               LOG,
               new Runnable() {
                 /*
-                 * When Alice invites Bob to a session with a project and Alice
+                 * When Alice invites Bob to a session with a project/reference point and Alice
                  * has some Files of the shared project already open, Bob will
                  * not receive any Actions (Selection, Contribution etc.) for
                  * the open editors. When Alice closes and reopens this Files

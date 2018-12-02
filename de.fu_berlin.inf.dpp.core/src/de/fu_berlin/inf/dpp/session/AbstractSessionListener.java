@@ -1,6 +1,6 @@
 package de.fu_berlin.inf.dpp.session;
 
-import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 
 /**
  * Abstract {@link ISessionListener} that does nothing by default. Clients can extend this class to
@@ -39,17 +39,17 @@ public abstract class AbstractSessionListener implements ISessionListener {
   }
 
   @Override
-  public void projectAdded(IProject project) {
+  public void projectAdded(IReferencePoint referencePoint) {
     // Do nothing.
   }
 
   @Override
-  public void projectRemoved(IProject project) {
+  public void projectRemoved(IReferencePoint referencePoint) {
     // Do nothing.
   }
 
   @Override
-  public void resourcesAdded(IProject project) {
+  public void resourcesAdded(IReferencePoint referencePoint) {
     // Do nothing.
   }
 }

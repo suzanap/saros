@@ -19,7 +19,7 @@
  */
 package de.fu_berlin.inf.dpp.session;
 
-import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.session.User.Permission;
 
 /**
@@ -91,9 +91,9 @@ public interface ISessionListener {
    *
    * <p>This method might <i>not</i> be called on the UI thread.
    *
-   * @param project the project that was added
+   * @param referencePoint the reference point that was added
    */
-  public void projectAdded(IProject project);
+  public void projectAdded(IReferencePoint referencePoint);
 
   /**
    * Is fired then a project has been removed from the session, meaning it is not shared between the
@@ -101,14 +101,16 @@ public interface ISessionListener {
    *
    * <p>This method might <i>not</i> be called on the UI thread.
    *
-   * @param project the project that was removed
+   * @param referencePoint the project that was removed
    */
-  public void projectRemoved(IProject project);
+  public void projectRemoved(IReferencePoint referencePoint);
 
   /**
    * Is fired when resources are added to the current session.
    *
    * <p>This method might <i>not</i> be called on the UI thread.
+   *
+   * @param referencePoint
    */
-  public void resourcesAdded(IProject project);
+  public void resourcesAdded(IReferencePoint referencePoint);
 }

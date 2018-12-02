@@ -1,7 +1,7 @@
 package de.fu_berlin.inf.dpp.feedback;
 
 import de.fu_berlin.inf.dpp.annotations.Component;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.session.AbstractSessionListener;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
@@ -30,8 +30,8 @@ public class ProjectCollector extends AbstractStatisticCollector {
   private final ISessionListener sessionListener =
       new AbstractSessionListener() {
         @Override
-        public void resourcesAdded(IProject project) {
-          String referencePointID = sarosSession.getReferencePointID(project.getReferencePoint());
+        public void resourcesAdded(IReferencePoint referencePoint) {
+          String referencePointID = sarosSession.getReferencePointID(referencePoint);
 
           ProjectInformation info = sharedProjects.get(referencePointID);
 
@@ -40,7 +40,7 @@ public class ProjectCollector extends AbstractStatisticCollector {
             sharedProjects.put(referencePointID, info);
           }
 
-          boolean isPartial = !sarosSession.isCompletelyShared(project.getReferencePoint());
+          boolean isPartial = !sarosSession.isCompletelyShared(referencePoint);
 
           /*
            * ignore partial shared projects that were upgraded to full shared
@@ -48,8 +48,7 @@ public class ProjectCollector extends AbstractStatisticCollector {
            */
           if (!info.isPartial && isPartial) info.isPartial = true;
 
-          List<IResource> sharedResources =
-              sarosSession.getSharedResources(project.getReferencePoint());
+          List<IResource> sharedResources = sarosSession.getSharedResources(referencePoint);
 
           if (sharedResources != null) {
             for (Iterator<IResource> it = sharedResources.iterator(); it.hasNext(); ) {

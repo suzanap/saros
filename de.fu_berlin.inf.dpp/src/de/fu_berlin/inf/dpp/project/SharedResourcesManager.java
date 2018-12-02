@@ -4,10 +4,12 @@ import de.fu_berlin.inf.dpp.activities.IActivity;
 import de.fu_berlin.inf.dpp.activities.IResourceActivity;
 import de.fu_berlin.inf.dpp.annotations.Component;
 import de.fu_berlin.inf.dpp.editor.EditorManager;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import de.fu_berlin.inf.dpp.observables.FileReplacementInProgressObservable;
 import de.fu_berlin.inf.dpp.session.AbstractActivityProducer;
 import de.fu_berlin.inf.dpp.session.AbstractSessionListener;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISessionListener;
 import de.fu_berlin.inf.dpp.synchronize.Blockable;
@@ -65,47 +67,16 @@ public class SharedResourcesManager extends AbstractActivityProducer
   private static final int INTERESTING_EVENTS = IResourceChangeEvent.POST_CHANGE;
 
   private static final Logger log = Logger.getLogger(SharedResourcesManager.class);
-
+  private final ISarosSession sarosSession;
+  private final StopManager stopManager;
+  private final ProjectDeltaVisitor projectDeltaVisitor;
+  /** map that holds the current open or closed state for every shared project */
+  private final Map<IProject, Boolean> projectStates = new HashMap<IProject, Boolean>();
   /**
    * If the StopManager has paused the project, the SharedResourcesManager doesn't react to resource
    * changes.
    */
   private boolean pause = false;
-
-  private final ISarosSession sarosSession;
-
-  private final StopManager stopManager;
-
-  /**
-   * Should return <code>true</code> while executing resource changes to avoid an infinite resource
-   * event loop.
-   */
-  @Inject private FileReplacementInProgressObservable fileReplacementInProgressObservable;
-
-  private final ProjectDeltaVisitor projectDeltaVisitor;
-
-  /** map that holds the current open or closed state for every shared project */
-  private final Map<IProject, Boolean> projectStates = new HashMap<IProject, Boolean>();
-
-  private final ISessionListener sessionListener =
-      new AbstractSessionListener() {
-
-        @Override
-        public void projectAdded(de.fu_berlin.inf.dpp.filesystem.IProject project) {
-          synchronized (projectStates) {
-            IProject eclipseProject = (IProject) ResourceAdapterFactory.convertBack(project);
-            projectStates.put(eclipseProject, eclipseProject.isOpen());
-          }
-        }
-
-        @Override
-        public void projectRemoved(de.fu_berlin.inf.dpp.filesystem.IProject project) {
-          synchronized (projectStates) {
-            IProject eclipseProject = (IProject) ResourceAdapterFactory.convertBack(project);
-            projectStates.remove(eclipseProject);
-          }
-        }
-      };
 
   private final Blockable stopManagerListener =
       new Blockable() {
@@ -119,6 +90,43 @@ public class SharedResourcesManager extends AbstractActivityProducer
           SharedResourcesManager.this.pause = true;
         }
       };
+  private IReferencePointManager referencePointManager;
+  private final ISessionListener sessionListener =
+      new AbstractSessionListener() {
+
+        @Override
+        public void projectAdded(IReferencePoint referencePoint) {
+          synchronized (projectStates) {
+            IProject eclipseProject =
+                (IProject)
+                    ResourceAdapterFactory.convertBack(referencePointManager.get(referencePoint));
+            projectStates.put(eclipseProject, eclipseProject.isOpen());
+          }
+        }
+
+        @Override
+        public void projectRemoved(IReferencePoint referencePoint) {
+          synchronized (projectStates) {
+            IProject eclipseProject =
+                (IProject)
+                    ResourceAdapterFactory.convertBack(referencePointManager.get(referencePoint));
+            projectStates.remove(eclipseProject);
+          }
+        }
+      };
+  /**
+   * Should return <code>true</code> while executing resource changes to avoid an infinite resource
+   * event loop.
+   */
+  @Inject private FileReplacementInProgressObservable fileReplacementInProgressObservable;
+
+  public SharedResourcesManager(
+      ISarosSession sarosSession, EditorManager editorManager, StopManager stopManager) {
+    this.sarosSession = sarosSession;
+    this.stopManager = stopManager;
+    this.projectDeltaVisitor = new ProjectDeltaVisitor(sarosSession, editorManager);
+    this.referencePointManager = sarosSession.getComponent(IReferencePointManager.class);
+  }
 
   @Override
   public void start() {
@@ -134,13 +142,6 @@ public class SharedResourcesManager extends AbstractActivityProducer
     stopManager.removeBlockable(stopManagerListener);
     sarosSession.removeActivityProducer(this);
     sarosSession.removeListener(sessionListener);
-  }
-
-  public SharedResourcesManager(
-      ISarosSession sarosSession, EditorManager editorManager, StopManager stopManager) {
-    this.sarosSession = sarosSession;
-    this.stopManager = stopManager;
-    this.projectDeltaVisitor = new ProjectDeltaVisitor(sarosSession, editorManager);
   }
 
   /** This method is called from Eclipse when changes to resource are detected */
