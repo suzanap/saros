@@ -18,6 +18,7 @@ import de.fu_berlin.inf.dpp.net.ITransmitter;
 import de.fu_berlin.inf.dpp.net.PacketCollector;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
 import de.fu_berlin.inf.dpp.net.xmpp.XMPPConnectionService;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.session.SessionEndReason;
@@ -314,9 +315,13 @@ public abstract class AbstractOutgoingProjectNegotiation extends ProjectNegotiat
          */
         if (editorManager != null) editorManager.saveEditors(project);
 
+        IReferencePointManager referencePointManager =
+            session.getComponent(IReferencePointManager.class);
+
         FileList projectFileList =
             FileListFactory.createFileList(
-                project,
+                referencePointManager,
+                project.getReferencePoint(),
                 session.getSharedResources(project.getReferencePoint()),
                 checksumCache,
                 new SubProgressMonitor(

@@ -19,6 +19,7 @@ import de.fu_berlin.inf.dpp.net.PacketCollector;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
 import de.fu_berlin.inf.dpp.net.xmpp.XMPPConnectionService;
 import de.fu_berlin.inf.dpp.observables.FileReplacementInProgressObservable;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.session.SessionEndReason;
@@ -317,11 +318,15 @@ public abstract class AbstractIncomingProjectNegotiation extends ProjectNegotiat
       final String id = entry.getKey();
       final IProject project = entry.getValue();
 
+      IReferencePointManager referencePointManager =
+          session.getComponent(IReferencePointManager.class);
+
       // TODO optimize for partial shared projects
 
       final FileList localProjectFileList =
           FileListFactory.createFileList(
-              project,
+              referencePointManager,
+              project.getReferencePoint(),
               null,
               checksumCache,
               new SubProgressMonitor(

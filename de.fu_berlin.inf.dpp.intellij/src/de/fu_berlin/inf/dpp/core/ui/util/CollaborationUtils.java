@@ -183,7 +183,15 @@ public class CollaborationUtils {
         new Runnable() {
           @Override
           public void run() {
+            IReferencePointManager referencePointManager =
+                sarosSession.getComponent(IReferencePointManager.class);
 
+            projectResources
+                .keySet()
+                .forEach(
+                    project -> {
+                      referencePointManager.put(project.getReferencePoint(), project);
+                    });
             if (sarosSession.hasWriteAccess()) {
               sessionManager.addResourcesToSession(projectResources);
               return;

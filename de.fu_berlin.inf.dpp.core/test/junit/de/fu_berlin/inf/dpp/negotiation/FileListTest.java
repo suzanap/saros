@@ -12,7 +12,9 @@ import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,64 +51,10 @@ public class FileListTest {
   }
 
   private IProject project;
+  private IReferencePoint referencePoint;
+  private IReferencePointManager referencePointManager;
 
-  @Before
-  public void setUp() throws Exception {
-    project = createProjectLayout();
-  }
-
-  @Test
-  public void testCreateFileListForProject() throws IOException {
-
-    final FileList fileList = FileListFactory.createFileList(project, null, null, null);
-
-    final List<String> paths = fileList.getPaths();
-
-    assertTrue("file list does not contain file: info.txt", paths.contains("info.txt"));
-
-    assertTrue(
-        "file list does not contain file: foobar/info.txt", paths.contains("foobar/info.txt"));
-
-    assertTrue("file list does not contain folder: bar", paths.contains("bar/"));
-
-    assertTrue("file list does not contain folder: foobar/foo", paths.contains("foobar/foo/"));
-
-    final Set<String> expectedEncodings =
-        new HashSet<String>(Arrays.asList("ISO-8859-1", "UTF-8", "UTF-16"));
-
-    assertNotNull("no checksum found for file: info.txt", fileList.getMetaData("info.txt"));
-
-    assertNotNull(
-        "no checksum found for file: foobar/info.txt", fileList.getMetaData("foobar/info.txt"));
-
-    assertEquals("not all encodings were fetched", expectedEncodings, fileList.getEncodings());
-  }
-
-  @Test
-  public void testToXmlAndBack() throws Exception {
-    List<String> files = new ArrayList<String>();
-    StringBuilder builder = new StringBuilder();
-    Random random = new Random();
-    for (int a = 0; a < 2; a++) {
-      for (int i = 0; i < 2; i++) {
-        for (int k = 0; k < 2; k++) {
-          builder.setLength(0);
-          builder.append("string12345");
-          for (int j = 0; j < 5; j++) {
-            builder.append((char) (random.nextInt(26) + 65));
-          }
-          files.add("foo1234567890" + i + "/bar1234567890" + a + "/" + builder.toString());
-        }
-      }
-    }
-
-    FileList list = FileListFactory.createFileList(files);
-    String xml = toXML(list);
-    FileList listFromXml = fromXML(xml);
-    assertEquals(list, listFromXml);
-  }
-
-  private static IProject createProjectLayout() {
+  private static IProject createProjectLayout(IReferencePoint referencePoint) {
 
     final IProject project = EasyMock.createMock(IProject.class);
 
@@ -123,6 +71,7 @@ public class FileListTest {
         createFolderMock(project, "foobar", new IResource[] {foobarfooFolder, foobarInfoTxtFile});
 
     EasyMock.expect(project.getName()).andStubReturn("foo");
+    EasyMock.expect(project.getReferencePoint()).andStubReturn(referencePoint);
 
     try {
       EasyMock.expect(project.getDefaultCharset()).andStubReturn("UTF-16");
@@ -136,6 +85,21 @@ public class FileListTest {
     EasyMock.replay(project);
 
     return project;
+  }
+
+  private static IReferencePoint createReferencePointMock() {
+    IReferencePoint referencePoint = EasyMock.createMock(IReferencePoint.class);
+    EasyMock.replay(referencePoint);
+    return referencePoint;
+  }
+
+  private static IReferencePointManager createReferencePointManagerMock(
+      IReferencePoint referencePoint, IProject project) {
+    IReferencePointManager referencePointManager =
+        EasyMock.createMock(IReferencePointManager.class);
+    EasyMock.expect(referencePointManager.get(referencePoint)).andStubReturn(project);
+    EasyMock.replay(referencePointManager);
+    return referencePointManager;
   }
 
   private static IFile createFileMock(
@@ -217,5 +181,64 @@ public class FileListTest {
 
   private static FileList fromXML(String xml) {
     return (FileList) xstream.fromXML(xml);
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    referencePoint = createReferencePointMock();
+    project = createProjectLayout(referencePoint);
+    referencePointManager = createReferencePointManagerMock(referencePoint, project);
+  }
+
+  @Test
+  public void testCreateFileListForProject() throws IOException {
+
+    final FileList fileList =
+        FileListFactory.createFileList(referencePointManager, referencePoint, null, null, null);
+
+    final List<String> paths = fileList.getPaths();
+
+    assertTrue("file list does not contain file: info.txt", paths.contains("info.txt"));
+
+    assertTrue(
+        "file list does not contain file: foobar/info.txt", paths.contains("foobar/info.txt"));
+
+    assertTrue("file list does not contain folder: bar", paths.contains("bar/"));
+
+    assertTrue("file list does not contain folder: foobar/foo", paths.contains("foobar/foo/"));
+
+    final Set<String> expectedEncodings =
+        new HashSet<String>(Arrays.asList("ISO-8859-1", "UTF-8", "UTF-16"));
+
+    assertNotNull("no checksum found for file: info.txt", fileList.getMetaData("info.txt"));
+
+    assertNotNull(
+        "no checksum found for file: foobar/info.txt", fileList.getMetaData("foobar/info.txt"));
+
+    assertEquals("not all encodings were fetched", expectedEncodings, fileList.getEncodings());
+  }
+
+  @Test
+  public void testToXmlAndBack() throws Exception {
+    List<String> files = new ArrayList<String>();
+    StringBuilder builder = new StringBuilder();
+    Random random = new Random();
+    for (int a = 0; a < 2; a++) {
+      for (int i = 0; i < 2; i++) {
+        for (int k = 0; k < 2; k++) {
+          builder.setLength(0);
+          builder.append("string12345");
+          for (int j = 0; j < 5; j++) {
+            builder.append((char) (random.nextInt(26) + 65));
+          }
+          files.add("foo1234567890" + i + "/bar1234567890" + a + "/" + builder.toString());
+        }
+      }
+    }
+
+    FileList list = FileListFactory.createFileList(files);
+    String xml = toXML(list);
+    FileList listFromXml = fromXML(xml);
+    assertEquals(list, listFromXml);
   }
 }

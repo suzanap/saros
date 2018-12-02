@@ -40,6 +40,7 @@ import de.fu_berlin.inf.dpp.negotiation.NegotiationTools;
 import de.fu_berlin.inf.dpp.negotiation.ProjectNegotiation;
 import de.fu_berlin.inf.dpp.negotiation.ProjectNegotiationData;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.util.ThreadUtils;
@@ -74,33 +75,49 @@ import org.picocontainer.annotations.Inject;
 //  FIXME: Add facility for more than one project.
 
 public class AddProjectToSessionWizard extends Wizard {
-  private static final Logger LOG = Logger.getLogger(AddProjectToSessionWizard.class);
-
   public static final String SELECT_PROJECT_PAGE_ID = "selectProject";
   public static final String FILE_LIST_PAGE_ID = "fileListPage";
-
+  private static final Logger LOG = Logger.getLogger(AddProjectToSessionWizard.class);
   private final String remoteProjectID;
   private final String remoteProjectName;
 
   private final AbstractIncomingProjectNegotiation negotiation;
   private final JID peer;
-
-  private boolean triggered = false;
-
   /** projectID => Project */
   private final Map<String, IProject> localProjects;
 
-  @Inject private IChecksumCache checksumCache;
-
-  @Inject private ISarosSessionManager sessionManager;
-
-  @Inject private IWorkspace workspace;
-
-  @Inject private ProjectAPI projectAPI;
-
   private final SelectProjectPage selectProjectPage;
   private final TextAreaPage fileListPage;
+  private boolean triggered = false;
+  private final CancelListener cancelListener =
+      new CancelListener() {
 
+        @Override
+        public void canceled(final NegotiationTools.CancelLocation location, final String message) {
+          cancelWizard(peer, message, location);
+        }
+      };
+  @Inject private IChecksumCache checksumCache;
+  @Inject private ISarosSessionManager sessionManager;
+  private final PageActionListener fileListPageListener =
+      new PageActionListener() {
+        @Override
+        public void back() {
+          // Nothing to do
+        }
+
+        @Override
+        public void next() {
+          triggerProjectNegotiation();
+        }
+
+        @Override
+        public void cancel() {
+          cancelNegotiation("Not accepted");
+        }
+      };
+  @Inject private IWorkspace workspace;
+  @Inject private ProjectAPI projectAPI;
   private final PageActionListener selectProjectsPageListener =
       new PageActionListener() {
         @Override
@@ -221,6 +238,51 @@ public class AddProjectToSessionWizard extends Wizard {
       };
 
   /**
+   * Creates the wizard and its pages.
+   *
+   * @param negotiation The IPN this wizard handles
+   */
+  public AddProjectToSessionWizard(Window parent, AbstractIncomingProjectNegotiation negotiation) {
+
+    super(
+        parent,
+        Messages.AddProjectToSessionWizard_title,
+        new HeaderPanel(
+            Messages.EnterProjectNamePage_title2, Messages.EnterProjectNamePage_description));
+
+    this.negotiation = negotiation;
+    this.peer = negotiation.getPeer();
+
+    this.setPreferredSize(new Dimension(650, 515));
+
+    List<ProjectNegotiationData> data = negotiation.getProjectNegotiationData();
+
+    localProjects = new HashMap<String, IProject>();
+
+    remoteProjectID = data.get(0).getProjectID();
+    remoteProjectName = data.get(0).getProjectName();
+
+    selectProjectPage =
+        new SelectProjectPage(
+            SELECT_PROJECT_PAGE_ID,
+            remoteProjectName,
+            remoteProjectName,
+            workspace.getLocation().toOSString(),
+            selectProjectsPageListener);
+
+    registerPage(selectProjectPage);
+
+    fileListPage =
+        new TextAreaPage(
+            FILE_LIST_PAGE_ID, "Changes applied to local modules:", fileListPageListener);
+    registerPage(fileListPage);
+
+    create();
+
+    negotiation.addCancelListener(cancelListener);
+  }
+
+  /**
    * Cancels the project negotiation, notifies the host using the given reason, and closes the
    * wizard.
    *
@@ -336,78 +398,6 @@ public class AddProjectToSessionWizard extends Wizard {
     return module;
   }
 
-  private final PageActionListener fileListPageListener =
-      new PageActionListener() {
-        @Override
-        public void back() {
-          // Nothing to do
-        }
-
-        @Override
-        public void next() {
-          triggerProjectNegotiation();
-        }
-
-        @Override
-        public void cancel() {
-          cancelNegotiation("Not accepted");
-        }
-      };
-
-  private final CancelListener cancelListener =
-      new CancelListener() {
-
-        @Override
-        public void canceled(final NegotiationTools.CancelLocation location, final String message) {
-          cancelWizard(peer, message, location);
-        }
-      };
-
-  /**
-   * Creates the wizard and its pages.
-   *
-   * @param negotiation The IPN this wizard handles
-   */
-  public AddProjectToSessionWizard(Window parent, AbstractIncomingProjectNegotiation negotiation) {
-
-    super(
-        parent,
-        Messages.AddProjectToSessionWizard_title,
-        new HeaderPanel(
-            Messages.EnterProjectNamePage_title2, Messages.EnterProjectNamePage_description));
-
-    this.negotiation = negotiation;
-    this.peer = negotiation.getPeer();
-
-    this.setPreferredSize(new Dimension(650, 515));
-
-    List<ProjectNegotiationData> data = negotiation.getProjectNegotiationData();
-
-    localProjects = new HashMap<String, IProject>();
-
-    remoteProjectID = data.get(0).getProjectID();
-    remoteProjectName = data.get(0).getProjectName();
-
-    selectProjectPage =
-        new SelectProjectPage(
-            SELECT_PROJECT_PAGE_ID,
-            remoteProjectName,
-            remoteProjectName,
-            workspace.getLocation().toOSString(),
-            selectProjectsPageListener);
-
-    registerPage(selectProjectPage);
-
-    fileListPage =
-        new TextAreaPage(
-            FILE_LIST_PAGE_ID, "Changes applied to local modules:", fileListPageListener);
-    registerPage(fileListPage);
-
-    create();
-
-    negotiation.addCancelListener(cancelListener);
-  }
-
   /** Cancels the wizard and gives an informative error message. */
   public void cancelWizard(
       final JID peer, final String errorMsg, NegotiationTools.CancelLocation type) {
@@ -445,6 +435,16 @@ public class AddProjectToSessionWizard extends Wizard {
     if (triggered) return;
 
     triggered = true;
+
+    IReferencePointManager referencePointManager =
+        sessionManager.getSession().getComponent(IReferencePointManager.class);
+
+    localProjects
+        .values()
+        .forEach(
+            project -> {
+              referencePointManager.put(project.getReferencePoint(), project);
+            });
 
     ProgressManager.getInstance()
         .run(
@@ -590,9 +590,13 @@ public class AddProjectToSessionWizard extends Wizard {
 
         if (data.isPartial()) throw new IllegalStateException("partial sharing is not supported");
 
+        IReferencePointManager referencePointManager =
+            session.getComponent(IReferencePointManager.class);
+
         FileList localFileList =
             FileListFactory.createFileList(
-                project,
+                referencePointManager,
+                project.getReferencePoint(),
                 null,
                 checksumCache,
                 new SubProgressMonitor(monitor, 1, SubProgressMonitor.SUPPRESS_SETTASKNAME));

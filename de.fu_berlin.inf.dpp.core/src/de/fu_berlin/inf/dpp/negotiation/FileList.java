@@ -30,8 +30,8 @@ import java.util.Set;
 import org.apache.commons.lang.ObjectUtils;
 
 /**
- * A FileList is a list of resources -- files and folders -- which belong to the same project.
- * FileLists can be compared to other FileLists. Folders are denoted by a trailing separator.
+ * A FileList is a list of resources -- files and folders -- which belong to the same reference
+ * point. FileLists can be compared to other FileLists. Folders are denoted by a trailing separator.
  * Instances of this class are immutable. No further modification is allowed after creation.
  * Instances should be created using the methods provided by the {@link FileListFactory}.
  */
@@ -51,6 +51,108 @@ public class FileList {
    * the path entry with this value.
    */
   public static final char DIR_SEPARATOR_CHAR = '/';
+  /** ID of Project this list of files belong to */
+  private String projectID;
+
+  private Set<String> encodings = new HashSet<String>();
+  private File root;
+  @XStreamOmitField private volatile List<String> cachedList = null;
+
+  /** Creates an empty file list. */
+  FileList() {
+    this.root = File.createRoot();
+  }
+
+  MetaData getMetaData(String path) {
+    return root.getMetaData(path);
+  }
+
+  /**
+   * Returns all encodings (e.g UTF-8, US-ASCII) that are used by the files contained in this file
+   * list.
+   *
+   * @return used encodings which may be empty if the encodings are not known
+   */
+  public Set<String> getEncodings() {
+    return new HashSet<String>(encodings);
+  }
+
+  void addEncoding(String charset) {
+    if (charset == null) return;
+
+    encodings.add(charset);
+  }
+
+  void addPath(String path) {
+    root.addPath(path, null, false);
+  }
+
+  void addPath(String path, MetaData metaData, boolean isDirectory) {
+    root.addPath(path, metaData, isDirectory);
+  }
+
+  boolean contains(String path) {
+    return root.contains(path);
+  }
+
+  /**
+   * Returns an immutable list of all paths in this FileList.
+   *
+   * <p>Example: In case the FileList looks like this:
+   *
+   * <pre>
+   * / A
+   *   / A1.java
+   * / B
+   *   / B2.java
+   *   / B3.java
+   * / C
+   * </pre>
+   *
+   * <p>then this method returns: <code>[A/A1.java, B/B2.java, B/B3.java, C/]</code>
+   *
+   * @return Returns only the leaves of the tree, i.e. folders are only included if they don't
+   *     contain anything. The paths are sorted by their character length.
+   */
+  public List<String> getPaths() {
+
+    if (cachedList != null) return cachedList;
+
+    final List<String> inflated = Collections.unmodifiableList(root.toList());
+
+    cachedList = inflated;
+    return inflated;
+  }
+
+  public String getProjectID() {
+    return projectID;
+  }
+
+  public void setProjectID(String projectID) {
+    this.projectID = projectID;
+  }
+
+  @Override
+  public int hashCode() {
+    return root.hashCode();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+
+    if (!(o instanceof FileList)) return false;
+
+    return root.equals(((FileList) o).root);
+  }
+
+  @Override
+  public String toString() {
+    List<String> paths = new ArrayList<String>(getPaths());
+    Collections.sort(paths);
+
+    return paths.toString();
+  }
 
   /*
    * Do NOT optimize this code in regards to understandability. This class IS
@@ -291,110 +393,5 @@ public class FileList {
     public String toString() {
       return "[Checksum: 0x" + Long.toHexString(checksum).toUpperCase() + "]";
     }
-  }
-
-  /** ID of Project this list of files belong to */
-  private String projectID;
-
-  private Set<String> encodings = new HashSet<String>();
-
-  private File root;
-
-  MetaData getMetaData(String path) {
-    return root.getMetaData(path);
-  }
-
-  /** Creates an empty file list. */
-  FileList() {
-    this.root = File.createRoot();
-  }
-
-  /**
-   * Returns all encodings (e.g UTF-8, US-ASCII) that are used by the files contained in this file
-   * list.
-   *
-   * @return used encodings which may be empty if the encodings are not known
-   */
-  public Set<String> getEncodings() {
-    return new HashSet<String>(encodings);
-  }
-
-  void addEncoding(String charset) {
-    if (charset == null) return;
-
-    encodings.add(charset);
-  }
-
-  void addPath(String path) {
-    root.addPath(path, null, false);
-  }
-
-  void addPath(String path, MetaData metaData, boolean isDirectory) {
-    root.addPath(path, metaData, isDirectory);
-  }
-
-  boolean contains(String path) {
-    return root.contains(path);
-  }
-
-  @XStreamOmitField private volatile List<String> cachedList = null;
-
-  /**
-   * Returns an immutable list of all paths in this FileList.
-   *
-   * <p>Example: In case the FileList looks like this:
-   *
-   * <pre>
-   * / A
-   *   / A1.java
-   * / B
-   *   / B2.java
-   *   / B3.java
-   * / C
-   * </pre>
-   *
-   * then this method returns: <code>[A/A1.java, B/B2.java, B/B3.java, C/]</code>
-   *
-   * @return Returns only the leaves of the tree, i.e. folders are only included if they don't
-   *     contain anything. The paths are sorted by their character length.
-   */
-  public List<String> getPaths() {
-
-    if (cachedList != null) return cachedList;
-
-    final List<String> inflated = Collections.unmodifiableList(root.toList());
-
-    cachedList = inflated;
-    return inflated;
-  }
-
-  public String getProjectID() {
-    return projectID;
-  }
-
-  public void setProjectID(String projectID) {
-    this.projectID = projectID;
-  }
-
-  @Override
-  public int hashCode() {
-    return root.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-
-    if (!(o instanceof FileList)) return false;
-
-    return root.equals(((FileList) o).root);
-  }
-
-  @Override
-  public String toString() {
-    List<String> paths = new ArrayList<String>(getPaths());
-    Collections.sort(paths);
-
-    return paths.toString();
   }
 }
