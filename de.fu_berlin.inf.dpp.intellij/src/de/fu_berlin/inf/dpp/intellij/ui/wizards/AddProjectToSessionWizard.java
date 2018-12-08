@@ -259,8 +259,8 @@ public class AddProjectToSessionWizard extends Wizard {
 
     localProjects = new HashMap<String, IProject>();
 
-    remoteProjectID = data.get(0).getProjectID();
-    remoteProjectName = data.get(0).getProjectName();
+    remoteProjectID = data.get(0).getReferencePointID();
+    remoteProjectName = data.get(0).getReferencePointName();
 
     selectProjectPage =
         new SelectProjectPage(

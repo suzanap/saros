@@ -5,18 +5,19 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 /**
  * This class contains all the information that the remote user needs during a project negotiation.
- * The {@link FileList} of the whole project, the project name and the session wide project id.
+ * The {@link FileList} of the whole reference point, the reference point name and the session wide
+ * reference point id.
  */
 @XStreamAlias("PJNGDATA")
 public class ProjectNegotiationData {
 
   @XStreamAlias("name")
   @XStreamAsAttribute
-  private final String projectName;
+  private final String referencePointName;
 
   @XStreamAlias("pid")
   @XStreamAsAttribute
-  private final String projectID;
+  private final String referencePointID;
 
   @XStreamAlias("partial")
   @XStreamAsAttribute
@@ -26,16 +27,16 @@ public class ProjectNegotiationData {
   private final FileList fileList;
 
   /**
-   * @param projectID Session wide ID of the project. This ID is the same for all users.
-   * @param projectName Name of the project on inviter side.
+   * @param referencePointID Session wide ID of the project. This ID is the same for all users.
+   * @param referencePointName Name of the project on inviter side.
    * @param fileList complete list of all files that are part of the sharing for the given project
    */
   public ProjectNegotiationData(
-      String projectID, String projectName, boolean partial, FileList fileList) {
+      String referencePointID, String referencePointName, boolean partial, FileList fileList) {
 
     this.fileList = fileList;
-    this.projectName = projectName;
-    this.projectID = projectID;
+    this.referencePointName = referencePointName;
+    this.referencePointID = referencePointID;
     this.partial = partial;
   }
 
@@ -43,12 +44,12 @@ public class ProjectNegotiationData {
     return fileList;
   }
 
-  public String getProjectName() {
-    return projectName;
+  public String getReferencePointName() {
+    return referencePointName;
   }
 
-  public String getProjectID() {
-    return projectID;
+  public String getReferencePointID() {
+    return referencePointID;
   }
 
   public boolean isPartial() {
