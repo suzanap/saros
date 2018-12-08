@@ -7,6 +7,7 @@ import de.fu_berlin.inf.dpp.exceptions.SarosCancellationException;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
@@ -141,25 +142,26 @@ public class ArchiveOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
     final List<IFile> filesToCompress = new ArrayList<IFile>(fileCount);
     final List<String> fileAlias = new ArrayList<String>(fileCount);
 
-    final List<IResource> projectsToLock = new ArrayList<IResource>();
+    final List<IReferencePoint> referencePointsToLock = new ArrayList<>();
 
     for (final FileList list : fileLists) {
       final String projectID = list.getProjectID();
 
-      final IProject project = referencePointManager.get(session.getReferencePoint(projectID));
+      final IReferencePoint referencePoint = session.getReferencePoint(projectID);
 
-      if (project == null)
+      if (referencePoint == null)
         throw new LocalCancellationException(
             "project with id " + projectID + " was unshared during synchronization",
             CancelOption.NOTIFY_PEER);
 
-      projectsToLock.add(project);
+      referencePointsToLock.add(referencePoint);
 
       /*
        * force editor buffer flush because we read the files from the
        * underlying storage
        */
-      if (editorManager != null) editorManager.saveEditors(project);
+      if (editorManager != null)
+        editorManager.saveEditors(referencePointManager.get(referencePoint));
 
       final StringBuilder aliasBuilder = new StringBuilder();
 
@@ -170,7 +172,7 @@ public class ArchiveOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
       for (final String path : list.getPaths()) {
 
         // assert path is relative !
-        filesToCompress.add(project.getFile(path));
+        filesToCompress.add(referencePointManager.get(referencePoint).getFile(path));
         aliasBuilder.append(path);
         fileAlias.add(aliasBuilder.toString());
         aliasBuilder.setLength(prefixLength);
@@ -183,6 +185,9 @@ public class ArchiveOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
 
     try {
       tempArchive = File.createTempFile("saros_" + getID(), ".zip");
+      List<IProject> projectsToLock = new ArrayList<>();
+      referencePointsToLock.forEach(
+          referencePoint -> projectsToLock.add(referencePointManager.get(referencePoint)));
       workspace.run(
           new CreateArchiveTask(tempArchive, filesToCompress, fileAlias, monitor),
           projectsToLock.toArray(new IResource[0]));
