@@ -8,7 +8,6 @@ import de.fu_berlin.inf.dpp.editor.IEditorManager;
 import de.fu_berlin.inf.dpp.exceptions.LocalCancellationException;
 import de.fu_berlin.inf.dpp.exceptions.SarosCancellationException;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
@@ -44,7 +43,7 @@ public abstract class AbstractOutgoingProjectNegotiation extends ProjectNegotiat
   private static final Logger LOG = Logger.getLogger(AbstractOutgoingProjectNegotiation.class);
   private static final Random NEGOTIATION_ID_GENERATOR = new Random();
   protected final IEditorManager editorManager;
-  protected List<IProject> projects;
+  protected List<IReferencePoint> referencePoints;
   private PacketCollector remoteFileListResponseCollector;
 
   private PacketCollector startActivityQueuingResponseCollector;
@@ -52,7 +51,7 @@ public abstract class AbstractOutgoingProjectNegotiation extends ProjectNegotiat
   protected AbstractOutgoingProjectNegotiation( //
       final JID peer, //
       final TransferType transferType, //
-      final List<IProject> projects, //
+      final List<IReferencePoint> referencePoints, //
       final ISarosSessionManager sessionManager, //
       final ISarosSession session, //
       final IEditorManager editorManager, //
@@ -74,7 +73,7 @@ public abstract class AbstractOutgoingProjectNegotiation extends ProjectNegotiat
         transmitter,
         receiver);
 
-    this.projects = projects;
+    this.referencePoints = referencePoints;
 
     this.editorManager = editorManager;
   }
@@ -89,9 +88,6 @@ public abstract class AbstractOutgoingProjectNegotiation extends ProjectNegotiat
 
     try {
       setup(monitor);
-
-      List<IReferencePoint> referencePoints = new ArrayList<>();
-      projects.forEach(project -> referencePoints.add(project.getReferencePoint()));
 
       sendFileList(createProjectNegotiationDataList(referencePoints, monitor), monitor);
 

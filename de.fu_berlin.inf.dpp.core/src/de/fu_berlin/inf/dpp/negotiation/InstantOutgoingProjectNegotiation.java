@@ -8,7 +8,7 @@ import de.fu_berlin.inf.dpp.editor.remote.UserEditorStateManager;
 import de.fu_berlin.inf.dpp.exceptions.LocalCancellationException;
 import de.fu_berlin.inf.dpp.exceptions.SarosCancellationException;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
 import de.fu_berlin.inf.dpp.negotiation.NegotiationTools.CancelOption;
@@ -62,7 +62,7 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
 
   public InstantOutgoingProjectNegotiation(
       final JID peer, //
-      final List<IProject> projects, //
+      final List<IReferencePoint> referencePoints, //
       final ISarosSessionManager sessionManager, //
       final ISarosSession session, //
       final IEditorManager editorManager, //
@@ -75,7 +75,7 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
     super(
         peer,
         TransferType.INSTANT,
-        projects,
+        referencePoints,
         sessionManager,
         session,
         editorManager,
@@ -115,12 +115,12 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
     for (final FileList list : fileLists) {
       fileCount += list.getPaths().size();
 
-      final String projectID = list.getProjectID();
-      final IProject project = referencePointManager.get(session.getReferencePoint(projectID));
+      final String referencePointID = list.getProjectID();
+      final IReferencePoint referencePoint = session.getReferencePoint(referencePointID);
 
-      if (project == null)
+      if (referencePoint == null)
         throw new LocalCancellationException(
-            "project with id " + projectID + " was unshared during synchronization",
+            "referencePoint with id " + referencePointID + " was unshared during synchronization",
             CancelOption.NOTIFY_PEER);
     }
 
@@ -182,9 +182,9 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
   private void createTransferList(List<FileList> fileLists, int fileCount) {
     List<SPath> files = new ArrayList<SPath>(fileCount);
     for (final FileList list : fileLists) {
-      IProject project = referencePointManager.get(session.getReferencePoint(list.getProjectID()));
+      IReferencePoint referencePoint = session.getReferencePoint(list.getProjectID());
       for (String file : list.getPaths()) {
-        files.add(new SPath(project.getFile(file)));
+        files.add(new SPath(referencePointManager.get(referencePoint).getFile(file)));
       }
     }
 
@@ -224,8 +224,8 @@ public class InstantOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
     };
 
     for (String string : eclipseProjFiles) {
-      for (IProject project : projects) {
-        SPath file = new SPath(project.getFile(string));
+      for (IReferencePoint referencePoint : referencePoints) {
+        SPath file = new SPath(referencePointManager.get(referencePoint).getFile(string));
         sendIfRequired(osp, file);
       }
     }

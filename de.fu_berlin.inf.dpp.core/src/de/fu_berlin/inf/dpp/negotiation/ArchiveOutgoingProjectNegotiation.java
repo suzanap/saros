@@ -39,7 +39,7 @@ public class ArchiveOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
 
   public ArchiveOutgoingProjectNegotiation( //
       final JID peer, //
-      final List<IProject> projects, //
+      final List<IReferencePoint> referencePoints, //
       final ISarosSessionManager sessionManager, //
       final ISarosSession session, //
       final IEditorManager editorManager, //
@@ -52,7 +52,7 @@ public class ArchiveOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
     super(
         peer,
         TransferType.ARCHIVE,
-        projects,
+        referencePoints,
         sessionManager,
         session,
         editorManager,
