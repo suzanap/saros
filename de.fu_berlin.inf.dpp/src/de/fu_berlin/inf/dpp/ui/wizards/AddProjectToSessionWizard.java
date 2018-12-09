@@ -4,6 +4,7 @@ import de.fu_berlin.inf.dpp.Saros;
 import de.fu_berlin.inf.dpp.SarosPluginContext;
 import de.fu_berlin.inf.dpp.editor.internal.EditorAPI;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import de.fu_berlin.inf.dpp.monitoring.ProgressMonitorAdapterFactory;
 import de.fu_berlin.inf.dpp.negotiation.AbstractIncomingProjectNegotiation;
@@ -276,12 +277,17 @@ public class AddProjectToSessionWizard extends Wizard {
                 }
               }
 
-              final Map<String, de.fu_berlin.inf.dpp.filesystem.IProject> convertedMapping =
-                  new HashMap<String, de.fu_berlin.inf.dpp.filesystem.IProject>();
+              final Map<String, IReferencePoint> convertedMapping =
+                  new HashMap<String, IReferencePoint>();
+
+              IReferencePointManager referencePointManager =
+                  sessionManager.getSession().getComponent(IReferencePointManager.class);
 
               for (final Entry<String, IProject> entry : targetProjectMapping.entrySet()) {
-                convertedMapping.put(
-                    entry.getKey(), ResourceAdapterFactory.create(entry.getValue()));
+                de.fu_berlin.inf.dpp.filesystem.IProject coreProject =
+                    ResourceAdapterFactory.create(entry.getValue());
+                referencePointManager.put(coreProject.getReferencePoint(), coreProject);
+                convertedMapping.put(entry.getKey(), coreProject.getReferencePoint());
               }
 
               final ProjectNegotiation.Status status =

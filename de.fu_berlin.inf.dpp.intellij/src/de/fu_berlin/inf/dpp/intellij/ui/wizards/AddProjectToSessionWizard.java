@@ -17,6 +17,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ui.UIUtil;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.intellij.editor.ProjectAPI;
 import de.fu_berlin.inf.dpp.intellij.filesystem.Filesystem;
@@ -439,12 +440,13 @@ public class AddProjectToSessionWizard extends Wizard {
     IReferencePointManager referencePointManager =
         sessionManager.getSession().getComponent(IReferencePointManager.class);
 
-    localProjects
-        .values()
-        .forEach(
-            project -> {
-              referencePointManager.put(project.getReferencePoint(), project);
-            });
+    Map<String, IReferencePoint> localReferencePoints = new HashMap<String, IReferencePoint>();
+
+    localProjects.forEach(
+        (key, value) -> {
+          referencePointManager.put(value.getReferencePoint(), value);
+          localReferencePoints.put(key, value.getReferencePoint());
+        });
 
     ProgressManager.getInstance()
         .run(
@@ -454,7 +456,7 @@ public class AddProjectToSessionWizard extends Wizard {
               @Override
               public void run(ProgressIndicator indicator) {
                 final ProjectNegotiation.Status status =
-                    negotiation.run(localProjects, new ProgessMonitorAdapter(indicator));
+                    negotiation.run(localReferencePoints, new ProgessMonitorAdapter(indicator));
 
                 indicator.stop();
 
