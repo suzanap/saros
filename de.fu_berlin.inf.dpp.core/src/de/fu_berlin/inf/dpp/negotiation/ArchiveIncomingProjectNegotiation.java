@@ -104,20 +104,17 @@ public class ArchiveIncomingProjectNegotiation extends AbstractIncomingProjectNe
 
     boolean filesMissing = false;
 
-    Map<String, IProject> mapping = new HashMap<>();
-    projectMapping.forEach((key, value) -> mapping.put(key, referencePointManager.get(value)));
-
     for (FileList list : missingFiles) filesMissing |= list.getPaths().size() > 0;
 
     // the host do not send an archive if we do not need any files
     if (filesMissing) {
-      receiveAndUnpackArchive(mapping, transferListener, monitor);
+      receiveAndUnpackArchive(projectMapping, transferListener, monitor);
     }
   }
 
   /** Receives the archive with all missing files and unpacks it. */
   private void receiveAndUnpackArchive(
-      final Map<String, IProject> localProjectMapping,
+      final Map<String, IReferencePoint> localProjectMapping,
       final TransferListener archiveTransferListener,
       final IProgressMonitor monitor)
       throws IOException, SarosCancellationException {
@@ -144,15 +141,15 @@ public class ArchiveIncomingProjectNegotiation extends AbstractIncomingProjectNe
   }
 
   private void unpackArchive(
-      final Map<String, IProject> localProjectMapping,
+      final Map<String, IReferencePoint> localProjectMapping,
       final File archiveFile,
       final IProgressMonitor monitor)
       throws LocalCancellationException, IOException {
 
     final Map<String, IProject> projectMapping = new HashMap<String, IProject>();
 
-    for (Entry<String, IProject> entry : localProjectMapping.entrySet())
-      projectMapping.put(entry.getKey(), entry.getValue());
+    localProjectMapping.forEach(
+        (key, value) -> projectMapping.put(key, referencePointManager.get(value)));
 
     final DecompressArchiveTask decompressTask =
         new DecompressArchiveTask(archiveFile, projectMapping, PATH_DELIMITER, monitor);
