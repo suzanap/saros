@@ -148,11 +148,9 @@ public class ArchiveIncomingProjectNegotiation extends AbstractIncomingProjectNe
 
     final Map<String, IProject> projectMapping = new HashMap<String, IProject>();
 
-    localProjectMapping.forEach(
-        (key, value) -> projectMapping.put(key, referencePointManager.get(value)));
-
     final DecompressArchiveTask decompressTask =
-        new DecompressArchiveTask(archiveFile, projectMapping, PATH_DELIMITER, monitor);
+        new DecompressArchiveTask(
+            archiveFile, localProjectMapping, PATH_DELIMITER, monitor, referencePointManager);
 
     long startTime = System.currentTimeMillis();
 
