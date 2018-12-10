@@ -3,7 +3,6 @@ package de.fu_berlin.inf.dpp.negotiation;
 import de.fu_berlin.inf.dpp.context.IContainerContext;
 import de.fu_berlin.inf.dpp.editor.IEditorManager;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.negotiation.hooks.SessionNegotiationHookManager;
@@ -17,7 +16,6 @@ import de.fu_berlin.inf.dpp.observables.FileReplacementInProgressObservable;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.versioning.VersionManager;
-import java.util.ArrayList;
 import java.util.List;
 
 public final class NegotiationFactory {
@@ -132,7 +130,7 @@ public final class NegotiationFactory {
   public AbstractOutgoingProjectNegotiation newOutgoingProjectNegotiation(
       final JID remoteAddress,
       final TransferType transferType,
-      final List<IProject> resources,
+      final List<IReferencePoint> resources,
       final ISarosSessionManager sessionManager,
       final ISarosSession session) {
 
@@ -140,14 +138,11 @@ public final class NegotiationFactory {
       throw new IllegalArgumentException("transferType must not be null");
     }
 
-    List<IReferencePoint> referencePoints = new ArrayList<>();
-    resources.forEach(project -> referencePoints.add(project.getReferencePoint()));
-
     switch (transferType) {
       case ARCHIVE:
         return new ArchiveOutgoingProjectNegotiation(
             remoteAddress,
-            referencePoints,
+            resources,
             sessionManager,
             session, /* editorManager */
             context.getComponent(IEditorManager.class),
@@ -159,7 +154,7 @@ public final class NegotiationFactory {
       case INSTANT:
         return new InstantOutgoingProjectNegotiation(
             remoteAddress,
-            referencePoints,
+            resources,
             sessionManager,
             session, /* editorManager */
             context.getComponent(IEditorManager.class),
