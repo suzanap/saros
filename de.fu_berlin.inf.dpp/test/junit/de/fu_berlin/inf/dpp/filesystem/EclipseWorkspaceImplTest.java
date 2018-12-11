@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import de.fu_berlin.inf.dpp.exceptions.OperationCanceledException;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import java.io.IOException;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.easymock.EasyMock;
@@ -17,11 +18,13 @@ public class EclipseWorkspaceImplTest {
   private org.eclipse.core.resources.IWorkspace workspaceDelegateMock;
 
   private IWorkspace workspace;
+  private IReferencePointManager referencePointManager;
 
   @Before
   public void setup() {
 
     workspaceDelegateMock = EasyMock.createMock(org.eclipse.core.resources.IWorkspace.class);
+    referencePointManager = EasyMock.createMock(IReferencePointManager.class);
 
     try {
       workspaceDelegateMock.run(
@@ -49,7 +52,7 @@ public class EclipseWorkspaceImplTest {
 
     EasyMock.expect(workspaceDelegateMock.getRoot()).andStubReturn(null);
 
-    EasyMock.replay(workspaceDelegateMock);
+    EasyMock.replay(workspaceDelegateMock, referencePointManager);
 
     workspace = new EclipseWorkspaceImpl(workspaceDelegateMock);
   }
@@ -66,7 +69,7 @@ public class EclipseWorkspaceImplTest {
         };
 
     try {
-      workspace.run(runnable);
+      workspace.run(runnable, referencePointManager);
     } catch (OperationCanceledException e) {
       assertOriginalExceptionNotSwallowed(e, "throwDppOCE");
       throw e;
@@ -85,7 +88,7 @@ public class EclipseWorkspaceImplTest {
         };
 
     try {
-      workspace.run(runnable);
+      workspace.run(runnable, referencePointManager);
     } catch (OperationCanceledException e) {
       assertOriginalExceptionNotSwallowed(e, "throwWrappedEclipseOCE");
       throw e;
@@ -104,7 +107,7 @@ public class EclipseWorkspaceImplTest {
         };
 
     try {
-      workspace.run(runnable);
+      workspace.run(runnable, referencePointManager);
     } catch (OperationCanceledException e) {
       assertOriginalExceptionNotSwallowed(e, "throwEclipseOCE");
       throw e;
@@ -123,7 +126,7 @@ public class EclipseWorkspaceImplTest {
         };
 
     try {
-      workspace.run(runnable);
+      workspace.run(runnable, referencePointManager);
     } catch (IOException e) {
       assertOriginalExceptionNotSwallowed(e, "throwIOException");
       throw e;

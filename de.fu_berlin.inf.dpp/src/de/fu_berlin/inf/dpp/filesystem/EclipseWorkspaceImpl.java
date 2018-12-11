@@ -4,9 +4,11 @@ import de.fu_berlin.inf.dpp.Saros;
 import de.fu_berlin.inf.dpp.exceptions.OperationCanceledException;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
 import de.fu_berlin.inf.dpp.monitoring.ProgressMonitorAdapterFactory;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -15,9 +17,85 @@ import org.eclipse.core.runtime.jobs.MultiRule;
 
 /**
  * Eclipse implementation of {@link IWorkspace}. Lets you execute {@link IWorkspaceRunnable}s via
- * {@link #run(IWorkspaceRunnable) run()}.
+ * {@link IWorkspace#run(IWorkspaceRunnable, IReferencePointManager) run()}.
  */
 public class EclipseWorkspaceImpl implements IWorkspace {
+
+  private org.eclipse.core.resources.IWorkspace delegate;
+
+  public EclipseWorkspaceImpl(org.eclipse.core.resources.IWorkspace workspace) {
+    this.delegate = workspace;
+  }
+
+  @Override
+  public void run(final IWorkspaceRunnable runnable, IReferencePointManager referencePointManager)
+      throws IOException, OperationCanceledException {
+    run(runnable, null, referencePointManager);
+  }
+
+  @Override
+  public void run(
+      IWorkspaceRunnable runnable,
+      IReferencePoint[] resources,
+      IReferencePointManager referencePointManager)
+      throws IOException, OperationCanceledException {
+
+    final org.eclipse.core.resources.IWorkspaceRunnable eclipseRunnable;
+
+    /*
+     * Don't wrap the runnable again if its actually a wrapped Eclipse
+     * runnable, but extract the delegate instead.
+     */
+    if (runnable instanceof EclipseWorkspaceRunnableImpl) {
+      eclipseRunnable = ((EclipseWorkspaceRunnableImpl) runnable).getDelegate();
+    } else {
+      eclipseRunnable = new EclipseRunnableAdapter(runnable);
+    }
+
+    final List<org.eclipse.core.resources.IResource> eclipseResources =
+        ResourceAdapterFactory.convertBack(
+            resources != null
+                ? Arrays.asList(resources)
+                    .stream()
+                    .map(x -> referencePointManager.get(x))
+                    .collect(Collectors.toList())
+                : null);
+
+    final ISchedulingRule schedulingRule;
+
+    if (eclipseResources != null && !eclipseResources.isEmpty()) {
+      schedulingRule =
+          new MultiRule(eclipseResources.toArray(new org.eclipse.core.resources.IResource[0]));
+    } else {
+      schedulingRule = delegate.getRoot();
+    }
+
+    try {
+      delegate.run(
+          eclipseRunnable,
+          schedulingRule,
+          org.eclipse.core.resources.IWorkspace.AVOID_UPDATE,
+          null);
+    } catch (CoreException e) {
+      throw new IOException(e);
+    } catch (org.eclipse.core.runtime.OperationCanceledException e) {
+      Throwable cause = e.getCause();
+
+      if (cause instanceof OperationCanceledException) throw (OperationCanceledException) cause;
+
+      throw new OperationCanceledException(e);
+    }
+  }
+
+  @Override
+  public IProject getProject(String project) {
+    return ResourceAdapterFactory.create(delegate.getRoot().getProject(project));
+  }
+
+  @Override
+  public IPath getLocation() {
+    return ResourceAdapterFactory.create(delegate.getRoot().getLocation());
+  }
 
   /**
    * Takes an IDE-independent {@link IWorkspaceRunnable Saros WorkspaceRunnable} and wraps it, so it
@@ -59,72 +137,5 @@ public class EclipseWorkspaceImpl implements IWorkspace {
         throw wrapped;
       }
     }
-  }
-
-  private org.eclipse.core.resources.IWorkspace delegate;
-
-  public EclipseWorkspaceImpl(org.eclipse.core.resources.IWorkspace workspace) {
-    this.delegate = workspace;
-  }
-
-  @Override
-  public void run(final IWorkspaceRunnable runnable)
-      throws IOException, OperationCanceledException {
-    run(runnable, null);
-  }
-
-  @Override
-  public void run(IWorkspaceRunnable runnable, IResource[] resources)
-      throws IOException, OperationCanceledException {
-
-    final org.eclipse.core.resources.IWorkspaceRunnable eclipseRunnable;
-
-    /*
-     * Don't wrap the runnable again if its actually a wrapped Eclipse
-     * runnable, but extract the delegate instead.
-     */
-    if (runnable instanceof EclipseWorkspaceRunnableImpl) {
-      eclipseRunnable = ((EclipseWorkspaceRunnableImpl) runnable).getDelegate();
-    } else {
-      eclipseRunnable = new EclipseRunnableAdapter(runnable);
-    }
-
-    final List<org.eclipse.core.resources.IResource> eclipseResources =
-        ResourceAdapterFactory.convertBack(resources != null ? Arrays.asList(resources) : null);
-
-    final ISchedulingRule schedulingRule;
-
-    if (eclipseResources != null && !eclipseResources.isEmpty()) {
-      schedulingRule =
-          new MultiRule(eclipseResources.toArray(new org.eclipse.core.resources.IResource[0]));
-    } else {
-      schedulingRule = delegate.getRoot();
-    }
-
-    try {
-      delegate.run(
-          eclipseRunnable,
-          schedulingRule,
-          org.eclipse.core.resources.IWorkspace.AVOID_UPDATE,
-          null);
-    } catch (CoreException e) {
-      throw new IOException(e);
-    } catch (org.eclipse.core.runtime.OperationCanceledException e) {
-      Throwable cause = e.getCause();
-
-      if (cause instanceof OperationCanceledException) throw (OperationCanceledException) cause;
-
-      throw new OperationCanceledException(e);
-    }
-  }
-
-  @Override
-  public IProject getProject(String project) {
-    return ResourceAdapterFactory.create(delegate.getRoot().getProject(project));
-  }
-
-  @Override
-  public IPath getLocation() {
-    return ResourceAdapterFactory.create(delegate.getRoot().getLocation());
   }
 }

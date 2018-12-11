@@ -8,13 +8,14 @@ import com.intellij.openapi.vfs.LocalFileSystem;
 import de.fu_berlin.inf.dpp.exceptions.OperationCanceledException;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
-import de.fu_berlin.inf.dpp.filesystem.IResource;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspaceRunnable;
 import de.fu_berlin.inf.dpp.intellij.filesystem.Filesystem;
 import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJProjectImpl;
 import de.fu_berlin.inf.dpp.intellij.project.FileSystemChangeListener;
 import de.fu_berlin.inf.dpp.monitoring.NullProgressMonitor;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import java.io.IOException;
 import org.apache.log4j.Logger;
 
@@ -32,14 +33,18 @@ public class IntelliJWorkspaceImpl implements IWorkspace {
   }
 
   @Override
-  public void run(IWorkspaceRunnable procedure) throws IOException, OperationCanceledException {
+  public void run(IWorkspaceRunnable procedure, IReferencePointManager referencePointManager)
+      throws IOException, OperationCanceledException {
     procedure.run(new NullProgressMonitor());
   }
 
   @Override
-  public void run(IWorkspaceRunnable runnable, IResource[] resources)
+  public void run(
+      IWorkspaceRunnable runnable,
+      IReferencePoint[] resources,
+      IReferencePointManager referencePointManager)
       throws IOException, OperationCanceledException {
-    run(runnable);
+    run(runnable, referencePointManager);
   }
 
   @Override

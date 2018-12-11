@@ -6,9 +6,7 @@ import de.fu_berlin.inf.dpp.exceptions.OperationCanceledException;
 import de.fu_berlin.inf.dpp.exceptions.SarosCancellationException;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
-import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
 import de.fu_berlin.inf.dpp.negotiation.NegotiationTools.CancelOption;
@@ -185,12 +183,11 @@ public class ArchiveOutgoingProjectNegotiation extends AbstractOutgoingProjectNe
 
     try {
       tempArchive = File.createTempFile("saros_" + getID(), ".zip");
-      List<IProject> projectsToLock = new ArrayList<>();
-      referencePointsToLock.forEach(
-          referencePoint -> projectsToLock.add(referencePointManager.get(referencePoint)));
+
       workspace.run(
           new CreateArchiveTask(tempArchive, filesToCompress, fileAlias, monitor),
-          projectsToLock.toArray(new IResource[0]));
+          referencePointsToLock.toArray(new IReferencePoint[0]),
+          referencePointManager);
     } catch (OperationCanceledException e) {
       LocalCancellationException canceled = new LocalCancellationException();
       canceled.initCause(e);

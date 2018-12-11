@@ -14,8 +14,10 @@ import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspaceRunnable;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import java.io.IOException;
 import org.apache.commons.io.FileUtils;
+import org.easymock.EasyMock;
 import org.easymock.EasyMockSupport;
 import org.junit.After;
 import org.junit.Before;
@@ -25,11 +27,14 @@ public class ServerWorkspaceImplTest extends EasyMockSupport {
 
   private IPath workspaceLocation;
   private IWorkspace workspace;
+  private IReferencePointManager referencePointManager;
 
   @Before
   public void setUp() throws Exception {
     workspaceLocation = createWorkspaceFolder();
     workspace = new ServerWorkspaceImpl(workspaceLocation);
+    referencePointManager = EasyMock.createMock(IReferencePointManager.class);
+    EasyMock.replay(referencePointManager);
   }
 
   @After
@@ -61,7 +66,8 @@ public class ServerWorkspaceImplTest extends EasyMockSupport {
             assertNotNull(monitor);
             workspace.getProject("project").delete(IResource.NONE);
           }
-        });
+        },
+        referencePointManager);
 
     assertResourceNotExists(workspace, "project");
   }

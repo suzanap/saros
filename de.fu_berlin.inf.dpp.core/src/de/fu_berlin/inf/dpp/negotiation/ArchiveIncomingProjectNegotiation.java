@@ -4,9 +4,7 @@ import de.fu_berlin.inf.dpp.communication.extensions.StartActivityQueuingRespons
 import de.fu_berlin.inf.dpp.exceptions.LocalCancellationException;
 import de.fu_berlin.inf.dpp.exceptions.SarosCancellationException;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
-import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
 import de.fu_berlin.inf.dpp.monitoring.SubProgressMonitor;
@@ -146,7 +144,7 @@ public class ArchiveIncomingProjectNegotiation extends AbstractIncomingProjectNe
       final IProgressMonitor monitor)
       throws LocalCancellationException, IOException {
 
-    final Map<String, IProject> projectMapping = new HashMap<String, IProject>();
+    final Map<String, IReferencePoint> projectMapping = new HashMap<String, IReferencePoint>();
 
     final DecompressArchiveTask decompressTask =
         new DecompressArchiveTask(
@@ -165,7 +163,10 @@ public class ArchiveIncomingProjectNegotiation extends AbstractIncomingProjectNe
      */
 
     try {
-      workspace.run(decompressTask, projectMapping.values().toArray(new IResource[0]));
+      workspace.run(
+          decompressTask,
+          projectMapping.values().toArray(new IReferencePoint[0]),
+          referencePointManager);
     } catch (de.fu_berlin.inf.dpp.exceptions.OperationCanceledException e) {
       LocalCancellationException canceled =
           new LocalCancellationException(null, CancelOption.DO_NOT_NOTIFY_PEER);
