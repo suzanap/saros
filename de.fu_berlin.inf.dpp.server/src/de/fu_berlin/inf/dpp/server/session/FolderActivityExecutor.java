@@ -4,6 +4,8 @@ import de.fu_berlin.inf.dpp.activities.FolderCreatedActivity;
 import de.fu_berlin.inf.dpp.activities.FolderDeletedActivity;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
+import de.fu_berlin.inf.dpp.filesystem.IPath;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.server.editor.ServerEditorManager;
 import de.fu_berlin.inf.dpp.session.AbstractActivityConsumer;
@@ -62,14 +64,20 @@ public class FolderActivityExecutor extends AbstractActivityConsumer implements 
 
   private void executeFolderCreation(FolderCreatedActivity activity) throws IOException {
 
-    IFolder folder = activity.getPath().getFolder();
+    IProject project = activity.getPath().getProject();
+    IPath projectRelativePath = activity.getPath().getProjectRelativePath();
+
+    IFolder folder = project.getFolder(projectRelativePath);
     folder.create(IResource.NONE, true);
   }
 
   private void executeFolderRemoval(FolderDeletedActivity activity) throws IOException {
 
     SPath path = activity.getPath();
-    IFolder folder = path.getFolder();
+    IProject project = path.getProject();
+    IPath projectRelativePath = path.getProjectRelativePath();
+
+    IFolder folder = project.getFolder(projectRelativePath);
     folder.delete(IResource.NONE);
     editorManager.closeEditorsInFolder(path);
   }

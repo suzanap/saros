@@ -10,6 +10,8 @@ import de.fu_berlin.inf.dpp.activities.IFileSystemModificationActivity;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
+import de.fu_berlin.inf.dpp.filesystem.IPath;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.intellij.editor.EditorManager;
 import de.fu_berlin.inf.dpp.intellij.editor.LocalEditorHandler;
 import de.fu_berlin.inf.dpp.intellij.editor.LocalEditorManipulator;
@@ -53,49 +55,6 @@ public class SharedResourcesManager extends AbstractActivityProducer implements 
   private final LocalEditorManipulator localEditorManipulator;
 
   private final AnnotationManager annotationManager;
-
-  @Override
-  public void start() {
-    ApplicationManager.getApplication()
-        .invokeAndWait(
-            () -> {
-              sarosSession.addActivityProducer(SharedResourcesManager.this);
-              sarosSession.addActivityConsumer(consumer, Priority.ACTIVE);
-              fileSystemListener.setEnabled(true);
-            },
-            ModalityState.defaultModalityState());
-  }
-
-  @Override
-  public void stop() {
-    ApplicationManager.getApplication()
-        .invokeAndWait(
-            () -> {
-              fileSystemListener.setEnabled(false);
-              sarosSession.removeActivityProducer(SharedResourcesManager.this);
-              sarosSession.removeActivityConsumer(consumer);
-            },
-            ModalityState.defaultModalityState());
-  }
-
-  public SharedResourcesManager(
-      ISarosSession sarosSession,
-      EditorManager editorManager,
-      FileReplacementInProgressObservable fileReplacementInProgressObservable,
-      LocalEditorHandler localEditorHandler,
-      LocalEditorManipulator localEditorManipulator,
-      IntelliJWorkspaceImpl intelliJWorkspaceImpl,
-      AnnotationManager annotationManager) {
-
-    this.sarosSession = sarosSession;
-    this.fileReplacementInProgressObservable = fileReplacementInProgressObservable;
-    this.localEditorHandler = localEditorHandler;
-    this.localEditorManipulator = localEditorManipulator;
-    fileSystemListener =
-        new FileSystemChangeListener(this, editorManager, intelliJWorkspaceImpl, sarosSession);
-    this.annotationManager = annotationManager;
-  }
-
   private final IActivityConsumer consumer =
       new AbstractActivityConsumer() {
         @Override
@@ -138,6 +97,48 @@ public class SharedResourcesManager extends AbstractActivityProducer implements 
           }
         }
       };
+
+  public SharedResourcesManager(
+      ISarosSession sarosSession,
+      EditorManager editorManager,
+      FileReplacementInProgressObservable fileReplacementInProgressObservable,
+      LocalEditorHandler localEditorHandler,
+      LocalEditorManipulator localEditorManipulator,
+      IntelliJWorkspaceImpl intelliJWorkspaceImpl,
+      AnnotationManager annotationManager) {
+
+    this.sarosSession = sarosSession;
+    this.fileReplacementInProgressObservable = fileReplacementInProgressObservable;
+    this.localEditorHandler = localEditorHandler;
+    this.localEditorManipulator = localEditorManipulator;
+    fileSystemListener =
+        new FileSystemChangeListener(this, editorManager, intelliJWorkspaceImpl, sarosSession);
+    this.annotationManager = annotationManager;
+  }
+
+  @Override
+  public void start() {
+    ApplicationManager.getApplication()
+        .invokeAndWait(
+            () -> {
+              sarosSession.addActivityProducer(SharedResourcesManager.this);
+              sarosSession.addActivityConsumer(consumer, Priority.ACTIVE);
+              fileSystemListener.setEnabled(true);
+            },
+            ModalityState.defaultModalityState());
+  }
+
+  @Override
+  public void stop() {
+    ApplicationManager.getApplication()
+        .invokeAndWait(
+            () -> {
+              fileSystemListener.setEnabled(false);
+              sarosSession.removeActivityProducer(SharedResourcesManager.this);
+              sarosSession.removeActivityConsumer(consumer);
+            },
+            ModalityState.defaultModalityState());
+  }
 
   private void handleFileActivity(@NotNull FileActivity activity) throws IOException {
 
@@ -315,8 +316,10 @@ public class SharedResourcesManager extends AbstractActivityProducer implements 
   }
 
   private void handleFolderCreation(@NotNull FolderCreatedActivity activity) throws IOException {
+    IProject project = activity.getPath().getProject();
+    IPath projectRelativePath = activity.getPath().getProjectRelativePath();
 
-    IFolder folder = activity.getPath().getFolder();
+    IFolder folder = project.getFolder(projectRelativePath);
 
     if (folder.exists()) {
       LOG.warn("Could not create folder " + folder + " as it already exist.");
@@ -347,7 +350,10 @@ public class SharedResourcesManager extends AbstractActivityProducer implements 
   // TODO deal with children that are not part of the current session (submodules)
   private void handleFolderDeletion(@NotNull FolderDeletedActivity activity) throws IOException {
 
-    IFolder folder = activity.getPath().getFolder();
+    IProject project = activity.getPath().getProject();
+    IPath projectRelativePath = activity.getPath().getProjectRelativePath();
+
+    IFolder folder = project.getFolder(projectRelativePath);
 
     if (!folder.exists()) {
       LOG.warn("Could not delete folder " + folder + " as it does not exist.");

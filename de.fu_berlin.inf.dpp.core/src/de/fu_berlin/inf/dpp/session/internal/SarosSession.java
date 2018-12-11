@@ -33,6 +33,7 @@ import de.fu_berlin.inf.dpp.concurrent.management.ConcurrentDocumentServer;
 import de.fu_berlin.inf.dpp.context.IContainerContext;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
+import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
@@ -940,7 +941,8 @@ public final class SarosSession implements ISarosSession {
           break;
       }
     } else if (activity instanceof FolderCreatedActivity) {
-      IFolder folder = activity.getPath().getFolder();
+      IPath projectRelativePath = activity.getPath().getProjectRelativePath();
+      IFolder folder = project.getFolder(projectRelativePath);
 
       if (!isShared(folder.getParent())) {
         log.error("PSFOC -" + " folder creation detected for a non shared parent: " + folder);
@@ -959,7 +961,8 @@ public final class SarosSession implements ISarosSession {
           project.getReferencePoint(), Collections.singletonList(folder));
 
     } else if (activity instanceof FolderDeletedActivity) {
-      IFolder folder = activity.getPath().getFolder();
+      IPath projectRelativePath = activity.getPath().getProjectRelativePath();
+      IFolder folder = project.getFolder(projectRelativePath);
 
       if (!isShared(folder)) {
         log.error("PSFOR -" + " folder removal detected for a non shared folder: " + folder);
