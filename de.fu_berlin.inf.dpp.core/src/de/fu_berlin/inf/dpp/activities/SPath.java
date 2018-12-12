@@ -1,7 +1,6 @@
 package de.fu_berlin.inf.dpp.activities;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
@@ -64,15 +63,6 @@ public class SPath {
    */
   public IPath getProjectRelativePath() {
     return projectRelativePath;
-  }
-
-  /**
-   * Returns a handle for an IFile represented by this SPath.
-   *
-   * @return the IFile contained in the associated IProject for the given project relative path
-   */
-  public IFile getFile() {
-    return project.getFile(projectRelativePath);
   }
 
   /**
