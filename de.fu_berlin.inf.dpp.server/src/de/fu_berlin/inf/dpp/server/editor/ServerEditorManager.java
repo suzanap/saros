@@ -90,7 +90,8 @@ public class ServerEditorManager implements IEditorManager {
   private Editor getOrCreateEditor(SPath path) throws IOException {
     Editor editor = openEditors.get(path);
     if (editor == null) {
-      IResource resource = path.getResource();
+      IProject project = path.getProject();
+      IResource resource = project.findMember(path.getProjectRelativePath());
       if (resource == null) {
         throw new NoSuchFileException(path.toString());
       }

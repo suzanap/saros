@@ -5,6 +5,7 @@ import de.fu_berlin.inf.dpp.SarosPluginContext;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.concurrent.watchdog.ConsistencyWatchdogClient;
 import de.fu_berlin.inf.dpp.concurrent.watchdog.IsInconsistentObservable;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.intellij.ui.Messages;
 import de.fu_berlin.inf.dpp.intellij.ui.actions.ConsistencyAction;
@@ -245,7 +246,8 @@ public class ConsistencyButton extends ToolbarButton {
     StringBuilder sb = new StringBuilder();
 
     for (SPath path : paths) {
-      IResource resource = path.getResource();
+      IProject project = path.getProject();
+      IResource resource = project.findMember(project.getProjectRelativePath());
 
       if (resource == null) {
         LOG.warn("Inconsistent resource " + path + " could not be " + "found.");

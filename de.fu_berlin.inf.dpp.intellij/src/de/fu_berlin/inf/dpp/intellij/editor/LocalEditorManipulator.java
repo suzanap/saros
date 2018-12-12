@@ -9,6 +9,7 @@ import de.fu_berlin.inf.dpp.concurrent.jupiter.internal.text.DeleteOperation;
 import de.fu_berlin.inf.dpp.concurrent.jupiter.internal.text.ITextOperation;
 import de.fu_berlin.inf.dpp.editor.text.LineRange;
 import de.fu_berlin.inf.dpp.editor.text.TextSelection;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.intellij.filesystem.VirtualFileConverter;
 import de.fu_berlin.inf.dpp.intellij.session.SessionUtils;
 import org.apache.log4j.Logger;
@@ -49,7 +50,8 @@ public class LocalEditorManipulator {
    *     not shared
    */
   public Editor openEditor(SPath path, boolean activate) {
-    if (!SessionUtils.isShared(path.getResource())) {
+    IProject project = path.getProject();
+    if (!SessionUtils.isShared(project.findMember(path.getProjectRelativePath()))) {
       LOG.warn("Ignored open editor request for path " + path + " as it is not shared");
 
       return null;

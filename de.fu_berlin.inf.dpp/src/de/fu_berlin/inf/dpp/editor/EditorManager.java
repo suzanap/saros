@@ -467,7 +467,10 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
     this.locallyActiveEditor = path;
 
-    if (path != null && session.isShared(path.getResource())) openEditorPaths.add(path);
+    IProject project = path.getProject();
+
+    if (path != null && session.isShared(project.findMember(path.getProjectRelativePath())))
+      openEditorPaths.add(path);
 
     editorListenerDispatch.editorActivated(session.getLocalUser(), path);
 
@@ -1358,7 +1361,10 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
       if (resource == null) continue;
 
-      if (ResourceAdapterFactory.create(resource).equals(path.getResource())) return true;
+      IProject project = path.getProject();
+
+      if (ResourceAdapterFactory.create(resource)
+          .equals(project.findMember(path.getProjectRelativePath()))) return true;
     }
 
     return false;

@@ -7,6 +7,7 @@ import de.fu_berlin.inf.dpp.editor.AbstractSharedEditorListener;
 import de.fu_berlin.inf.dpp.editor.EditorManager;
 import de.fu_berlin.inf.dpp.editor.ISharedEditorListener;
 import de.fu_berlin.inf.dpp.editor.annotations.SarosAnnotation;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import de.fu_berlin.inf.dpp.session.AbstractSessionListener;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
@@ -150,7 +151,11 @@ public class SharedProjectFileDecorator implements ILightweightLabelDecorator {
 
           if (filePath != null) {
 
-            IResource resource = ResourceAdapterFactory.convertBack(filePath.getResource());
+            IProject project = filePath.getProject();
+
+            IResource resource =
+                ResourceAdapterFactory.convertBack(
+                    project.findMember(filePath.getProjectRelativePath()));
 
             if (resource != null) activeEditorResources.put(user, getResources(resource));
             else LOG.warn("resource for editor " + filePath + " does not exist locally");

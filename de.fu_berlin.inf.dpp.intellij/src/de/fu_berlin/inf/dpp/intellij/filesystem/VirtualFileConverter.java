@@ -117,8 +117,8 @@ public class VirtualFileConverter {
    */
   @Nullable
   public static VirtualFile convertToVirtualFile(@NotNull SPath path) {
-
-    IResource resource = path.getResource();
+    IProject project = path.getProject();
+    IResource resource = project.findMember(path.getProjectRelativePath());
 
     if (resource == null) {
       return null;

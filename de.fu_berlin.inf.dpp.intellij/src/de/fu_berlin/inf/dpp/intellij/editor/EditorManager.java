@@ -633,7 +633,8 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
     activeEditor = path;
 
-    if (path == null || session.isShared(path.getResource())) {
+    IProject project = path.getProject();
+    if (path == null || session.isShared(project.findMember(path.getProjectRelativePath()))) {
       editorListenerDispatch.editorActivated(session.getLocalUser(), path);
 
       fireActivity(new EditorActivity(session.getLocalUser(), EditorActivity.Type.ACTIVATED, path));
@@ -829,7 +830,8 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
       return false;
     }
 
-    return session.isShared(editorFilePath.getResource());
+    IProject project = editorFilePath.getProject();
+    return session.isShared(project.findMember(editorFilePath.getProjectRelativePath()));
   }
 
   void enableDocumentListener() {

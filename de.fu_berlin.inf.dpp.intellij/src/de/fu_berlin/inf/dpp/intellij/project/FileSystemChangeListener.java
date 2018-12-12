@@ -110,7 +110,8 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
     SPath path = VirtualFileConverter.convertToSPath(file);
 
-    if (path == null || !session.isShared(path.getResource())) {
+    IProject project = path.getProject();
+    if (path == null || !session.isShared(project.findMember(path.getProjectRelativePath()))) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("Ignoring non-shared resource's contents change: " + file);
       }
@@ -169,7 +170,8 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
     SPath path = VirtualFileConverter.convertToSPath(createdVirtualFile);
 
-    if (path == null || !session.isShared(path.getResource())) {
+    IProject project = path.getProject();
+    if (path == null || !session.isShared(project.findMember(path.getProjectRelativePath()))) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("Ignoring non-shared resource creation: " + createdVirtualFile);
       }
@@ -228,7 +230,9 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
     SPath copyPath = VirtualFileConverter.convertToSPath(copy);
 
-    if (copyPath == null || !session.isShared(copyPath.getResource())) {
+    IProject project = copyPath.getProject();
+    if (copyPath == null
+        || !session.isShared(project.findMember(copyPath.getProjectRelativePath()))) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("Ignoring non-shared resource copy: " + copy);
       }
@@ -270,7 +274,8 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
     SPath path = VirtualFileConverter.convertToSPath(deletedVirtualFile);
 
-    if (path == null || !session.isShared(path.getResource())) {
+    IProject project = path.getProject();
+    if (path == null || !session.isShared(project.findMember(path.getProjectRelativePath()))) {
       if (LOG.isTraceEnabled()) {
         LOG.trace("Ignoring non-shared resource deletion: " + deletedVirtualFile);
       }
@@ -293,8 +298,6 @@ public class FileSystemChangeListener extends AbstractStoppableListener
               user, Type.REMOVED, FileActivity.Purpose.ACTIVITY, path, null, null, null);
 
       editorManager.removeAllEditorsForPath(path);
-
-      IProject project = path.getProject();
 
       IFile file = project.getFile(path.getProjectRelativePath());
 
@@ -402,9 +405,14 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
     User user = session.getLocalUser();
 
-    boolean oldPathIsShared = oldPath != null && session.isShared(oldPath.getResource());
+    IProject oldProject = oldPath.getProject();
+    boolean oldPathIsShared =
+        oldPath != null
+            && session.isShared(oldProject.findMember(oldPath.getProjectRelativePath()));
+    IProject newProject = newParentPath.getProject();
     boolean newPathIsShared =
-        newParentPath != null && session.isShared(newParentPath.getResource());
+        newParentPath != null
+            && session.isShared(newProject.findMember(newParentPath.getProjectRelativePath()));
 
     if (!oldPathIsShared && !newPathIsShared) {
       if (LOG.isTraceEnabled()) {
@@ -543,9 +551,14 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
     User user = session.getLocalUser();
 
-    boolean oldPathIsShared = oldFilePath != null && session.isShared(oldFilePath.getResource());
+    IProject oldProject = oldFilePath.getProject();
+    boolean oldPathIsShared =
+        oldFilePath != null
+            && session.isShared(oldProject.findMember(oldFilePath.getProjectRelativePath()));
+    IProject newProject = newParentPath.getProject();
     boolean newPathIsShared =
-        newParentPath != null && session.isShared(newParentPath.getResource());
+        newParentPath != null
+            && session.isShared(newProject.findMember(newParentPath.getProjectRelativePath()));
 
     boolean fileIsOpen = projectAPI.isOpen(oldFile);
 
@@ -586,9 +599,6 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
       editorManager.replaceAllEditorsForPath(oldFilePath, newFilePath);
 
-      IProject oldProject = oldFilePath.getProject();
-      IProject newProject = newFilePath.getProject();
-
       IFile oldSarosFile = oldProject.getFile(oldFilePath.getProjectRelativePath());
       IFile newSarosFile = newProject.getFile(newFilePath.getProjectRelativePath());
 
@@ -626,8 +636,6 @@ public class FileSystemChangeListener extends AbstractStoppableListener
               user, Type.REMOVED, FileActivity.Purpose.ACTIVITY, oldFilePath, null, null, null);
 
       editorManager.removeAllEditorsForPath(oldFilePath);
-
-      IProject oldProject = oldFilePath.getProject();
 
       IFile oldSarosFile = oldProject.getFile(oldFilePath.getProjectRelativePath());
 
@@ -718,7 +726,9 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
           SPath path = VirtualFileConverter.convertToSPath(file);
 
-          if (path != null && session.isShared(path.getResource())) {
+          IProject project = path.getProject();
+
+          if (path != null && session.isShared(project.findMember(path.getProjectRelativePath()))) {
             LOG.error(
                 "Renamed resource is a root directory. "
                     + "Such an activity can not be shared through Saros.");

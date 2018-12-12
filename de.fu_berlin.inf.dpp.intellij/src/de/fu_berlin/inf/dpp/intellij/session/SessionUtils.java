@@ -2,6 +2,7 @@ package de.fu_berlin.inf.dpp.intellij.session;
 
 import de.fu_berlin.inf.dpp.SarosPluginContext;
 import de.fu_berlin.inf.dpp.activities.SPath;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
@@ -74,7 +75,9 @@ public class SessionUtils {
    */
   public static boolean isShared(@NotNull SPath path) {
 
-    IResource resource = path.getResource();
+    IProject project = path.getProject();
+
+    IResource resource = project.findMember(project.getProjectRelativePath());
 
     ISarosSession session = currentSarosSession;
 
