@@ -135,9 +135,8 @@ public class TypedJavascriptFunction extends SelfRegisteringJavascriptFunction {
         }
 
         // Go through pre-typed arguments and refine them
-        TypeRefinery r = new TypeRefinery();
         for (int i = 0; i < arguments.length; i++) {
-            typedArguments.add(r.refine(arguments[i], argTypes[i]));
+            typedArguments.add(TypeRefinery.refine(arguments[i], argTypes[i]));
         }
 
         return typedArguments;
