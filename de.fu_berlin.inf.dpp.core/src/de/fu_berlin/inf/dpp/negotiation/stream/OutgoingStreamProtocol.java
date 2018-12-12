@@ -3,6 +3,7 @@ package de.fu_berlin.inf.dpp.negotiation.stream;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.exceptions.LocalCancellationException;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
 import de.fu_berlin.inf.dpp.negotiation.NegotiationTools.CancelOption;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
@@ -33,22 +34,22 @@ public class OutgoingStreamProtocol extends AbstractStreamProtocol {
    * Sends a File to {@code OutputStream out} via in {@link AbstractStreamProtocol} defined
    * protocol.
    *
-   * @param file the file to send
+   * @param path the file to send
    * @throws IOException if any file or stream operation fails
    * @throws LocalCancellationException on local user cancellation
    */
-  public void streamFile(SPath file) throws IOException, LocalCancellationException {
-    String message = "sending " + displayName(file.getFile());
+  public void streamFile(SPath path) throws IOException, LocalCancellationException {
+    IProject project = path.getProject();
+    IFile file = project.getFile(path.getProjectRelativePath());
+    String message = "sending " + displayName(file);
     log.debug(message);
     monitor.subTask(message);
 
-    IFile fileHandle = file.getFile();
-
-    writeHeader(file, fileHandle.getSize());
+    writeHeader(path, file.getSize());
 
     InputStream fileIn = null;
     try {
-      fileIn = fileHandle.getContents();
+      fileIn = file.getContents();
       int readBytes = 0;
       /* buffer the file content and send to stream */
       while (readBytes != -1) {

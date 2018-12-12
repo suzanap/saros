@@ -43,7 +43,8 @@ public class FileActivityConsumerTest {
 
   private IProject project;
   private IPath path;
-
+  private de.fu_berlin.inf.dpp.filesystem.IPath projectRelativePath;
+  private de.fu_berlin.inf.dpp.filesystem.IProject sarosProject;
   private SharedResourcesManager resourceChangeListener;
 
   @Before
@@ -63,6 +64,9 @@ public class FileActivityConsumerTest {
 
     path = createMock(IPath.class);
     replay(path);
+
+    projectRelativePath = createMock(de.fu_berlin.inf.dpp.filesystem.IPath.class);
+    replay(projectRelativePath);
 
     project = createMock(IProject.class);
     expect(project.getFullPath()).andStubReturn(path);
@@ -117,7 +121,13 @@ public class FileActivityConsumerTest {
   private SPath createPathMockForFile(IFile file) {
     final SPath path = createMock(SPath.class);
 
-    expect(path.getFile()).andStubReturn(ResourceAdapterFactory.create(file));
+    sarosProject = createMock(de.fu_berlin.inf.dpp.filesystem.IProject.class);
+    expect(sarosProject.getFile(projectRelativePath))
+        .andStubReturn(ResourceAdapterFactory.create(file));
+    replay(sarosProject);
+
+    expect(path.getProjectRelativePath()).andStubReturn(projectRelativePath);
+    expect(path.getProject()).andStubReturn(sarosProject);
 
     replay(path);
 

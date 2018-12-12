@@ -5,6 +5,8 @@ import de.fu_berlin.inf.dpp.awareness.AwarenessInformationCollector;
 import de.fu_berlin.inf.dpp.editor.EditorManager;
 import de.fu_berlin.inf.dpp.editor.remote.EditorState;
 import de.fu_berlin.inf.dpp.editor.remote.UserEditorStateManager;
+import de.fu_berlin.inf.dpp.filesystem.IFile;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.session.User;
 import de.fu_berlin.inf.dpp.ui.model.TreeElement;
 import java.util.ArrayList;
@@ -109,10 +111,10 @@ public class AwarenessInformationTreeElement extends TreeElement {
        *
        * TODO: make this configurable?
        */
-      details.add(
-          activeFile.getProject().getName()
-              + ": "
-              + activeFile.getFile().getProjectRelativePath().toString());
+      IProject project = activeFile.getProject();
+      IFile file = project.getFile(activeFile.getProjectRelativePath());
+
+      details.add(project.getName() + ": " + file.getProjectRelativePath().toString());
     }
 
     return details;

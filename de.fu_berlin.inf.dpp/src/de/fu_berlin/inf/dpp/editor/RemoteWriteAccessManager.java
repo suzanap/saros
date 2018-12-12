@@ -4,6 +4,7 @@ import de.fu_berlin.inf.dpp.activities.EditorActivity;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.editor.internal.EditorAPI;
 import de.fu_berlin.inf.dpp.filesystem.EclipseFileImpl;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.session.AbstractActivityConsumer;
 import de.fu_berlin.inf.dpp.session.AbstractSessionListener;
 import de.fu_berlin.inf.dpp.session.IActivityConsumer;
@@ -47,6 +48,31 @@ public class RemoteWriteAccessManager extends AbstractActivityConsumer {
   protected Set<SPath> connectedUserWithWriteAccessFiles = new HashSet<SPath>();
 
   protected ISarosSession sarosSession;
+  protected ISessionListener sessionListener =
+      new AbstractSessionListener() {
+
+        /**
+         * Remove the user and potentially disconnect from the document providers which only this
+         * user was connected to.
+         */
+        @Override
+        public void userLeft(User user) {
+          for (Entry<SPath, Set<User>> entry : editorStates.entrySet()) {
+            if (entry.getValue().remove(user)) updateConnectionState(entry.getKey());
+          }
+        }
+
+        /**
+         * This method takes care of maintaining correct state of class-internal tables with paths
+         * of connected documents, if the permission of a user changes.
+         */
+        @Override
+        public void permissionChanged(User user) {
+          for (Entry<SPath, Set<User>> entry : editorStates.entrySet()) {
+            if (entry.getValue().contains(user)) updateConnectionState(entry.getKey());
+          }
+        }
+      };
 
   public RemoteWriteAccessManager(final ISarosSession sarosSession) {
     this.sarosSession = sarosSession;
@@ -80,32 +106,6 @@ public class RemoteWriteAccessManager extends AbstractActivityConsumer {
     updateConnectionState(path);
   }
 
-  protected ISessionListener sessionListener =
-      new AbstractSessionListener() {
-
-        /**
-         * Remove the user and potentially disconnect from the document providers which only this
-         * user was connected to.
-         */
-        @Override
-        public void userLeft(User user) {
-          for (Entry<SPath, Set<User>> entry : editorStates.entrySet()) {
-            if (entry.getValue().remove(user)) updateConnectionState(entry.getKey());
-          }
-        }
-
-        /**
-         * This method takes care of maintaining correct state of class-internal tables with paths
-         * of connected documents, if the permission of a user changes.
-         */
-        @Override
-        public void permissionChanged(User user) {
-          for (Entry<SPath, Set<User>> entry : editorStates.entrySet()) {
-            if (entry.getValue().contains(user)) updateConnectionState(entry.getKey());
-          }
-        }
-      };
-
   public void dispose() {
     sarosSession.removeListener(sessionListener);
 
@@ -132,7 +132,8 @@ public class RemoteWriteAccessManager extends AbstractActivityConsumer {
 
     assert !connectedUserWithWriteAccessFiles.contains(path);
 
-    IFile file = ((EclipseFileImpl) path.getFile()).getDelegate();
+    IProject project = path.getProject();
+    IFile file = ((EclipseFileImpl) project.getFile(path.getProjectRelativePath())).getDelegate();
     if (!file.exists()) {
       log.error(
           "Attempting to connect to file which" + " is not available locally: " + path,
@@ -155,7 +156,8 @@ public class RemoteWriteAccessManager extends AbstractActivityConsumer {
 
     connectedUserWithWriteAccessFiles.remove(path);
 
-    IFile file = ((EclipseFileImpl) path.getFile()).getDelegate();
+    IProject project = path.getProject();
+    IFile file = ((EclipseFileImpl) project.getFile(path.getProjectRelativePath())).getDelegate();
     EditorAPI.disconnect(new FileEditorInput(file));
   }
 

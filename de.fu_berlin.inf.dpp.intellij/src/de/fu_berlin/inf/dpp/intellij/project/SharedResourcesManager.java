@@ -204,8 +204,11 @@ public class SharedResourcesManager extends AbstractActivityProducer implements 
     SPath oldPath = activity.getOldPath();
     SPath newPath = activity.getPath();
 
-    IFile oldFile = oldPath.getFile();
-    IFile newFile = newPath.getFile();
+    IProject oldProject = oldPath.getProject();
+    IProject newProject = newPath.getProject();
+
+    IFile oldFile = oldProject.getFile(oldPath.getProjectRelativePath());
+    IFile newFile = newProject.getFile(newPath.getProjectRelativePath());
 
     if (!oldFile.exists()) {
       LOG.warn(
@@ -264,7 +267,9 @@ public class SharedResourcesManager extends AbstractActivityProducer implements 
   private void handleFileDeletion(@NotNull FileActivity activity) throws IOException {
 
     SPath path = activity.getPath();
-    IFile file = path.getFile();
+    IProject project = path.getProject();
+
+    IFile file = project.getFile(path.getProjectRelativePath());
 
     if (!file.exists()) {
       LOG.warn("Could not delete file " + file + " as it does not exist.");
@@ -295,7 +300,9 @@ public class SharedResourcesManager extends AbstractActivityProducer implements 
   private void handleFileCreation(@NotNull FileActivity activity) throws IOException {
 
     SPath path = activity.getPath();
-    IFile file = path.getFile();
+    IProject project = path.getProject();
+
+    IFile file = project.getFile(path.getProjectRelativePath());
 
     if (file.exists()) {
       LOG.warn("Could not create file " + file + " as it already exists.");

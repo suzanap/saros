@@ -19,6 +19,7 @@ import de.fu_berlin.inf.dpp.editor.EditorManager;
 import de.fu_berlin.inf.dpp.editor.ISharedEditorListener;
 import de.fu_berlin.inf.dpp.editor.internal.EditorAPI;
 import de.fu_berlin.inf.dpp.filesystem.EclipseFileImpl;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.preferences.Preferences;
 import de.fu_berlin.inf.dpp.session.AbstractActivityConsumer;
 import de.fu_berlin.inf.dpp.session.IActivityListener;
@@ -68,16 +69,13 @@ import org.picocontainer.annotations.Inject;
 @Component(module = "undo")
 public class UndoManager extends AbstractActivityConsumer implements Disposable {
 
-  private static final Logger log = Logger.getLogger(UndoManager.class);
-
-  protected List<TextEditActivity> expectedActivities = new LinkedList<TextEditActivity>();
-
   /**
    * Every IUndoableOperation has a label to classify it. Typing operations have this label - as
    * long as Eclipse doesn't change the label.
    */
   protected static final String TYPING_LABEL = "Typing";
-
+  private static final Logger log = Logger.getLogger(UndoManager.class);
+  protected List<TextEditActivity> expectedActivities = new LinkedList<TextEditActivity>();
   @Inject protected Preferences preferences;
 
   protected ISarosSessionManager sessionManager;
@@ -109,7 +107,35 @@ public class UndoManager extends AbstractActivityConsumer implements Disposable 
 
   /** The currentLocalAtomicOperation is the latest operation that was applied locally. */
   protected Operation currentLocalAtomicOperation = null;
+  public IOperationHistoryListener historyListener =
+      new IOperationHistoryListener() {
 
+        @Override
+        public void historyNotification(OperationHistoryEvent event) {
+
+          if (!enabled) return;
+
+          /*
+           * OPERATION_ADDED is triggered when Eclipse adds a new operation to
+           * its history. We do the same on this event.
+           */
+          if (event.getEventType() == OperationHistoryEvent.OPERATION_ADDED) {
+            storeCurrentLocalOperation();
+            updateCurrentLocalAtomicOperation(null);
+          }
+
+          /*
+           * OPERATION_CHANGED is triggered when Eclipse changes the operation
+           * that is recently added to its history. For example: Eclipse adds
+           * Insert(3,"A") to its operation and later on the user enters B at
+           * position 4. If Eclipse decides not to add a new Undo step it
+           * changes the most recent operation in history to Insert(3, "AB")
+           */
+          if (event.getEventType() == OperationHistoryEvent.OPERATION_CHANGED) {
+            updateCurrentLocalAtomicOperation(null);
+          }
+        }
+      };
   /**
    * The most important part of the undo integration. If an Undo/Redo is triggered the Eclipse
    * history consults all of its IOperationApprover whether the Undo / Redo may be applied. We veto
@@ -195,39 +221,6 @@ public class UndoManager extends AbstractActivityConsumer implements Disposable 
           return Status.OK_STATUS;
         }
       };
-
-  /**
-   * A NullOperation is an IUndoableOperation that can be executed, undone and redone without having
-   * any effect, except returning OK_STATUS.
-   */
-  protected static class NullOperation extends AbstractOperation {
-    /*
-     * The user shouldn't see a difference in the label between normal
-     * typing operations and NullOperations. But we should be able to
-     * distinguish them. So a single space is added to the typing label.
-     */
-    public static final String LABEL = TYPING_LABEL + " ";
-
-    public NullOperation() {
-      super(LABEL);
-    }
-
-    @Override
-    public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-      return Status.OK_STATUS;
-    }
-
-    @Override
-    public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-      return Status.OK_STATUS;
-    }
-
-    @Override
-    public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
-      return Status.OK_STATUS;
-    }
-  }
-
   /**
    * The UndoManager only works during a running Saros session. Otherwise the Eclipse UndoManager
    * has to manage Undos and Redos. This SessionListener enables and disables the UndoManager and
@@ -303,6 +296,28 @@ public class UndoManager extends AbstractActivityConsumer implements Disposable 
         }
       };
 
+  public UndoManager(ISarosSessionManager sessionManager, EditorManager editorManager) {
+
+    if (log.isDebugEnabled()) DefaultOperationHistory.DEBUG_OPERATION_HISTORY_APPROVAL = true;
+
+    OperationHistoryFactory.getOperationHistory().addOperationHistoryListener(historyListener);
+
+    sessionManager.addSessionLifecycleListener(sessionLifecycleListener);
+    this.sessionManager = sessionManager;
+
+    editorManager.addActivityListener(this.activityListener);
+    this.editorManager = editorManager;
+
+    editorManager.addSharedEditorListener(sharedEditorListener);
+  }
+
+  // just for testing
+  protected UndoManager() {
+    DefaultOperationHistory.DEBUG_OPERATION_HISTORY_APPROVAL = true;
+
+    OperationHistoryFactory.getOperationHistory().addOperationHistoryListener(historyListener);
+  }
+
   /** Updates the current local operation and adds remote operations to the undo history. */
   @Override
   public void receive(TextEditActivity textEditActivity) {
@@ -337,58 +352,6 @@ public class UndoManager extends AbstractActivityConsumer implements Disposable 
       updateCurrentLocalAtomicOperation(operation);
     }
     return;
-  }
-
-  public IOperationHistoryListener historyListener =
-      new IOperationHistoryListener() {
-
-        @Override
-        public void historyNotification(OperationHistoryEvent event) {
-
-          if (!enabled) return;
-
-          /*
-           * OPERATION_ADDED is triggered when Eclipse adds a new operation to
-           * its history. We do the same on this event.
-           */
-          if (event.getEventType() == OperationHistoryEvent.OPERATION_ADDED) {
-            storeCurrentLocalOperation();
-            updateCurrentLocalAtomicOperation(null);
-          }
-
-          /*
-           * OPERATION_CHANGED is triggered when Eclipse changes the operation
-           * that is recently added to its history. For example: Eclipse adds
-           * Insert(3,"A") to its operation and later on the user enters B at
-           * position 4. If Eclipse decides not to add a new Undo step it
-           * changes the most recent operation in history to Insert(3, "AB")
-           */
-          if (event.getEventType() == OperationHistoryEvent.OPERATION_CHANGED) {
-            updateCurrentLocalAtomicOperation(null);
-          }
-        }
-      };
-
-  public UndoManager(ISarosSessionManager sessionManager, EditorManager editorManager) {
-
-    if (log.isDebugEnabled()) DefaultOperationHistory.DEBUG_OPERATION_HISTORY_APPROVAL = true;
-
-    OperationHistoryFactory.getOperationHistory().addOperationHistoryListener(historyListener);
-
-    sessionManager.addSessionLifecycleListener(sessionLifecycleListener);
-    this.sessionManager = sessionManager;
-
-    editorManager.addActivityListener(this.activityListener);
-    this.editorManager = editorManager;
-
-    editorManager.addSharedEditorListener(sharedEditorListener);
-  }
-
-  // just for testing
-  protected UndoManager() {
-    DefaultOperationHistory.DEBUG_OPERATION_HISTORY_APPROVAL = true;
-
-    OperationHistoryFactory.getOperationHistory().addOperationHistoryListener(historyListener);
   }
 
   /** @return operation that reverts the effect of the latest local operation in the given editor */
@@ -490,7 +453,11 @@ public class UndoManager extends AbstractActivityConsumer implements Disposable 
 
     List<ITextOperation> textOps = activity.toOperation().getTextOperations();
 
-    IFile file = ((EclipseFileImpl) currentActiveEditor.getFile()).getDelegate();
+    IProject project = currentActiveEditor.getProject();
+
+    IFile file =
+        ((EclipseFileImpl) project.getFile(currentActiveEditor.getProjectRelativePath()))
+            .getDelegate();
 
     FileEditorInput input = new FileEditorInput(file);
     IDocumentProvider provider = EditorAPI.connect(input);
@@ -565,5 +532,37 @@ public class UndoManager extends AbstractActivityConsumer implements Disposable 
       currentLocalCompositeOperation =
           new SplitOperation(currentLocalCompositeOperation, currentLocalAtomicOperation);
     currentLocalAtomicOperation = newMRO;
+  }
+
+  /**
+   * A NullOperation is an IUndoableOperation that can be executed, undone and redone without having
+   * any effect, except returning OK_STATUS.
+   */
+  protected static class NullOperation extends AbstractOperation {
+    /*
+     * The user shouldn't see a difference in the label between normal
+     * typing operations and NullOperations. But we should be able to
+     * distinguish them. So a single space is added to the typing label.
+     */
+    public static final String LABEL = TYPING_LABEL + " ";
+
+    public NullOperation() {
+      super(LABEL);
+    }
+
+    @Override
+    public IStatus execute(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+      return Status.OK_STATUS;
+    }
+
+    @Override
+    public IStatus redo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+      return Status.OK_STATUS;
+    }
+
+    @Override
+    public IStatus undo(IProgressMonitor monitor, IAdaptable info) throws ExecutionException {
+      return Status.OK_STATUS;
+    }
   }
 }

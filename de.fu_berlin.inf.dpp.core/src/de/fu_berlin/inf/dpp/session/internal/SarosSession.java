@@ -844,7 +844,8 @@ public final class SarosSession implements ISarosSession {
 
     if (activity instanceof FileActivity) {
       FileActivity fileActivity = ((FileActivity) activity);
-      IFile file = fileActivity.getPath().getFile();
+
+      IFile file = project.getFile(fileActivity.getPath().getProjectRelativePath());
 
       switch (fileActivity.getType()) {
         case CREATED:
@@ -893,7 +894,7 @@ public final class SarosSession implements ISarosSession {
           break;
 
         case MOVED:
-          IFile oldFile = fileActivity.getOldPath().getFile();
+          IFile oldFile = project.getFile(fileActivity.getOldPath().getProjectRelativePath());
 
           if (!isShared(oldFile)) {
             log.error(

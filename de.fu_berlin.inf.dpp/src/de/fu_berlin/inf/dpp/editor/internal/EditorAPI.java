@@ -4,6 +4,7 @@ import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.editor.text.LineRange;
 import de.fu_berlin.inf.dpp.editor.text.TextSelection;
 import de.fu_berlin.inf.dpp.filesystem.EclipseFileImpl;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import de.fu_berlin.inf.dpp.ui.dialogs.WarningMessageDialog;
 import de.fu_berlin.inf.dpp.ui.util.SWTUtils;
@@ -99,7 +100,9 @@ public class EditorAPI {
    * @return the opened editor or <code>null</code> if the editor couldn't be opened.
    */
   public static IEditorPart openEditor(SPath path, boolean activate) {
-    IFile file = ((EclipseFileImpl) path.getFile()).getDelegate();
+    IProject project = path.getProject();
+
+    IFile file = ((EclipseFileImpl) project.getFile(path.getProjectRelativePath())).getDelegate();
 
     if (!file.exists()) {
       LOG.error("EditorAPI cannot open file which does not exist: " + file, new StackTrace());

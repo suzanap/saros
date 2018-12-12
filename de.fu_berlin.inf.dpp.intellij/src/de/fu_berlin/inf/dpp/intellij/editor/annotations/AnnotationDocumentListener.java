@@ -4,6 +4,7 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.intellij.editor.AbstractStoppableDocumentListener;
 import de.fu_berlin.inf.dpp.intellij.editor.EditorManager;
 import de.fu_berlin.inf.dpp.intellij.editor.ProjectAPI;
@@ -54,7 +55,8 @@ public class AnnotationDocumentListener extends AbstractStoppableDocumentListene
     String replacedText = event.getOldFragment().toString();
 
     if (!projectAPI.isOpen(document)) {
-      IFile file = path.getFile();
+      IProject project = path.getProject();
+      IFile file = project.getFile(path.getProjectRelativePath());
 
       int replacedTextLength = replacedText.length();
       if (replacedTextLength > 0) {

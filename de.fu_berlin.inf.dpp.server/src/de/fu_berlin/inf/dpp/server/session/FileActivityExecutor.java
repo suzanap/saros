@@ -3,6 +3,7 @@ package de.fu_berlin.inf.dpp.server.session;
 import de.fu_berlin.inf.dpp.activities.FileActivity;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.server.editor.ServerEditorManager;
 import de.fu_berlin.inf.dpp.session.AbstractActivityConsumer;
@@ -65,15 +66,19 @@ public class FileActivityExecutor extends AbstractActivityConsumer implements St
   }
 
   private void executeFileCreation(FileActivity activity) throws IOException {
-    IFile file = activity.getPath().getFile();
+    IProject project = activity.getPath().getProject();
+    IFile file = project.getFile(activity.getPath().getProjectRelativePath());
+
     file.create(new ByteArrayInputStream(activity.getContent()), true);
   }
 
   private void executeFileMove(FileActivity activity) throws IOException {
     SPath oldPath = activity.getOldPath();
-    IFile oldFile = oldPath.getFile();
+    IProject oldProject = oldPath.getProject();
+    IFile oldFile = oldProject.getFile(oldPath.getProjectRelativePath());
     SPath newPath = activity.getPath();
-    IFile newFile = newPath.getFile();
+    IProject newProject = newPath.getProject();
+    IFile newFile = newProject.getFile(newPath.getProjectRelativePath());
     oldFile.move(activity.getPath().getFullPath(), true);
     byte[] content = activity.getContent();
     if (content != null) {
@@ -85,7 +90,9 @@ public class FileActivityExecutor extends AbstractActivityConsumer implements St
 
   private void executeFileRemoval(FileActivity activity) throws IOException {
     SPath path = activity.getPath();
-    IFile file = path.getFile();
+    IProject project = path.getProject();
+
+    IFile file = project.getFile(path.getProjectRelativePath());
     editorManager.closeEditor(path);
     file.delete(IResource.NONE);
   }

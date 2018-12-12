@@ -9,6 +9,7 @@ import de.fu_berlin.inf.dpp.activities.TargetedFileActivity;
 import de.fu_berlin.inf.dpp.annotations.Component;
 import de.fu_berlin.inf.dpp.editor.IEditorManager;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.session.AbstractActivityConsumer;
 import de.fu_berlin.inf.dpp.session.AbstractActivityProducer;
 import de.fu_berlin.inf.dpp.session.IActivityConsumer;
@@ -49,6 +50,15 @@ public final class ConsistencyWatchdogHandler extends AbstractActivityProducer
         }
       };
 
+  public ConsistencyWatchdogHandler(
+      final ISarosSession session,
+      final IEditorManager editorManager,
+      final UISynchronizer synchronizer) {
+    this.session = session;
+    this.editorManager = editorManager;
+    this.synchronizer = synchronizer;
+  }
+
   @Override
   public void start() {
     session.addActivityConsumer(consumer, Priority.ACTIVE);
@@ -59,15 +69,6 @@ public final class ConsistencyWatchdogHandler extends AbstractActivityProducer
   public void stop() {
     session.removeActivityConsumer(consumer);
     session.removeActivityProducer(this);
-  }
-
-  public ConsistencyWatchdogHandler(
-      final ISarosSession session,
-      final IEditorManager editorManager,
-      final UISynchronizer synchronizer) {
-    this.session = session;
-    this.editorManager = editorManager;
-    this.synchronizer = synchronizer;
   }
 
   private void triggerRecovery(final ChecksumErrorActivity checksumError) {
@@ -160,7 +161,8 @@ public final class ConsistencyWatchdogHandler extends AbstractActivityProducer
    */
   private void recoverFile(final User from, final SPath path) {
 
-    final IFile file = path.getFile();
+    IProject project = path.getProject();
+    final IFile file = project.getFile(path.getProjectRelativePath());
 
     // Reset jupiter
     session.getConcurrentDocumentServer().reset(from, path);

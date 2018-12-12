@@ -8,6 +8,8 @@ import de.fu_berlin.inf.dpp.editor.AbstractSharedEditorListener;
 import de.fu_berlin.inf.dpp.editor.IEditorManager;
 import de.fu_berlin.inf.dpp.editor.ISharedEditorListener;
 import de.fu_berlin.inf.dpp.editor.remote.UserEditorStateManager;
+import de.fu_berlin.inf.dpp.filesystem.IFile;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.session.AbstractActivityProducer;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.synchronize.Blockable;
@@ -243,11 +245,13 @@ public class ConsistencyWatchdogServer extends AbstractActivityProducer
       documentChecksums.put(docPath, checksum);
     }
 
+    IProject project = docPath.getProject();
+    IFile file = project.getFile(docPath.getProjectRelativePath());
     /*
      * Ensures that the watchdog server doesn't use outdated checksums for
      * files that no longer exist locally.
      */
-    if (checksum.getHash() != DocumentChecksum.NOT_AVAILABLE && !docPath.getFile().exists()) {
+    if (checksum.getHash() != DocumentChecksum.NOT_AVAILABLE && !file.exists()) {
 
       LOG.debug(
           "Updating checksum for "

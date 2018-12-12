@@ -6,6 +6,8 @@ import de.fu_berlin.inf.dpp.activities.FileActivity;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.annotations.Component;
 import de.fu_berlin.inf.dpp.editor.IEditorManager;
+import de.fu_berlin.inf.dpp.filesystem.IFile;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.monitoring.IProgressMonitor;
 import de.fu_berlin.inf.dpp.monitoring.NullProgressMonitor;
 import de.fu_berlin.inf.dpp.monitoring.remote.RemoteProgressManager;
@@ -49,45 +51,20 @@ public class ConsistencyWatchdogClient extends AbstractActivityProducer implemen
   private static final Logger LOG = Logger.getLogger(ConsistencyWatchdogClient.class);
 
   private static final Random RANDOM = new Random();
-
+  private final IsInconsistentObservable inconsistencyToResolve;
+  private final IEditorManager editorManager;
+  private final Set<SPath> pathsWithWrongChecksums = new CopyOnWriteArraySet<SPath>();
+  private final RemoteProgressManager remoteProgressManager;
+  private final ISarosSession session;
   /**
    * boolean condition variable used to interrupt another thread from performing a recovery in
    * {@link #runRecovery}
    */
   private AtomicBoolean cancelRecovery = new AtomicBoolean();
-
   /** The number of files remaining in the current recovery session. */
   private AtomicInteger filesRemaining = new AtomicInteger();
-
   /** The id of the currently running recovery */
   private volatile String recoveryID;
-
-  /**
-   * Lock used exclusively in {@link #runRecovery} to prevent two recovery operations running
-   * concurrently.
-   */
-  private Lock lock = new ReentrantLock();
-
-  private final IsInconsistentObservable inconsistencyToResolve;
-
-  private final IEditorManager editorManager;
-
-  private final Set<SPath> pathsWithWrongChecksums = new CopyOnWriteArraySet<SPath>();
-
-  private final RemoteProgressManager remoteProgressManager;
-
-  private final ISarosSession session;
-
-  public ConsistencyWatchdogClient(
-      final ISarosSession session,
-      final IsInconsistentObservable inconsistencyToResolve,
-      final IEditorManager editorManager,
-      final RemoteProgressManager remoteProgressManager) {
-    this.session = session;
-    this.inconsistencyToResolve = inconsistencyToResolve;
-    this.editorManager = editorManager;
-    this.remoteProgressManager = remoteProgressManager;
-  }
 
   private final IActivityConsumer consumer =
       new AbstractActivityConsumer() {
@@ -118,6 +95,22 @@ public class ConsistencyWatchdogClient extends AbstractActivityProducer implemen
           }
         }
       };
+  /**
+   * Lock used exclusively in {@link #runRecovery} to prevent two recovery operations running
+   * concurrently.
+   */
+  private Lock lock = new ReentrantLock();
+
+  public ConsistencyWatchdogClient(
+      final ISarosSession session,
+      final IsInconsistentObservable inconsistencyToResolve,
+      final IEditorManager editorManager,
+      final RemoteProgressManager remoteProgressManager) {
+    this.session = session;
+    this.inconsistencyToResolve = inconsistencyToResolve;
+    this.editorManager = editorManager;
+    this.remoteProgressManager = remoteProgressManager;
+  }
 
   @Override
   public void start() {
@@ -255,8 +248,10 @@ public class ConsistencyWatchdogClient extends AbstractActivityProducer implemen
   private boolean isInconsistent(ChecksumActivity checksum) {
 
     final SPath path = checksum.getPath();
+    IProject project = path.getProject();
+    IFile file = project.getFile(path.getProjectRelativePath());
 
-    final boolean existsFileLocally = path.getFile().exists();
+    final boolean existsFileLocally = file.exists();
 
     if (!checksum.existsFile() && existsFileLocally) {
       /*

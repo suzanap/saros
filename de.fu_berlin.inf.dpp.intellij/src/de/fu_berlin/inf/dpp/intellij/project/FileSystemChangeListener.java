@@ -22,7 +22,9 @@ import de.fu_berlin.inf.dpp.activities.FolderCreatedActivity;
 import de.fu_berlin.inf.dpp.activities.FolderDeletedActivity;
 import de.fu_berlin.inf.dpp.activities.IActivity;
 import de.fu_berlin.inf.dpp.activities.SPath;
+import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.intellij.editor.AbstractStoppableListener;
 import de.fu_berlin.inf.dpp.intellij.editor.EditorManager;
 import de.fu_berlin.inf.dpp.intellij.editor.ProjectAPI;
@@ -292,7 +294,11 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
       editorManager.removeAllEditorsForPath(path);
 
-      annotationManager.removeAnnotations(path.getFile());
+      IProject project = path.getProject();
+
+      IFile file = project.getFile(path.getProjectRelativePath());
+
+      annotationManager.removeAnnotations(file);
     }
 
     fireActivity(activity);
@@ -580,7 +586,13 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
       editorManager.replaceAllEditorsForPath(oldFilePath, newFilePath);
 
-      annotationManager.updateAnnotationPath(oldFilePath.getFile(), newFilePath.getFile());
+      IProject oldProject = oldFilePath.getProject();
+      IProject newProject = newFilePath.getProject();
+
+      IFile oldSarosFile = oldProject.getFile(oldFilePath.getProjectRelativePath());
+      IFile newSarosFile = newProject.getFile(newFilePath.getProjectRelativePath());
+
+      annotationManager.updateAnnotationPath(oldSarosFile, newSarosFile);
 
     } else if (newPathIsShared) {
       // moved file into shared module
@@ -615,7 +627,11 @@ public class FileSystemChangeListener extends AbstractStoppableListener
 
       editorManager.removeAllEditorsForPath(oldFilePath);
 
-      annotationManager.removeAnnotations(oldFilePath.getFile());
+      IProject oldProject = oldFilePath.getProject();
+
+      IFile oldSarosFile = oldProject.getFile(oldFilePath.getProjectRelativePath());
+
+      annotationManager.removeAnnotations(oldSarosFile);
 
     } else {
       // neither source nor destination are shared

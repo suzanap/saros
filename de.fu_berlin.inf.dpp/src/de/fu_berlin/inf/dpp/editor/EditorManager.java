@@ -103,44 +103,49 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
    */
   private static final Logger LOG = Logger.getLogger(EditorManager.class);
 
-  boolean hasWriteAccess;
-
-  boolean isLocked;
-
-  private ISarosSession session;
-
-  private SharedEditorListenerDispatch editorListenerDispatch = new SharedEditorListenerDispatch();
-
   private final IPreferenceStore preferenceStore;
-
-  private UserEditorStateManager userEditorStateManager;
-
-  private RemoteWriteAccessManager remoteWriteAccessManager;
-
-  @Inject private FileReplacementInProgressObservable fileReplacementInProgressObservable;
-
   private final EditorPool editorPool;
-
   private final IPartListener2 partListener;
-
-  private SPath locallyActiveEditor;
-
-  private Set<SPath> openEditorPaths = new HashSet<SPath>();
-
-  private TextSelection localSelection;
-
-  private LineRange localViewport;
-
   /** all files that have connected document providers */
   private final Set<IFile> connectedFiles = new HashSet<IFile>();
 
+  private final CustomAnnotationManager customAnnotationManager = new CustomAnnotationManager();
+  boolean hasWriteAccess;
+  boolean isLocked;
+  private ISarosSession session;
+  private final Blockable stopManagerListener =
+      new Blockable() {
+        @Override
+        public void unblock() {
+          execute(false);
+        }
+
+        @Override
+        public void block() {
+          execute(true);
+        }
+
+        private void execute(final boolean lock) {
+          SWTUtils.runSafeSWTSync(
+              LOG,
+              new Runnable() {
+                @Override
+                public void run() {
+                  lockAllEditors(lock);
+                }
+              });
+        }
+      };
+  private SharedEditorListenerDispatch editorListenerDispatch = new SharedEditorListenerDispatch();
+  private UserEditorStateManager userEditorStateManager;
+  private RemoteWriteAccessManager remoteWriteAccessManager;
+  @Inject private FileReplacementInProgressObservable fileReplacementInProgressObservable;
+  private SPath locallyActiveEditor;
+  private Set<SPath> openEditorPaths = new HashSet<SPath>();
+  private TextSelection localSelection;
+  private LineRange localViewport;
   private AnnotationModelHelper annotationModelHelper;
   private LocationAnnotationManager locationAnnotationManager;
-  private ContributionAnnotationManager contributionAnnotationManager;
-  private FollowModeManager followModeManager;
-
-  private final CustomAnnotationManager customAnnotationManager = new CustomAnnotationManager();
-
   private final IPropertyChangeListener annotationPreferenceListener =
       new IPropertyChangeListener() {
         @Override
@@ -148,7 +153,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
           locationAnnotationManager.propertyChange(event, editorPool.getAllEditors());
         }
       };
-
+  private ContributionAnnotationManager contributionAnnotationManager;
   private final IActivityConsumer consumer =
       new AbstractActivityConsumer() {
         @Override
@@ -224,31 +229,6 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
           }
         }
       };
-
-  private final Blockable stopManagerListener =
-      new Blockable() {
-        @Override
-        public void unblock() {
-          execute(false);
-        }
-
-        @Override
-        public void block() {
-          execute(true);
-        }
-
-        private void execute(final boolean lock) {
-          SWTUtils.runSafeSWTSync(
-              LOG,
-              new Runnable() {
-                @Override
-                public void run() {
-                  lockAllEditors(lock);
-                }
-              });
-        }
-      };
-
   private final ISessionListener sessionListener =
       new AbstractSessionListener() {
 
@@ -342,7 +322,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
               });
         }
       };
-
+  private FollowModeManager followModeManager;
   private final ISessionLifecycleListener sessionLifecycleListener =
       new ISessionLifecycleListener() {
 
@@ -441,7 +421,9 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
   }
 
   private String doGetContent(SPath path) {
-    IFile file = ((EclipseFileImpl) path.getFile()).getDelegate();
+    IProject project = path.getProject();
+
+    IFile file = ((EclipseFileImpl) project.getFile(path.getProjectRelativePath())).getDelegate();
     FileEditorInput input = new FileEditorInput(file);
 
     IDocumentProvider provider = EditorAPI.connect(input);
@@ -679,7 +661,8 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
     LOG.trace(".execTextEdit invoked");
 
     SPath path = textEdit.getPath();
-    IFile file = ((EclipseFileImpl) path.getFile()).getDelegate();
+    IProject project = path.getProject();
+    IFile file = ((EclipseFileImpl) project.getFile(path.getProjectRelativePath())).getDelegate();
 
     if (!file.exists()) {
       LOG.error("TextEditActivity refers to file which" + " is not available locally: " + textEdit);
@@ -998,7 +981,8 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
    */
   private void replaceText(SPath path, int offset, String replacedText, String text, User source) {
 
-    IFile file = ((EclipseFileImpl) path.getFile()).getDelegate();
+    IProject project = path.getProject();
+    IFile file = ((EclipseFileImpl) project.getFile(path.getProjectRelativePath())).getDelegate();
     FileEditorInput input = new FileEditorInput(file);
     IDocumentProvider provider = EditorAPI.connect(input);
 
@@ -1098,7 +1082,8 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
    */
   private boolean isDirty(SPath path) throws FileNotFoundException {
 
-    IFile file = ((EclipseFileImpl) path.getFile()).getDelegate();
+    IProject project = path.getProject();
+    IFile file = ((EclipseFileImpl) project.getFile(path.getProjectRelativePath())).getDelegate();
 
     if (file == null || !file.exists()) {
       throw new FileNotFoundException("File not found: " + path);
@@ -1126,7 +1111,8 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
   public void saveEditor(SPath path) {
     checkThreadAccess();
 
-    IFile file = ((EclipseFileImpl) path.getFile()).getDelegate();
+    IProject project = path.getProject();
+    IFile file = ((EclipseFileImpl) project.getFile(path.getProjectRelativePath())).getDelegate();
 
     LOG.trace(".saveEditor (" + file.getName() + ") invoked");
 

@@ -4,6 +4,7 @@ import de.fu_berlin.inf.dpp.activities.FileActivity;
 import de.fu_berlin.inf.dpp.activities.IActivity;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.editor.EditorManager;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import de.fu_berlin.inf.dpp.session.AbstractActivityConsumer;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
@@ -33,6 +34,69 @@ public class FileActivityConsumer extends AbstractActivityConsumer implements St
     this.session = session;
     this.resourceChangeListener = resourceChangeListener;
     this.editorManager = editorManager;
+  }
+
+  /**
+   * Updates encoding of a file. A best effort is made to use the inherited encoding if available.
+   * Does nothing if the file does not exist or the encoding to set is <code>null</code>
+   *
+   * @param encoding the encoding that should be used
+   * @param file the file to update
+   * @throws CoreException if setting the encoding failed
+   */
+  private static void updateFileEncoding(final String encoding, final IFile file)
+      throws CoreException {
+
+    if (encoding == null) return;
+
+    if (!file.exists()) return;
+
+    try {
+      Charset.forName(encoding);
+    } catch (Exception e) {
+      LOG.warn(
+          "encoding " + encoding + " for file " + file + " is not available on this platform", e);
+      return;
+    }
+
+    String projectEncoding = null;
+    String fileEncoding = null;
+
+    try {
+      projectEncoding = file.getProject().getDefaultCharset();
+    } catch (CoreException e) {
+      LOG.warn("could not determine project encoding for project " + file.getProject(), e);
+    }
+
+    try {
+      fileEncoding = file.getCharset();
+    } catch (CoreException e) {
+      LOG.warn("could not determine file encoding for file " + file, e);
+    }
+
+    if (encoding.equals(fileEncoding)) {
+      LOG.debug("encoding does not need to be changed for file: " + file);
+      return;
+    }
+
+    // use inherited encoding if possible
+    if (encoding.equals(projectEncoding)) {
+      LOG.debug(
+          "changing encoding for file "
+              + file
+              + " to use default project encoding: "
+              + projectEncoding);
+      file.setCharset(null, new NullProgressMonitor());
+      return;
+    }
+
+    LOG.debug("changing encoding for file " + file + " to encoding: " + encoding);
+
+    file.setCharset(encoding, new NullProgressMonitor());
+  }
+
+  private static IFile toEclipseIFile(de.fu_berlin.inf.dpp.filesystem.IFile file) {
+    return (IFile) ResourceAdapterFactory.convertBack(file);
   }
 
   @Override
@@ -127,9 +191,14 @@ public class FileActivityConsumer extends AbstractActivityConsumer implements St
 
   private void handleFileMove(FileActivity activity) throws CoreException {
 
-    final IFile fileDestination = toEclipseIFile(activity.getPath().getFile());
+    IProject project = activity.getPath().getProject();
+    final IFile fileDestination =
+        toEclipseIFile(project.getFile(activity.getPath().getProjectRelativePath()));
 
-    final IFile fileToMove = toEclipseIFile(activity.getOldPath().getFile());
+    IProject oldProject = activity.getOldPath().getProject();
+
+    final IFile fileToMove =
+        toEclipseIFile(oldProject.getFile(activity.getOldPath().getProjectRelativePath()));
 
     FileUtils.mkdirs(fileDestination);
 
@@ -141,14 +210,16 @@ public class FileActivityConsumer extends AbstractActivityConsumer implements St
   }
 
   private void handleFileDeletion(FileActivity activity) throws CoreException {
-    final IFile file = toEclipseIFile(activity.getPath().getFile());
+    IProject project = activity.getPath().getProject();
+    final IFile file = toEclipseIFile(project.getFile(activity.getPath().getProjectRelativePath()));
 
     if (file.exists()) FileUtils.delete(file);
     else LOG.warn("could not delete file " + file + " because it does not exist");
   }
 
   private void handleFileCreation(FileActivity activity) throws CoreException {
-    final IFile file = toEclipseIFile(activity.getPath().getFile());
+    IProject project = activity.getPath().getProject();
+    final IFile file = toEclipseIFile(project.getFile(activity.getPath().getProjectRelativePath()));
 
     final String encoding = activity.getEncoding();
     final byte[] newContent = activity.getContent();
@@ -164,68 +235,5 @@ public class FileActivityConsumer extends AbstractActivityConsumer implements St
     }
 
     if (encoding != null) updateFileEncoding(encoding, file);
-  }
-
-  /**
-   * Updates encoding of a file. A best effort is made to use the inherited encoding if available.
-   * Does nothing if the file does not exist or the encoding to set is <code>null</code>
-   *
-   * @param encoding the encoding that should be used
-   * @param file the file to update
-   * @throws CoreException if setting the encoding failed
-   */
-  private static void updateFileEncoding(final String encoding, final IFile file)
-      throws CoreException {
-
-    if (encoding == null) return;
-
-    if (!file.exists()) return;
-
-    try {
-      Charset.forName(encoding);
-    } catch (Exception e) {
-      LOG.warn(
-          "encoding " + encoding + " for file " + file + " is not available on this platform", e);
-      return;
-    }
-
-    String projectEncoding = null;
-    String fileEncoding = null;
-
-    try {
-      projectEncoding = file.getProject().getDefaultCharset();
-    } catch (CoreException e) {
-      LOG.warn("could not determine project encoding for project " + file.getProject(), e);
-    }
-
-    try {
-      fileEncoding = file.getCharset();
-    } catch (CoreException e) {
-      LOG.warn("could not determine file encoding for file " + file, e);
-    }
-
-    if (encoding.equals(fileEncoding)) {
-      LOG.debug("encoding does not need to be changed for file: " + file);
-      return;
-    }
-
-    // use inherited encoding if possible
-    if (encoding.equals(projectEncoding)) {
-      LOG.debug(
-          "changing encoding for file "
-              + file
-              + " to use default project encoding: "
-              + projectEncoding);
-      file.setCharset(null, new NullProgressMonitor());
-      return;
-    }
-
-    LOG.debug("changing encoding for file " + file + " to encoding: " + encoding);
-
-    file.setCharset(encoding, new NullProgressMonitor());
-  }
-
-  private static IFile toEclipseIFile(de.fu_berlin.inf.dpp.filesystem.IFile file) {
-    return (IFile) ResourceAdapterFactory.convertBack(file);
   }
 }

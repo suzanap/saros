@@ -181,6 +181,10 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
           SPath path = editorActivity.getPath();
 
+          IProject project = path.getProject();
+
+          IFile file = project.getFile(path.getProjectRelativePath());
+
           if (path == null) {
             return;
           }
@@ -193,7 +197,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
           localEditorManipulator.applyTextOperations(path, operation);
 
-          adjustAnnotationsAfterEdit(user, path.getFile(), editorPool.getEditor(path), operation);
+          adjustAnnotationsAfterEdit(user, file, editorPool.getEditor(path), operation);
 
           editorListenerDispatch.textEdited(editorActivity);
         }
@@ -252,7 +256,9 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
             return;
           }
 
-          IFile file = path.getFile();
+          IProject project = path.getProject();
+
+          IFile file = project.getFile(path.getProjectRelativePath());
 
           LOG.debug("Text selection activity received: " + path + ", " + selection);
 
@@ -287,6 +293,79 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
   private SelectionEvent localSelection;
   private LineRange localViewport;
   private SPath activeEditor;
+  private final ISessionLifecycleListener sessionLifecycleListener =
+      new ISessionLifecycleListener() {
+
+        @Override
+        public void sessionStarted(ISarosSession newSarosSession) {
+          startSession(newSarosSession);
+        }
+
+        @Override
+        public void sessionEnded(ISarosSession oldSarosSession, SessionEndReason reason) {
+
+          assert session == oldSarosSession;
+          session.getStopManager().removeBlockable(stopManagerListener); // todo
+
+          executeInUIThreadSynchronous(
+              new Runnable() {
+                @Override
+                public void run() {
+                  endSession();
+                }
+              });
+        }
+
+        private void startSession(ISarosSession newSarosSession) {
+          assert editorPool.getEditors().isEmpty() : "EditorPool was not correctly reset!";
+
+          session = newSarosSession;
+          session.getStopManager().addBlockable(stopManagerListener);
+
+          hasWriteAccess = session.hasWriteAccess();
+          session.addListener(sessionListener);
+
+          session.addActivityProducer(EditorManager.this);
+          session.addActivityConsumer(consumer, Priority.ACTIVE);
+
+          documentListener.setEnabled(true);
+          annotationDocumentListener.setEnabled(true);
+
+          userEditorStateManager = session.getComponent(UserEditorStateManager.class);
+          remoteWriteAccessManager = new RemoteWriteAccessManager(session);
+
+          // TODO: Test, whether this leads to problems because it is not called
+          // from the UI thread.
+          LocalFileSystem.getInstance().refresh(true);
+
+          referencePointManager = session.getComponent(IReferencePointManager.class);
+        }
+
+        private void endSession() {
+          annotationManager.removeAllAnnotations();
+
+          setFollowing(null);
+
+          // This sets all editors, that were set to read only, writeable
+          // again
+          unlockAllEditors();
+          editorPool.clear();
+
+          session.removeListener(sessionListener);
+          session.removeActivityProducer(EditorManager.this);
+          session.removeActivityConsumer(consumer);
+
+          documentListener.setEnabled(false);
+          annotationDocumentListener.setEnabled(false);
+
+          session = null;
+
+          userEditorStateManager = null;
+          remoteWriteAccessManager.dispose();
+          remoteWriteAccessManager = null;
+          activeEditor = null;
+        }
+      };
   private ProjectAPI projectAPI;
   private final ISessionListener sessionListener =
       new AbstractSessionListener() {
@@ -365,79 +444,6 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
                     }
                   },
                   ModalityState.defaultModalityState());
-        }
-      };
-  private final ISessionLifecycleListener sessionLifecycleListener =
-      new ISessionLifecycleListener() {
-
-        @Override
-        public void sessionStarted(ISarosSession newSarosSession) {
-          startSession(newSarosSession);
-        }
-
-        @Override
-        public void sessionEnded(ISarosSession oldSarosSession, SessionEndReason reason) {
-
-          assert session == oldSarosSession;
-          session.getStopManager().removeBlockable(stopManagerListener); // todo
-
-          executeInUIThreadSynchronous(
-              new Runnable() {
-                @Override
-                public void run() {
-                  endSession();
-                }
-              });
-        }
-
-        private void startSession(ISarosSession newSarosSession) {
-          assert editorPool.getEditors().isEmpty() : "EditorPool was not correctly reset!";
-
-          session = newSarosSession;
-          session.getStopManager().addBlockable(stopManagerListener);
-
-          hasWriteAccess = session.hasWriteAccess();
-          session.addListener(sessionListener);
-
-          session.addActivityProducer(EditorManager.this);
-          session.addActivityConsumer(consumer, Priority.ACTIVE);
-
-          documentListener.setEnabled(true);
-          annotationDocumentListener.setEnabled(true);
-
-          userEditorStateManager = session.getComponent(UserEditorStateManager.class);
-          remoteWriteAccessManager = new RemoteWriteAccessManager(session);
-
-          // TODO: Test, whether this leads to problems because it is not called
-          // from the UI thread.
-          LocalFileSystem.getInstance().refresh(true);
-
-          referencePointManager = session.getComponent(IReferencePointManager.class);
-        }
-
-        private void endSession() {
-          annotationManager.removeAllAnnotations();
-
-          setFollowing(null);
-
-          // This sets all editors, that were set to read only, writeable
-          // again
-          unlockAllEditors();
-          editorPool.clear();
-
-          session.removeListener(sessionListener);
-          session.removeActivityProducer(EditorManager.this);
-          session.removeActivityConsumer(consumer);
-
-          documentListener.setEnabled(false);
-          annotationDocumentListener.setEnabled(false);
-
-          session = null;
-
-          userEditorStateManager = null;
-          remoteWriteAccessManager.dispose();
-          remoteWriteAccessManager = null;
-          activeEditor = null;
         }
       };
 

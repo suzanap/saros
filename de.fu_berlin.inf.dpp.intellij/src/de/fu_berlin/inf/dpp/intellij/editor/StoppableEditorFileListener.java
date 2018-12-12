@@ -9,6 +9,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.messages.MessageBusConnection;
 import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
+import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.intellij.editor.annotations.AnnotationManager;
 import de.fu_berlin.inf.dpp.intellij.filesystem.VirtualFileConverter;
 import de.fu_berlin.inf.dpp.intellij.session.SessionUtils;
@@ -54,7 +55,10 @@ public class StoppableEditorFileListener extends AbstractStoppableListener
     SPath sPath = VirtualFileConverter.convertToSPath(virtualFile);
 
     if (sPath != null && SessionUtils.isShared(sPath) && editor != null) {
-      annotationManager.applyStoredAnnotations(sPath.getFile(), editor);
+      IProject project = sPath.getProject();
+      IFile file = project.getFile(project.getProjectRelativePath());
+
+      annotationManager.applyStoredAnnotations(file, editor);
     }
   }
 
@@ -128,7 +132,9 @@ public class StoppableEditorFileListener extends AbstractStoppableListener
       SPath sPath = VirtualFileConverter.convertToSPath(virtualFile);
 
       if (sPath != null && SessionUtils.isShared(sPath)) {
-        IFile file = sPath.getFile();
+        IProject project = sPath.getProject();
+
+        IFile file = project.getFile(sPath.getProjectRelativePath());
 
         annotationManager.updateAnnotationStore(file);
         annotationManager.removeLocalRepresentation(file);
