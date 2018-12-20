@@ -18,6 +18,7 @@ import de.fu_berlin.inf.dpp.server.dummies.NullRemoteProgressIndicatorFactory;
 import de.fu_berlin.inf.dpp.server.filesystem.ServerPathFactoryImpl;
 import de.fu_berlin.inf.dpp.server.filesystem.ServerPathImpl;
 import de.fu_berlin.inf.dpp.server.filesystem.ServerWorkspaceImpl;
+import de.fu_berlin.inf.dpp.server.net.ServerFeatureAdvertiser;
 import de.fu_berlin.inf.dpp.server.net.SubscriptionAuthorizer;
 import de.fu_berlin.inf.dpp.server.preferences.PersistencePreferenceStore;
 import de.fu_berlin.inf.dpp.server.preferences.ServerPreferences;
@@ -89,6 +90,7 @@ public class ServerContextFactory extends AbstractContextFactory {
     c.addComponent(SubscriptionAuthorizer.class);
     c.addComponent(NegotiationHandler.class);
     c.addComponent(JoinSessionRequestHandler.class);
+    c.addComponent(ServerFeatureAdvertiser.class);
     if (ServerConfig.isInteractive()) {
       c.addComponent(new ServerConsole(System.in, System.out));
       c.addComponent(InviteCommand.class);
