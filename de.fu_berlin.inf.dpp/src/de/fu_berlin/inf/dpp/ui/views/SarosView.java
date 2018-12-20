@@ -1,10 +1,12 @@
 package de.fu_berlin.inf.dpp.ui.views;
 
+import de.fu_berlin.inf.dpp.SarosConstants;
 import de.fu_berlin.inf.dpp.SarosPluginContext;
 import de.fu_berlin.inf.dpp.annotations.Component;
 import de.fu_berlin.inf.dpp.editor.EditorManager;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
 import de.fu_berlin.inf.dpp.net.xmpp.XMPPConnectionService;
+import de.fu_berlin.inf.dpp.net.xmpp.discovery.DiscoveryManager;
 import de.fu_berlin.inf.dpp.net.xmpp.roster.IRosterListener;
 import de.fu_berlin.inf.dpp.net.xmpp.roster.RosterTracker;
 import de.fu_berlin.inf.dpp.preferences.EclipsePreferenceConstants;
@@ -30,6 +32,7 @@ import de.fu_berlin.inf.dpp.ui.actions.OpenChatAction;
 import de.fu_berlin.inf.dpp.ui.actions.OpenPreferencesAction;
 import de.fu_berlin.inf.dpp.ui.actions.RemoveUserAction;
 import de.fu_berlin.inf.dpp.ui.actions.RenameContactAction;
+import de.fu_berlin.inf.dpp.ui.actions.RequestSessionInviteAction;
 import de.fu_berlin.inf.dpp.ui.actions.SendFileAction;
 import de.fu_berlin.inf.dpp.ui.actions.SkypeAction;
 import de.fu_berlin.inf.dpp.ui.model.roster.RosterEntryElement;
@@ -232,6 +235,8 @@ public class SarosView extends ViewPart {
   @Inject protected RosterTracker rosterTracker;
 
   @Inject protected XMPPConnectionService connectionService;
+
+  @Inject protected DiscoveryManager discoveryManager;
 
   private static volatile boolean showBalloonNotifications;
 
@@ -441,6 +446,13 @@ public class SarosView extends ViewPart {
              * version 14.1.31)
              */
             // manager.add(getAction(SkypeAction.class));
+
+            // TODO: Replace Server check once other implementations support JoinSessionRequests
+            if (contacts.size() == 1
+                && discoveryManager.isFeatureSupported(
+                    contacts.get(0), SarosConstants.NAMESPACE_SERVER)) {
+              manager.add(getAction(RequestSessionInviteAction.ACTION_ID));
+            }
             manager.add(new Separator());
             manager.add(getAction(OpenChatAction.ACTION_ID));
             manager.add(getAction(SendFileAction.ACTION_ID));
@@ -670,6 +682,7 @@ public class SarosView extends ViewPart {
     registerAction(new SendFileAction());
     registerAction(new ChangeColorAction());
     registerAction(new RemoveUserAction());
+    registerAction(new RequestSessionInviteAction());
 
     // ContextMenus Roster/Contact list
     registerAction(new SkypeAction());
