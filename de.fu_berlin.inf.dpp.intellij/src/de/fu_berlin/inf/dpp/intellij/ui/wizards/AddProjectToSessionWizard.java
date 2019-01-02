@@ -17,6 +17,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ui.UIUtil;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.intellij.editor.ProjectAPI;
 import de.fu_berlin.inf.dpp.intellij.filesystem.Filesystem;
@@ -40,6 +41,7 @@ import de.fu_berlin.inf.dpp.negotiation.NegotiationTools;
 import de.fu_berlin.inf.dpp.negotiation.ProjectNegotiation;
 import de.fu_berlin.inf.dpp.negotiation.ProjectNegotiationData;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
+import de.fu_berlin.inf.dpp.session.IReferencePointManager;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
 import de.fu_berlin.inf.dpp.session.ISarosSessionManager;
 import de.fu_berlin.inf.dpp.util.ThreadUtils;
@@ -445,6 +447,10 @@ public class AddProjectToSessionWizard extends Wizard {
     if (triggered) return;
 
     triggered = true;
+    IReferencePointManager ref = sessionManager.getSession().getComponent(IReferencePointManager.class);
+    for (IProject project : localProjects.values()) {
+        fillReferencePointManager(project, ref);
+    }
 
     ProgressManager.getInstance()
         .run(
@@ -590,9 +596,15 @@ public class AddProjectToSessionWizard extends Wizard {
 
         if (data.isPartial()) throw new IllegalStateException("partial sharing is not supported");
 
+        IReferencePointManager referencePointManager =
+            session.getComponent(IReferencePointManager.class);
+
+        fillReferencePointManager(project, referencePointManager);
+
         FileList localFileList =
             FileListFactory.createFileList(
-                project,
+                referencePointManager,
+                project.getReferencePoint(),
                 null,
                 checksumCache,
                 new SubProgressMonitor(monitor, 1, SubProgressMonitor.SUPPRESS_SETTASKNAME));
@@ -613,5 +625,11 @@ public class AddProjectToSessionWizard extends Wizard {
       }
     }
     return modifiedResources;
+  }
+
+  private void fillReferencePointManager(
+      de.fu_berlin.inf.dpp.filesystem.IProject project,
+      IReferencePointManager referencePointManager) {
+    referencePointManager.put(project.getReferencePoint(), project);
   }
 }

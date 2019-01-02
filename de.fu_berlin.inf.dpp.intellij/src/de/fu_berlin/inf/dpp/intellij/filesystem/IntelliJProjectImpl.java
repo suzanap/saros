@@ -70,7 +70,9 @@ public final class IntelliJProjectImpl extends IntelliJResourceImpl implements I
 
     moduleRoot = getModuleContentRoot(module);
 
-    this.referencePoint = new IntelliJReferencePointImpl((IntelliJPathImpl) this.getLocation());
+    this.referencePoint =
+        new IntelliJReferencePointImpl(
+            (IntelliJPathImpl) IntelliJPathImpl.fromString(moduleRoot.getPath()));
 
     checkIfContentRootLocatedBelowProjectRoot(module, moduleRoot);
     checkIfModuleFileLocatedInContentRoot(module, moduleRoot);
