@@ -195,7 +195,23 @@ public final class SarosSession implements ISarosSession {
   /** Constructor for host. */
   public SarosSession(
       final String id, IPreferenceStore properties, IContainerContext containerContext) {
-    this(id, containerContext, properties, /* unused */ null, /* unused */ null);
+    this(id, containerContext, properties, /* unused */ null, /* unused */ null, null);
+  }
+
+  // FIXME those parameter passing feels strange, find a better way
+  /** Constructor for host. */
+  public SarosSession(
+      final String id,
+      IPreferenceStore properties,
+      IContainerContext containerContext,
+      IReferencePointManager referencePointManager) {
+    this(
+        id,
+        containerContext,
+        properties, /* unused */
+        null, /* unused */
+        null,
+        referencePointManager);
   }
 
   /** Constructor for client. */
@@ -205,7 +221,7 @@ public final class SarosSession implements ISarosSession {
       IPreferenceStore localProperties,
       IPreferenceStore hostProperties,
       IContainerContext containerContext) {
-    this(id, containerContext, localProperties, hostJID, hostProperties);
+    this(id, containerContext, localProperties, hostJID, hostProperties, null);
   }
 
   private SarosSession(
@@ -213,7 +229,8 @@ public final class SarosSession implements ISarosSession {
       IContainerContext context,
       IPreferenceStore localProperties,
       JID host,
-      IPreferenceStore hostProperties) {
+      IPreferenceStore hostProperties,
+      IReferencePointManager referencePointManager) {
 
     context.initComponent(this);
 
@@ -221,6 +238,8 @@ public final class SarosSession implements ISarosSession {
     this.sharedReferencePointMapper = new SharedReferencePointMapper();
     this.activityQueuer = new ActivityQueuer();
     this.containerContext = context;
+
+    if (referencePointManager == null) referencePointManager = new ReferencePointManager();
 
     // FIXME that should be passed in !
     JID localUserJID = connectionService.getJID();
@@ -251,7 +270,7 @@ public final class SarosSession implements ISarosSession {
     sessionContainer = context.createChildContainer();
     sessionContainer.addComponent(ISarosSession.class, this);
     sessionContainer.addComponent(IActivityHandlerCallback.class, activityCallback);
-    sessionContainer.addComponent(IReferencePointManager.class, new ReferencePointManager());
+    sessionContainer.addComponent(IReferencePointManager.class, referencePointManager);
     ISarosSessionContextFactory factory = context.getComponent(ISarosSessionContextFactory.class);
     factory.createComponents(this, sessionContainer);
 
@@ -273,8 +292,6 @@ public final class SarosSession implements ISarosSession {
     activitySequencer = sessionContainer.getComponent(ActivitySequencer.class);
 
     userListHandler = sessionContainer.getComponent(UserInformationHandler.class);
-
-    referencePointManager = sessionContainer.getComponent(IReferencePointManager.class);
 
     // ensure that the container uses caching
     assert sessionContainer.getComponent(ActivityHandler.class)
