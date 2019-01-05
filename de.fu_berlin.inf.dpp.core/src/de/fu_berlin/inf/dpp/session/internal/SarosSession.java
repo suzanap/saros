@@ -33,6 +33,7 @@ import de.fu_berlin.inf.dpp.concurrent.management.ConcurrentDocumentServer;
 import de.fu_berlin.inf.dpp.context.IContainerContext;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
+import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
@@ -862,7 +863,7 @@ public final class SarosSession implements ISarosSession {
 
     if (activity instanceof FileActivity) {
       FileActivity fileActivity = ((FileActivity) activity);
-      IFile file = fileActivity.getPath().getFile();
+      IFile file = project.getFile(fileActivity.getPath().getProjectRelativePath());
 
       switch (fileActivity.getType()) {
         case CREATED:
@@ -911,7 +912,10 @@ public final class SarosSession implements ISarosSession {
           break;
 
         case MOVED:
-          IFile oldFile = fileActivity.getOldPath().getFile();
+          IReferencePoint oldReferencePoint = fileActivity.getOldPath().getReferencePoint();
+          IPath oldReferencePointRelativePath = fileActivity.getOldPath().getProjectRelativePath();
+          IFile oldFile =
+              referencePointManager.get(oldReferencePoint).getFile(oldReferencePointRelativePath);
 
           if (!isShared(oldFile)) {
             log.error(
