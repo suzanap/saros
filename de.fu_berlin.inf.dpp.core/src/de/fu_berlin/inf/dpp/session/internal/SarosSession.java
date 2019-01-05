@@ -848,7 +848,9 @@ public final class SarosSession implements ISarosSession {
 
   private boolean updatePartialSharedResources(final IFileSystemModificationActivity activity) {
 
-    final IProject project = activity.getPath().getProject();
+    IReferencePointManager referencePointManager = getComponent(IReferencePointManager.class);
+
+    final IProject project = referencePointManager.get(activity.getPath().getReferencePoint());
 
     /*
      * The follow 'if check' assumes that move operations where at least one
