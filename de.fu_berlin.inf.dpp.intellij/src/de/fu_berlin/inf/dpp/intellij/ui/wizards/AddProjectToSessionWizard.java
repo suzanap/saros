@@ -22,6 +22,7 @@ import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.intellij.editor.ProjectAPI;
 import de.fu_berlin.inf.dpp.intellij.filesystem.Filesystem;
 import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJProjectImpl;
+import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJReferencePointManager;
 import de.fu_berlin.inf.dpp.intellij.ui.Messages;
 import de.fu_berlin.inf.dpp.intellij.ui.util.NotificationPanel;
 import de.fu_berlin.inf.dpp.intellij.ui.widgets.progress.ProgessMonitorAdapter;
@@ -100,6 +101,8 @@ public class AddProjectToSessionWizard extends Wizard {
   @Inject private IWorkspace workspace;
 
   @Inject private ProjectAPI projectAPI;
+
+  @Inject private IntelliJReferencePointManager intelliJReferencePointManager;
 
   private final SelectProjectPage selectProjectPage;
   private final TextAreaPage fileListPage;
@@ -639,5 +642,9 @@ public class AddProjectToSessionWizard extends Wizard {
       de.fu_berlin.inf.dpp.filesystem.IProject project,
       IReferencePointManager referencePointManager) {
     referencePointManager.put(project.getReferencePoint(), project);
+
+    IntelliJProjectImpl intelliJProject = (IntelliJProjectImpl) project;
+
+    intelliJReferencePointManager.put(intelliJProject.getModule());
   }
 }
