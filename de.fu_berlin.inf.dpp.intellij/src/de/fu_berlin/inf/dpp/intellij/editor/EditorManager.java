@@ -31,6 +31,7 @@ import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
+import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.intellij.editor.annotations.AnnotationManager;
 import de.fu_berlin.inf.dpp.intellij.editor.annotations.LocalClosedEditorModificationHandler;
 import de.fu_berlin.inf.dpp.intellij.filesystem.Filesystem;
@@ -642,7 +643,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
     activeEditor = path;
 
-    if (path == null || session.isShared(path.getResource())) {
+    if (path == null || session.isShared(getResource(path))) {
       editorListenerDispatch.editorActivated(session.getLocalUser(), path);
 
       fireActivity(new EditorActivity(session.getLocalUser(), EditorActivity.Type.ACTIVATED, path));
@@ -847,7 +848,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
       return false;
     }
 
-    return session.isShared(editorFilePath.getResource());
+    return session.isShared(getResource(editorFilePath));
   }
 
   boolean isDocumentModificationHandlerEnabled() {
@@ -1000,5 +1001,15 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
         intelliJReferencePointManager.getResource(referencePoint, referencePointRelativePath);
 
     return (IFile) VirtualFileConverter.convertToResource(virtualFile);
+  }
+
+  private IResource getResource(SPath path) {
+    IReferencePoint referencePoint = path.getReferencePoint();
+    IPath referencePointRelativePath = path.getProjectRelativePath();
+
+    VirtualFile virtualFile =
+        intelliJReferencePointManager.getResource(referencePoint, referencePointRelativePath);
+
+    return VirtualFileConverter.convertToResource(virtualFile);
   }
 }
