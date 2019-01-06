@@ -195,7 +195,7 @@ class LocalEditorStatusChangeHandler implements DisableableHandler {
 
   private IFile getFile(SPath path) {
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelativePath = path.getProjectRelativePath();
+    IPath referencePointRelativePath = path.getReferencePointRelativePath();
 
     VirtualFile virtualFile =
         intelliJReferencePointManager.getResource(referencePoint, referencePointRelativePath);

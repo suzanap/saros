@@ -24,7 +24,6 @@ import de.fu_berlin.inf.dpp.editor.remote.EditorState;
 import de.fu_berlin.inf.dpp.editor.remote.UserEditorStateManager;
 import de.fu_berlin.inf.dpp.editor.text.LineRange;
 import de.fu_berlin.inf.dpp.editor.text.TextSelection;
-import de.fu_berlin.inf.dpp.filesystem.EclipseFileImpl;
 import de.fu_berlin.inf.dpp.filesystem.EclipseReferencePointManager;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
@@ -448,7 +447,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
   private String doGetContent(SPath path) {
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelative = path.getProjectRelativePath();
+    IPath referencePointRelative = path.getReferencePointRelativePath();
 
     IFile file =
         eclipseReferencePointManager.getFile(
@@ -692,7 +691,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
     SPath path = textEdit.getPath();
 
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelative = path.getProjectRelativePath();
+    IPath referencePointRelative = path.getReferencePointRelativePath();
 
     IFile file =
         eclipseReferencePointManager.getFile(
@@ -1016,7 +1015,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
   private void replaceText(SPath path, int offset, String replacedText, String text, User source) {
 
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelative = path.getProjectRelativePath();
+    IPath referencePointRelative = path.getReferencePointRelativePath();
 
     IFile file =
         eclipseReferencePointManager.getFile(
@@ -1122,7 +1121,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
   private boolean isDirty(SPath path) throws FileNotFoundException {
 
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelative = path.getProjectRelativePath();
+    IPath referencePointRelative = path.getReferencePointRelativePath();
 
     IFile file =
         eclipseReferencePointManager.getFile(
@@ -1155,7 +1154,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
     checkThreadAccess();
 
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelative = path.getProjectRelativePath();
+    IPath referencePointRelative = path.getReferencePointRelativePath();
 
     IFile file =
         eclipseReferencePointManager.getFile(
@@ -1755,7 +1754,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
   private de.fu_berlin.inf.dpp.filesystem.IResource getResource(SPath path) {
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelativePath = path.getProjectRelativePath();
+    IPath referencePointRelativePath = path.getReferencePointRelativePath();
 
     return ResourceAdapterFactory.create(
         eclipseReferencePointManager.getResource(

@@ -995,7 +995,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
   private IFile getFile(SPath path) {
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelativePath = path.getProjectRelativePath();
+    IPath referencePointRelativePath = path.getReferencePointRelativePath();
 
     VirtualFile virtualFile =
         intelliJReferencePointManager.getResource(referencePoint, referencePointRelativePath);
@@ -1005,7 +1005,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
   private IResource getResource(SPath path) {
     IReferencePoint referencePoint = path.getReferencePoint();
-    IPath referencePointRelativePath = path.getProjectRelativePath();
+    IPath referencePointRelativePath = path.getReferencePointRelativePath();
 
     VirtualFile virtualFile =
         intelliJReferencePointManager.getResource(referencePoint, referencePointRelativePath);

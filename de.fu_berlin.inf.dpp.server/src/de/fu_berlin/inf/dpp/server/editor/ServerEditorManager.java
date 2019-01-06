@@ -12,8 +12,6 @@ import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.server.filesystem.ServerFileImpl;
-import de.fu_berlin.inf.dpp.server.filesystem.ServerReferencePointManager;
-import de.fu_berlin.inf.dpp.server.filesystem.ServerWorkspaceImpl;
 import de.fu_berlin.inf.dpp.session.User;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
@@ -97,7 +95,7 @@ public class ServerEditorManager implements IEditorManager {
   private Editor getOrCreateEditor(SPath path) throws IOException {
     Editor editor = openEditors.get(path);
     if (editor == null) {
-      IPath referencePointRelativePath = path.getProjectRelativePath();
+      IPath referencePointRelativePath = path.getReferencePointRelativePath();
 
       IResource resource = new ServerFileImpl(workspace, referencePointRelativePath);
       if (resource == null || !resource.exists()) {
