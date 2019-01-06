@@ -107,7 +107,9 @@ public class LocalEditorHandler {
       return null;
     }
 
-    return openEditor(virtualFile, new SPath(resource), activate);
+    SPath sPath = VirtualFileConverter.convertToSPath(virtualFile);
+
+    return openEditor(virtualFile, sPath, activate);
   }
 
   /**
