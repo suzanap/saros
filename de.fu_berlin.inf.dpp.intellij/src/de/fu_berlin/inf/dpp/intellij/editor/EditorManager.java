@@ -341,9 +341,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
                   new Runnable() {
                     @Override
                     public void run() {
-                      IReferencePointManager referencePointManager =
-                          session.getComponent(IReferencePointManager.class);
-                      addProjectResources(referencePointManager.get(referencePoint));
+                      addProjectResources(referencePoint);
                     }
                   },
                   ModalityState.defaultModalityState());
@@ -351,18 +349,19 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
       };
 
   /**
-   * Adds all currently open editors belonging to the passed project to the pool of open editors.
+   * Adds all currently open editors belonging to the passed reference point to the pool of open
+   * editors.
    *
-   * @param project the added project
+   * @param referencePoint the added referencePoint
    */
-  private void addProjectResources(IProject project) {
+  private void addProjectResources(IReferencePoint referencePoint) {
     VirtualFile[] openFiles = projectAPI.getOpenFiles();
 
     SelectedEditorState selectedEditorState = new SelectedEditorState();
     selectedEditorState.captureState();
 
     for (VirtualFile openFile : openFiles) {
-      localEditorHandler.openEditor(openFile, project, false);
+      localEditorHandler.openEditor(openFile, referencePoint, false);
       // TODO create selection activity if there is a current selection
     }
 
