@@ -26,11 +26,12 @@ buildScan {
 
 // Configuration that leads to the conversion of the eclipse home dir
 // (which is also a P2 repository) to a maven repository.
+ext.mavenizeTargetDir = rootProject.file('build/maven')
 mavenize {
   mavenizeTask {
     useP2MirrorOutput = false
     sourceP2Repository = System.getenv('ECLIPSE_HOME')
-    targetDir = rootProject.file('build/maven')
+    targetDir = mavenizeTargetDir
     groupId = 'eclipse-deps'
   }
 }
@@ -47,6 +48,16 @@ sonarqube {
 }
 
 ext.projectsToConfigure = subprojects - project(':de.fu_berlin.inf.dpp.ui.frontend')
+
+ext.ciMode = false
+if ( project.hasProperty('ci') && ci.equalsIgnoreCase("true")) {
+  ext.ciMode = true
+  // exclude all mavenize tasks for ci mode if the maven directory exists
+  if (mavenizeTargetDir.exists()) {
+    gradle.startParameter.excludedTaskNames += tasks.findAll { it.name ==~ /mavenizeP2Repository.*/}*.name
+  }
+}
+
 // Configurations that are specific to all subprojects
 // de.fu_berlin.inf.dpp.ui.frontend is not a real subproject and contains
 // only a build.gradle in order to allow to scan the sources of this subproject
@@ -75,7 +86,7 @@ configure(projectsToConfigure) { project ->
 
     // Exclude test suites if property is set. Otherwise tests are executed multiple times
     // in the ci server (via test class and suite).
-    if (project.hasProperty('skipTestSuites') && skipTestSuites.equalsIgnoreCase("true")) {
+    if (ciMode || project.hasProperty('skipTestSuites') && skipTestSuites.equalsIgnoreCase("true")) {
       exclude '**/*TestSuite*'
     }
     exclude '**/Abstract*'
@@ -141,7 +152,6 @@ task generateLibAll(dependsOn:['cleanGenerateLibAll',
                                ':de.fu_berlin.inf.dpp.whiteboard:generateLib'])
 
 task sarosEclipse(type: Copy, dependsOn: [
-  'mavenizeP2Repository',
   ':de.fu_berlin.inf.dpp.core:test',
   ':de.fu_berlin.inf.dpp.ui:test',
   ':de.fu_berlin.inf.dpp:test',
@@ -165,6 +175,12 @@ task sarosServer(type: Copy, dependsOn: [
   ]) {
   group 'Delivery'
   description 'Builds and tests all modules required by the Saros Server'
+}
+
+task testIt() {
+  doLast {
+    println ciMode.implies(!mavenizeTargetDir.exists())
+  }
 }
 
 task sarosIntellij(type: Copy, dependsOn: [

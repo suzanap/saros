@@ -18,7 +18,7 @@ if [[ "$pull_request" =~ ^[0-9][0-9]*$ ]]; then
 fi
 properties+="-Dsonar.login=$login "
 properties+="-Dsonar.verbose=true "
-properties+="-PskipTestSuites=true "
+properties+="-Pci=true "
 
 ./gradlew \
  $properties \

@@ -4,7 +4,7 @@
 
 cd $WORKSPACE
 
-./gradlew -PskipTestSuites=true -DmaxParallelForks=4 --no-daemon --parallel \
+./gradlew -Pci=true -DmaxParallelForks=4 --no-daemon --parallel \
   clean cleanAll \
   sarosEclipse \
   sarosServer \

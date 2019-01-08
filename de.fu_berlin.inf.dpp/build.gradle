@@ -146,7 +146,6 @@ tasks.withType(Test) {
   enableAssertions = false
 }
 
-compileJava.dependsOn rootProject.mavenizeP2Repository
 
 jar {
   manifest {
