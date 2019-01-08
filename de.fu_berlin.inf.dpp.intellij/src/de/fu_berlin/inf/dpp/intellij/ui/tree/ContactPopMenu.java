@@ -6,8 +6,11 @@ import com.intellij.openapi.project.Project;
 import de.fu_berlin.inf.dpp.SarosPluginContext;
 import de.fu_berlin.inf.dpp.core.ui.util.CollaborationUtils;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
+import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJProjectImpl;
+import de.fu_berlin.inf.dpp.intellij.project.filesystem.IntelliJWorkspaceImpl;
 import de.fu_berlin.inf.dpp.intellij.ui.Messages;
 import de.fu_berlin.inf.dpp.intellij.ui.util.IconManager;
 import de.fu_berlin.inf.dpp.intellij.ui.util.NotificationPanel;
@@ -78,10 +81,10 @@ class ContactPopMenu extends JPopupMenu {
         continue;
       }
 
-      IProject wrappedModule;
+      Module module_;
 
       try {
-        wrappedModule = workspace.getProject(moduleName);
+        module_ = ((IntelliJWorkspaceImpl) workspace).getModule(moduleName);
 
       } catch (IllegalArgumentException exception) {
         LOG.debug(
@@ -99,7 +102,7 @@ class ContactPopMenu extends JPopupMenu {
             "Ignoring module "
                 + moduleName
                 + " as an error "
-                + "occurred while trying to create an IProject object.",
+                + "occurred while trying to create an IReferencePoint object.",
             exception);
 
         NotificationPanel.showWarning(
@@ -114,7 +117,7 @@ class ContactPopMenu extends JPopupMenu {
       }
 
       JMenuItem moduleItem = new JMenuItem(moduleName);
-      moduleItem.addActionListener(new ShareDirectoryAction(moduleName, wrappedModule));
+      moduleItem.addActionListener(new ShareDirectoryAction(moduleName, module_));
 
       shownModules.add(moduleItem);
     }
@@ -157,16 +160,16 @@ class ContactPopMenu extends JPopupMenu {
   /** Action that is executed, when a project is selected for sharing. */
   private class ShareDirectoryAction implements ActionListener {
     private final String moduleName;
-    private final IProject module;
+    private final Module module;
 
-    private ShareDirectoryAction(String moduleName, IProject module) {
+    private ShareDirectoryAction(String moduleName, Module module) {
       this.moduleName = moduleName;
       this.module = module;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      if (module == null || !module.exists()) {
+      if (module == null || !exists()) {
         LOG.error(
             "The IProject object for the module "
                 + moduleName
@@ -185,13 +188,17 @@ class ContactPopMenu extends JPopupMenu {
       }
 
       List<IResource> resources = new ArrayList<>();
-      resources.add(module);
+      resources.add(new IntelliJProjectImpl(module));
 
       JID user = new JID(contactInfo.getRosterEntry().getUser());
       List<JID> contacts = new ArrayList<>();
       contacts.add(user);
 
       CollaborationUtils.startSession(resources, contacts);
+    }
+
+    private boolean exists() {
+      return !module.isDisposed() && module.isLoaded();
     }
   }
 }
