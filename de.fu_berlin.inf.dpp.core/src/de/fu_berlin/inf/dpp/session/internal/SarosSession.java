@@ -33,6 +33,7 @@ import de.fu_berlin.inf.dpp.concurrent.management.ConcurrentDocumentServer;
 import de.fu_berlin.inf.dpp.context.IContainerContext;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
 import de.fu_berlin.inf.dpp.filesystem.IFolder;
+import de.fu_berlin.inf.dpp.filesystem.IFolder_V2;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
@@ -851,7 +852,7 @@ public final class SarosSession implements ISarosSession {
 
     IReferencePointManager referencePointManager = getComponent(IReferencePointManager.class);
 
-    final IProject project = referencePointManager.get(activity.getPath().getReferencePoint());
+    final IFolder_V2 project = referencePointManager.get(activity.getPath().getReferencePoint());
 
     /*
      * The follow 'if check' assumes that move operations where at least one
