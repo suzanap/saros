@@ -20,6 +20,11 @@ public class IntelliJReferencePointImpl implements IReferencePoint {
   }
 
   @Override
+  public IPath getPathRepresentation() {
+    return this.path;
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
