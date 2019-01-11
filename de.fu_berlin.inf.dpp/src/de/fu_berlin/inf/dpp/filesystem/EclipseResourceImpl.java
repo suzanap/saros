@@ -53,11 +53,6 @@ public class EclipseResourceImpl implements IResource {
   }
 
   @Override
-  public IProject getProject() {
-    return null;
-  }
-
-  @Override
   public IFolder_V2 getReferenceFolder() {
     org.eclipse.core.resources.IProject project = delegate.getProject();
 
