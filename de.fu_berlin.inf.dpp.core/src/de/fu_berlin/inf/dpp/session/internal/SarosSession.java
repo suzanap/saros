@@ -32,7 +32,7 @@ import de.fu_berlin.inf.dpp.concurrent.management.ConcurrentDocumentClient;
 import de.fu_berlin.inf.dpp.concurrent.management.ConcurrentDocumentServer;
 import de.fu_berlin.inf.dpp.context.IContainerContext;
 import de.fu_berlin.inf.dpp.filesystem.IFile;
-import de.fu_berlin.inf.dpp.filesystem.IFolder_V2;
+import de.fu_berlin.inf.dpp.filesystem.IFolder;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
@@ -350,7 +350,7 @@ public final class SarosSession implements ISarosSession {
 
     if (resource.getType() == IResource.FOLDER) {
       try {
-        IResource[] members = ((IFolder_V2) resource.getAdapter(IFolder_V2.class)).members();
+        IResource[] members = ((IFolder) resource.getAdapter(IFolder.class)).members();
 
         for (int i = 0; i < members.length; i++) list.addAll(getAllNonSharedChildren(members[i]));
       } catch (IOException e) {
@@ -850,7 +850,7 @@ public final class SarosSession implements ISarosSession {
 
     IReferencePointManager referencePointManager = getComponent(IReferencePointManager.class);
 
-    final IFolder_V2 project = referencePointManager.get(activity.getPath().getReferencePoint());
+    final IFolder project = referencePointManager.get(activity.getPath().getReferencePoint());
 
     /*
      * The follow 'if check' assumes that move operations where at least one
@@ -962,7 +962,7 @@ public final class SarosSession implements ISarosSession {
           break;
       }
     } else if (activity instanceof FolderCreatedActivity) {
-      IFolder_V2 folder = project.getFolder(activity.getPath().getReferencePointRelativePath());
+      IFolder folder = project.getFolder(activity.getPath().getReferencePointRelativePath());
 
       if (!isShared(folder.getParent())) {
         log.error("PSFOC -" + " folder creation detected for a non shared parent: " + folder);
@@ -981,7 +981,7 @@ public final class SarosSession implements ISarosSession {
           project.getReferencePoint(), Collections.singletonList(folder));
 
     } else if (activity instanceof FolderDeletedActivity) {
-      IFolder_V2 folder = project.getFolder(activity.getPath().getReferencePointRelativePath());
+      IFolder folder = project.getFolder(activity.getPath().getReferencePointRelativePath());
 
       if (!isShared(folder)) {
         log.error("PSFOR -" + " folder removal detected for a non shared folder: " + folder);
