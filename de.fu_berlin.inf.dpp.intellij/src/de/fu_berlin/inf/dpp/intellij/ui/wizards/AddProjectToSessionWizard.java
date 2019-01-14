@@ -16,11 +16,11 @@ import com.intellij.openapi.util.ThrowableComputable;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ui.UIUtil;
 import de.fu_berlin.inf.dpp.filesystem.IChecksumCache;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
-import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
+import de.fu_berlin.inf.dpp.filesystem.IFolder;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import de.fu_berlin.inf.dpp.intellij.editor.ProjectAPI;
 import de.fu_berlin.inf.dpp.intellij.filesystem.Filesystem;
+import de.fu_berlin.inf.dpp.intellij.filesystem.FilesystemUtils;
 import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJProjectImpl;
 import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJReferencePointManager;
 import de.fu_berlin.inf.dpp.intellij.ui.Messages;
@@ -92,7 +92,7 @@ public class AddProjectToSessionWizard extends Wizard {
   private boolean triggered = false;
 
   /** projectID => Project */
-  private final Map<String, IProject> localProjects;
+  private final Map<String, IFolder> localProjects;
 
   @Inject private IChecksumCache checksumCache;
 
@@ -134,6 +134,8 @@ public class AddProjectToSessionWizard extends Wizard {
             try {
               module = createModuleStub(moduleName);
 
+              intelliJReferencePointManager.put(module);
+
             } catch (IOException e) {
               LOG.error("Could not create the shared module " + moduleName + ".", e);
 
@@ -169,17 +171,18 @@ public class AddProjectToSessionWizard extends Wizard {
               return;
             }
 
-            IProject sharedProject = new IntelliJProjectImpl(module);
+            IFolder sharedProject =
+                new IntelliJProjectImpl(FilesystemUtils.getModuleContentRoot(module));
 
             localProjects.put(remoteProjectID, sharedProject);
 
             triggerProjectNegotiation();
 
           } else {
-            IProject sharedProject;
+            IFolder sharedProject;
 
             try {
-              sharedProject = workspace.getProject(moduleName);
+              sharedProject = workspace.getReferenceFolder(moduleName);
             } catch (IllegalArgumentException exception) {
               LOG.debug("No session is started as an invalid module was " + "chosen", exception);
 
@@ -389,7 +392,7 @@ public class AddProjectToSessionWizard extends Wizard {
 
     List<ProjectNegotiationData> data = negotiation.getProjectNegotiationData();
 
-    localProjects = new HashMap<String, IProject>();
+    localProjects = new HashMap<String, IFolder>();
 
     remoteProjectID = data.get(0).getReferencePointID();
     remoteProjectName = data.get(0).getProjectName();
@@ -451,9 +454,10 @@ public class AddProjectToSessionWizard extends Wizard {
     if (triggered) return;
 
     triggered = true;
-    IReferencePointManager ref = sessionManager.getSession().getComponent(IReferencePointManager.class);
-    for (IProject project : localProjects.values()) {
-        fillReferencePointManager(project, ref);
+    IReferencePointManager ref =
+        sessionManager.getSession().getComponent(IReferencePointManager.class);
+    for (IFolder project : localProjects.values()) {
+      fillReferencePointManager(project, ref);
     }
 
     ProgressManager.getInstance()
@@ -497,7 +501,7 @@ public class AddProjectToSessionWizard extends Wizard {
     close();
   }
 
-  private void prepareFilesChangedPage(final Map<String, IProject> projectMapping) {
+  private void prepareFilesChangedPage(final Map<String, IFolder> projectMapping) {
 
     final Map<String, FileListDiff> modifiedResources = new HashMap<String, FileListDiff>();
 
@@ -545,11 +549,11 @@ public class AddProjectToSessionWizard extends Wizard {
 
   /** Creates a FileListDiff for all projects that will be modified. */
   private Map<String, FileListDiff> getModifiedResourcesFromMofifiableProjects(
-      Map<String, IProject> projectMapping, IProgressMonitor monitor) {
+      Map<String, IFolder> projectMapping, IProgressMonitor monitor) {
     monitor.setTaskName("Calculating changed files...");
 
     final Map<String, FileListDiff> modifiedResources = new HashMap<String, FileListDiff>();
-    final Map<String, IProject> modifiedProjects = new HashMap<String, IProject>();
+    final Map<String, IFolder> modifiedProjects = new HashMap<String, IFolder>();
 
     modifiedProjects.putAll(getModifiedProjects(projectMapping));
     modifiedResources.putAll(getModifiedResources(modifiedProjects, monitor));
@@ -563,10 +567,10 @@ public class AddProjectToSessionWizard extends Wizard {
    *
    * <p>FIXME: Add a check for non-overwritable projects.
    */
-  private Map<String, IProject> getModifiedProjects(Map<String, IProject> projectMapping) {
-    Map<String, IProject> modifiedProjects = new HashMap<String, IProject>();
+  private Map<String, IFolder> getModifiedProjects(Map<String, IFolder> projectMapping) {
+    Map<String, IFolder> modifiedProjects = new HashMap<String, IFolder>();
 
-    for (Map.Entry<String, IProject> entry : projectMapping.entrySet()) {
+    for (Map.Entry<String, IFolder> entry : projectMapping.entrySet()) {
       // TODO: Add check for non-overwritable projects
       modifiedProjects.put(entry.getKey(), entry.getValue());
     }
@@ -580,7 +584,7 @@ public class AddProjectToSessionWizard extends Wizard {
    * <p><b>Important:</b> Do not call this inside the UI Thread. This is a long running operation !
    */
   private Map<String, FileListDiff> getModifiedResources(
-      Map<String, IProject> projectMapping, IProgressMonitor monitor) {
+      Map<String, IFolder> projectMapping, IProgressMonitor monitor) {
     Map<String, FileListDiff> modifiedResources = new HashMap<String, FileListDiff>();
 
     final ISarosSession session = sessionManager.getSession();
@@ -596,10 +600,10 @@ public class AddProjectToSessionWizard extends Wizard {
 
     subMonitor.setTaskName("\"Searching for files that will be modified...\",");
 
-    for (Map.Entry<String, IProject> entry : projectMapping.entrySet()) {
+    for (Map.Entry<String, IFolder> entry : projectMapping.entrySet()) {
 
       String projectID = entry.getKey();
-      IProject project = entry.getValue();
+      IFolder project = entry.getValue();
 
       try {
 
@@ -639,7 +643,7 @@ public class AddProjectToSessionWizard extends Wizard {
   }
 
   private void fillReferencePointManager(
-      de.fu_berlin.inf.dpp.filesystem.IProject project,
+      de.fu_berlin.inf.dpp.filesystem.IFolder project,
       IReferencePointManager referencePointManager) {
     referencePointManager.put(project.getReferencePoint(), project);
 

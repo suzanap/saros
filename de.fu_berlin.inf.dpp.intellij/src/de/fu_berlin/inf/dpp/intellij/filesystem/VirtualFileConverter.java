@@ -81,7 +81,8 @@ public class VirtualFileConverter {
     }
 
     try {
-      IntelliJProjectImpl wrappedModule = new IntelliJProjectImpl(module);
+      IntelliJProjectImpl wrappedModule =
+          new IntelliJProjectImpl(FilesystemUtils.getModuleContentRoot(module));
 
       return wrappedModule.getResource(virtualFile);
 
@@ -109,7 +110,7 @@ public class VirtualFileConverter {
    */
   @Nullable
   public static IResource convertToResource(
-      @NotNull VirtualFile virtualFile, @NotNull IProject project) {
+      @NotNull VirtualFile virtualFile, @NotNull IntelliJAbstractFolderImpl project) {
 
     IntelliJProjectImpl wrappedModule =
         (IntelliJProjectImpl) project.getAdapter(IntelliJProjectImpl.class);
@@ -122,7 +123,9 @@ public class VirtualFileConverter {
       @NotNull VirtualFile virtualFile, @NotNull IReferencePoint referencePoint) {
 
     IntelliJProjectImpl wrappedModule =
-        new IntelliJProjectImpl(intelliJReferencePointManager.get(referencePoint));
+        new IntelliJProjectImpl(
+            FilesystemUtils.getModuleContentRoot(
+                intelliJReferencePointManager.get(referencePoint)));
 
     return convertToResource(virtualFile, wrappedModule);
   }
@@ -162,7 +165,7 @@ public class VirtualFileConverter {
     }
 
     IntelliJProjectImpl wrappedModule =
-        (IntelliJProjectImpl) resource.getProject().getAdapter(IntelliJProjectImpl.class);
+        (IntelliJProjectImpl) resource.getReferenceFolder().getAdapter(IntelliJProjectImpl.class);
 
     return wrappedModule.findVirtualFile(resource.getProjectRelativePath());
   }
