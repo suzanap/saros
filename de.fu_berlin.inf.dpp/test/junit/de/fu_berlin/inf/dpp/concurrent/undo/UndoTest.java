@@ -13,7 +13,6 @@ import de.fu_berlin.inf.dpp.concurrent.jupiter.internal.text.InsertOperation;
 import de.fu_berlin.inf.dpp.concurrent.jupiter.internal.text.NoOperation;
 import de.fu_berlin.inf.dpp.concurrent.jupiter.internal.text.SplitOperation;
 import de.fu_berlin.inf.dpp.concurrent.undo.OperationHistory.Type;
-import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import org.eclipse.core.runtime.Path;
