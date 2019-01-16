@@ -850,15 +850,16 @@ public final class SarosSession implements ISarosSession {
 
     IReferencePointManager referencePointManager = getComponent(IReferencePointManager.class);
 
-    final IFolder project = referencePointManager.get(activity.getPath().getReferencePoint());
+    final IReferencePoint referencePoint = activity.getPath().getReferencePoint();
 
+    final IFolder project = referencePointManager.get(referencePoint);
     /*
      * The follow 'if check' assumes that move operations where at least one
      * project is not part of the sharing is announced as create and delete
      * activities.
      */
 
-    if (!sharedReferencePointMapper.isPartiallyShared(project.getReferencePoint())) return true;
+    if (!sharedReferencePointMapper.isPartiallyShared(referencePoint)) return true;
 
     if (activity instanceof FileActivity) {
       FileActivity fileActivity = ((FileActivity) activity);
@@ -885,8 +886,7 @@ public final class SarosSession implements ISarosSession {
             return false;
           }
 
-          sharedReferencePointMapper.addResources(
-              project.getReferencePoint(), Collections.singletonList(file));
+          sharedReferencePointMapper.addResources(referencePoint, Collections.singletonList(file));
 
           break;
 
@@ -906,7 +906,7 @@ public final class SarosSession implements ISarosSession {
           }
 
           sharedReferencePointMapper.removeResources(
-              project.getReferencePoint(), Collections.singletonList(file));
+              referencePoint, Collections.singletonList(file));
 
           break;
 
@@ -956,9 +956,7 @@ public final class SarosSession implements ISarosSession {
           }
 
           sharedReferencePointMapper.removeAndAddResources(
-              project.getReferencePoint(),
-              Collections.singletonList(oldFile),
-              Collections.singletonList(file));
+              referencePoint, Collections.singletonList(oldFile), Collections.singletonList(file));
 
           break;
       }
@@ -978,8 +976,7 @@ public final class SarosSession implements ISarosSession {
         return false;
       }
 
-      sharedReferencePointMapper.addResources(
-          project.getReferencePoint(), Collections.singletonList(folder));
+      sharedReferencePointMapper.addResources(referencePoint, Collections.singletonList(folder));
 
     } else if (activity instanceof FolderDeletedActivity) {
       IFolder folder = project.getFolder(activity.getPath().getReferencePointRelativePath());
@@ -998,8 +995,7 @@ public final class SarosSession implements ISarosSession {
         return false;
       }
 
-      sharedReferencePointMapper.removeResources(
-          project.getReferencePoint(), Collections.singletonList(folder));
+      sharedReferencePointMapper.removeResources(referencePoint, Collections.singletonList(folder));
     }
 
     return true;
