@@ -307,7 +307,8 @@ public final class SarosSession implements ISarosSession {
 
     if (resources != null) {
       allResources = new HashSet<IResource>();
-      for (IResource resource : resources) allResources.addAll(getAllNonSharedChildren(resource));
+      for (IResource resource : resources)
+        allResources.addAll(getAllNonSharedChildren(referencePoint, resource));
     }
 
     if (!sharedReferencePointMapper.isShared(referencePoint)) {
@@ -339,12 +340,14 @@ public final class SarosSession implements ISarosSession {
   /**
    * Recursively get non-shared resources
    *
+   * @param referencePoint of {@link IResource resource}
    * @param resource of type {@link IResource#FOLDER} or {@link IResource#FILE}
    */
-  private List<IResource> getAllNonSharedChildren(IResource resource) {
+  private List<IResource> getAllNonSharedChildren(
+      IReferencePoint referencePoint, IResource resource) {
     List<IResource> list = new ArrayList<IResource>();
 
-    if (isShared(resource)) return list;
+    if (isShared(referencePoint, resource)) return list;
 
     list.add(resource);
 
@@ -352,7 +355,8 @@ public final class SarosSession implements ISarosSession {
       try {
         IResource[] members = ((IFolder) resource.getAdapter(IFolder.class)).members();
 
-        for (int i = 0; i < members.length; i++) list.addAll(getAllNonSharedChildren(members[i]));
+        for (int i = 0; i < members.length; i++)
+          list.addAll(getAllNonSharedChildren(referencePoint, members[i]));
       } catch (IOException e) {
         log.error("Can't get children of folder " + resource, e);
       }
@@ -867,7 +871,8 @@ public final class SarosSession implements ISarosSession {
 
       switch (fileActivity.getType()) {
         case CREATED:
-          if (!isShared(file.getParent())) {
+          if (file.getReferenceFolder() != file.getParent()
+              && !isShared(referencePoint, file.getParent())) {
             log.error(
                 "PSFIC -"
                     + " unable to update partial sharing state"
@@ -891,7 +896,7 @@ public final class SarosSession implements ISarosSession {
           break;
 
         case REMOVED:
-          if (!isShared(file)) {
+          if (!isShared(referencePoint, file)) {
             log.error("PSFIR -" + " file removal detected for a non shared file: " + file);
             return false;
           }
@@ -917,7 +922,7 @@ public final class SarosSession implements ISarosSession {
           IFile oldFile =
               referencePointManager.get(oldReferencePoint).getFile(oldReferencePointRelativePath);
 
-          if (!isShared(oldFile)) {
+          if (!isShared(referencePoint, oldFile)) {
             log.error(
                 "PSFIM -"
                     + " file move detected for a non shared file, source file is not shared, src: "
@@ -936,7 +941,7 @@ public final class SarosSession implements ISarosSession {
             return false;
           }
 
-          if (isShared(file)) {
+          if (isShared(referencePoint, file)) {
             log.error(
                 "PSFIM -"
                     + " file move detected for shared file, destination file already shared, src: "
@@ -963,7 +968,8 @@ public final class SarosSession implements ISarosSession {
     } else if (activity instanceof FolderCreatedActivity) {
       IFolder folder = project.getFolder(activity.getPath().getReferencePointRelativePath());
 
-      if (!isShared(folder.getParent())) {
+      if (folder.getParent() != folder.getReferenceFolder()
+          && !isShared(referencePoint, folder.getParent())) {
         log.error("PSFOC -" + " folder creation detected for a non shared parent: " + folder);
         return false;
       }
@@ -981,7 +987,7 @@ public final class SarosSession implements ISarosSession {
     } else if (activity instanceof FolderDeletedActivity) {
       IFolder folder = project.getFolder(activity.getPath().getReferencePointRelativePath());
 
-      if (!isShared(folder)) {
+      if (!isShared(referencePoint, folder)) {
         log.error("PSFOR -" + " folder removal detected for a non shared folder: " + folder);
         return false;
       }
