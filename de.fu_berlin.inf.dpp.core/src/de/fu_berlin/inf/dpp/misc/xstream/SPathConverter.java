@@ -34,21 +34,14 @@ public class SPathConverter implements Converter, Startable {
   private static final Logger LOG = Logger.getLogger(SPathConverter.class);
 
   private static final String PATH = "p";
-  private static final String PROJECT_ID = "i";
+  private static final String REFERENCEPOINT_ID = "i";
 
   private final ISarosSession session;
   private final IPathFactory pathFactory;
 
-  private IReferencePointManager referencePointManager;
-
   public SPathConverter(ISarosSession session, IPathFactory pathFactory) {
     this.session = session;
     this.pathFactory = pathFactory;
-
-    this.referencePointManager = session.getComponent(IReferencePointManager.class);
-
-    if (this.referencePointManager == null)
-      throw new IllegalStateException("ReferencePointManager is null. Session is not running");
   }
 
   @Override
@@ -83,14 +76,14 @@ public class SPathConverter implements Converter, Startable {
 
     String p = URLCodec.encode(pathFactory.fromPath(spath.getReferencePointRelativePath()));
 
-    writer.addAttribute(PROJECT_ID, i);
+    writer.addAttribute(REFERENCEPOINT_ID, i);
     writer.addAttribute(PATH, p);
   }
 
   @Override
   public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
 
-    String i = reader.getAttribute(PROJECT_ID);
+    String i = reader.getAttribute(REFERENCEPOINT_ID);
     String p = URLCodec.decode(reader.getAttribute(PATH));
 
     IReferencePoint referencePoint = session.getReferencePoint(i);
