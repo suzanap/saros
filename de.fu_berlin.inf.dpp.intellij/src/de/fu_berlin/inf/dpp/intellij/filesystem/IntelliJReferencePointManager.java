@@ -4,6 +4,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ModuleRootManager;
+import com.intellij.openapi.util.io.FileSystemUtil;
 import com.intellij.openapi.vfs.VirtualFile;
 import de.fu_berlin.inf.dpp.exceptions.ModuleNotFoundException;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
@@ -43,6 +44,21 @@ public class IntelliJReferencePointManager {
     IPath path = IntelliJPathImpl.fromString(moduleRoot.getPath());
 
     return new IntelliJReferencePointImpl(path);
+  }
+
+  /**
+   * Creates and returns the {@link IReferencePoint} reference point of given {@link VirtualFile}
+   * virtual file. The reference point points on the module's root full path.
+   *
+   * @param virtualFile
+   * @return the reference point of given virtual file
+   */
+  public static IReferencePoint create(VirtualFile virtualFile) {
+    if (virtualFile == null) return null;
+
+    Module module = FilesystemUtils.getModuleOfFile(virtualFile);
+
+    return create(module);
   }
 
   /**
