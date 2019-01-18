@@ -300,9 +300,4 @@ public final class IntelliJFileImpl extends IntelliJResourceImpl implements IFil
   public String toString() {
     return getClass().getSimpleName() + " : " + path + " - " + srcRoot;
   }
-
-  @Override
-  public IReferencePoint getReferencePoint() {
-    return IntelliJReferencePointManager.create(FilesystemUtils.getModuleOfFile(srcRoot));
-  }
 }

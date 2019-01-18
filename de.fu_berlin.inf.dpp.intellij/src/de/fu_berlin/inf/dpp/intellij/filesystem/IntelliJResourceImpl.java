@@ -7,16 +7,9 @@ import org.jetbrains.annotations.Nullable;
 
 public abstract class IntelliJResourceImpl implements IResource {
 
-  protected IReferencePoint referencePoint;
-
   @Nullable
   @Override
   public Object getAdapter(@NotNull Class<? extends IResource> clazz) {
     return clazz.isInstance(this) ? this : null;
-  }
-
-  @Override
-  public IReferencePoint getReferencePoint() {
-    return referencePoint;
   }
 }

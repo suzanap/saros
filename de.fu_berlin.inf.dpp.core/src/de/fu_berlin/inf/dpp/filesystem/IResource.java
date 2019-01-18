@@ -50,7 +50,4 @@ public interface IResource {
   public IPath getLocation();
 
   public Object getAdapter(Class<? extends IResource> clazz);
-
-  /** Returns the {@link IReferencePoint} on which the resource is referenced to */
-  public IReferencePoint getReferencePoint();
 }
