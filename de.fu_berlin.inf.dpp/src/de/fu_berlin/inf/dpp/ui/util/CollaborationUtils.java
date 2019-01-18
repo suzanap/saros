@@ -4,6 +4,7 @@ import de.fu_berlin.inf.dpp.Saros;
 import de.fu_berlin.inf.dpp.SarosPluginContext;
 import de.fu_berlin.inf.dpp.filesystem.EclipseProjectImpl;
 import de.fu_berlin.inf.dpp.filesystem.EclipseReferencePointManager;
+import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.ResourceAdapterFactory;
 import de.fu_berlin.inf.dpp.net.xmpp.JID;
 import de.fu_berlin.inf.dpp.session.IReferencePointManager;
@@ -275,17 +276,19 @@ public class CollaborationUtils {
 
       final Pair<Long, Long> fileCountAndSize;
 
+      IProject eclipseProject = ((EclipseProjectImpl) project).getDelegate();
+      IReferencePoint referencePoint = EclipseReferencePointManager.create(eclipseProject);
+
       final boolean isCompletelyShared =
-          sarosSession.isCompletelyShared(project.getReferencePoint());
+          sarosSession.isCompletelyShared(referencePoint);
 
       final List<IResource> resources;
 
-      if (isCompletelyShared)
-        resources = Collections.singletonList(((EclipseProjectImpl) project).getDelegate());
+      if (isCompletelyShared) resources = Collections.singletonList(eclipseProject);
       else
         resources =
             ResourceAdapterFactory.convertBack(
-                sarosSession.getSharedResources(project.getReferencePoint()));
+                sarosSession.getSharedResources(referencePoint));
 
       fileCountAndSize =
           FileUtils.getFileCountAndSize(
@@ -461,13 +464,13 @@ public class CollaborationUtils {
                 List<de.fu_berlin.inf.dpp.filesystem.IResource>>();
 
     for (Entry<IProject, List<IResource>> entry : data.entrySet()) {
-      de.fu_berlin.inf.dpp.filesystem.IFolder coreProject =
-         new EclipseProjectImpl(entry.getKey());
+      EclipseProjectImpl coreProject = new EclipseProjectImpl(entry.getKey());
 
       fillReferencePointManager(coreProject, referencePointManager);
 
       result.put(
-          EclipseReferencePointManager.create(entry.getKey()), ResourceAdapterFactory.convertTo(entry.getValue()));
+          EclipseReferencePointManager.create(entry.getKey()),
+          ResourceAdapterFactory.convertTo(entry.getValue()));
     }
 
     return result;
@@ -489,9 +492,8 @@ public class CollaborationUtils {
   }
 
   private static void fillReferencePointManager(
-      de.fu_berlin.inf.dpp.filesystem.IFolder project,
-      IReferencePointManager referencePointManager) {
-    referencePointManager.put(project.getReferencePoint(), project);
+      EclipseProjectImpl project, IReferencePointManager referencePointManager) {
+    referencePointManager.put(EclipseReferencePointManager.create(project.getDelegate()), project);
   }
 
   private static void fillReferencePointManager(Collection<IProject> projects) {

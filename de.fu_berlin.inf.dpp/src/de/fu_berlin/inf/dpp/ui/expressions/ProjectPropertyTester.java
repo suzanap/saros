@@ -37,11 +37,11 @@ public class ProjectPropertyTester extends PropertyTester {
     if ("isInSarosSession".equals(property)) {
 
       if (resource.getType() == IResource.PROJECT) {
-        return session.isCompletelyShared(
-            ResourceAdapterFactory.create((IProject) resource).getReferencePoint());
+        return session.isCompletelyShared(EclipseReferencePointManager.create(resource));
       }
 
-      de.fu_berlin.inf.dpp.filesystem.IResource sarosResource = ResourceAdapterFactory.create(resource);
+      de.fu_berlin.inf.dpp.filesystem.IResource sarosResource =
+          ResourceAdapterFactory.create(resource);
       IReferencePoint referencePoint = EclipseReferencePointManager.create(resource);
 
       return session.isShared(referencePoint, sarosResource);
