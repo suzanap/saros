@@ -6,6 +6,7 @@ import de.fu_berlin.inf.dpp.activities.SPath;
 import de.fu_berlin.inf.dpp.filesystem.IPath;
 import de.fu_berlin.inf.dpp.filesystem.IReferencePoint;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
+import de.fu_berlin.inf.dpp.intellij.filesystem.FilesystemUtils;
 import de.fu_berlin.inf.dpp.intellij.filesystem.IntelliJReferencePointManager;
 import de.fu_berlin.inf.dpp.intellij.filesystem.VirtualFileConverter;
 import de.fu_berlin.inf.dpp.session.ISarosSession;
@@ -65,11 +66,11 @@ public class SessionUtils {
    * @return <code>true</code> if a session is currently running and the given resource exists and
    *     is shared, <code>false</code> otherwise
    */
-  public static boolean isShared(@NotNull IResource resource) {
+  public static boolean isShared(@NotNull IReferencePoint referencePoint,  @NotNull IResource resource) {
 
     ISarosSession session = currentSarosSession;
 
-    return session != null && session.isShared(resource);
+    return session != null && session.isShared(referencePoint, resource);
   }
 
   /**
@@ -96,6 +97,6 @@ public class SessionUtils {
 
     IResource resource = VirtualFileConverter.convertToResource(virtualFile);
 
-    return resource != null && session.isShared(resource);
+    return resource != null && session.isShared(referencePoint, resource);
   }
 }

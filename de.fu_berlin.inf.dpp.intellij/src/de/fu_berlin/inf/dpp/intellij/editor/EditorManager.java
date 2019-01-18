@@ -641,7 +641,9 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
 
     activeEditor = path;
 
-    if (path == null || session.isShared(getResource(path))) {
+    IReferencePoint referencePoint = path.getReferencePoint();
+
+    if (path == null || session.isShared(referencePoint, getResource(path))) {
       editorListenerDispatch.editorActivated(session.getLocalUser(), path);
 
       fireActivity(new EditorActivity(session.getLocalUser(), EditorActivity.Type.ACTIVATED, path));
@@ -846,7 +848,7 @@ public class EditorManager extends AbstractActivityProducer implements IEditorMa
       return false;
     }
 
-    return session.isShared(getResource(editorFilePath));
+    return session.isShared(editorFilePath.getReferencePoint(), getResource(editorFilePath));
   }
 
   boolean isDocumentModificationHandlerEnabled() {
