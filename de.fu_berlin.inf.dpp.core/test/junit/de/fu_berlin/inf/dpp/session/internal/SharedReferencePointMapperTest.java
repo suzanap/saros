@@ -221,9 +221,7 @@ public class SharedReferencePointMapperTest {
     IReferencePoint referencePointMock = createReferencePointMock();
 
     IResource resourceMockA = EasyMock.createNiceMock(IResource.class);
-    EasyMock.expect(resourceMockA.getReferencePoint()).andStubReturn(referencePointMock);
     IResource resourceMockB = EasyMock.createNiceMock(IResource.class);
-    EasyMock.expect(resourceMockB.getReferencePoint()).andStubReturn(referencePointMock);
     EasyMock.replay(resourceMockA, resourceMockB);
 
     mapper.addReferencePoint("0", referencePointMock, true);
@@ -254,7 +252,6 @@ public class SharedReferencePointMapperTest {
     IReferencePoint referencePointMock = createReferencePointMock();
 
     IResource resourceMock = EasyMock.createNiceMock(IResource.class);
-    EasyMock.expect(resourceMock.getReferencePoint()).andStubReturn(referencePointMock);
     EasyMock.expect(resourceMock.isDerived(true)).andReturn(true);
 
     EasyMock.replay(resourceMock);
@@ -273,10 +270,8 @@ public class SharedReferencePointMapperTest {
     IReferencePoint referencePointMockB = createReferencePointMock();
 
     IResource resourceMockA = EasyMock.createNiceMock(IResource.class);
-    EasyMock.expect(resourceMockA.getReferencePoint()).andStubReturn(referencePointMockA);
 
     IResource resourceMockB = EasyMock.createNiceMock(IResource.class);
-    EasyMock.expect(resourceMockB.getReferencePoint()).andStubReturn(referencePointMockB);
 
     EasyMock.replay(resourceMockA, resourceMockB);
 
@@ -302,7 +297,6 @@ public class SharedReferencePointMapperTest {
     IReferencePoint referencePointMockB = createReferencePointMock();
 
     IResource resourceMockB = EasyMock.createNiceMock(IResource.class);
-    EasyMock.expect(resourceMockB.getReferencePoint()).andStubReturn(referencePointMockB);
 
     EasyMock.replay(resourceMockB);
 
