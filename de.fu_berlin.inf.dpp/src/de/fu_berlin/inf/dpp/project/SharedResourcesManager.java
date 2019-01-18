@@ -144,7 +144,10 @@ public class SharedResourcesManager extends AbstractActivityProducer
   }
 
   public SharedResourcesManager(
-      ISarosSession sarosSession, EditorManager editorManager, StopManager stopManager, EclipseReferencePointManager eclipseReferencePointManager) {
+      ISarosSession sarosSession,
+      EditorManager editorManager,
+      StopManager stopManager,
+      EclipseReferencePointManager eclipseReferencePointManager) {
     this.sarosSession = sarosSession;
     this.stopManager = stopManager;
     this.projectDeltaVisitor = new ProjectDeltaVisitor(sarosSession, editorManager);
@@ -236,7 +239,7 @@ public class SharedResourcesManager extends AbstractActivityProducer
 
       IProject project = (IProject) projectDelta.getResource();
 
-      if (!sarosSession.isShared(ResourceAdapterFactory.create(project))) continue;
+      if (!sarosSession.isShared(EclipseReferencePointManager.create(project))) continue;
 
       if (!checkOpenClosed(project)) {
 

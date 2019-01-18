@@ -203,7 +203,7 @@ public class CollaborationUtils {
             final List<IProject> projectsToRefresh = new ArrayList<IProject>();
 
             for (IProject project : projectResources.keySet()) {
-              if (!session.isShared(ResourceAdapterFactory.create(project)))
+              if (!session.isShared(EclipseReferencePointManager.create(project)))
                 projectsToRefresh.add(project);
             }
 
