@@ -186,14 +186,14 @@ class ContactPopMenu extends JPopupMenu {
         return;
       }
 
-      List<IResource> resources = new ArrayList<>();
-      resources.add(new IntelliJProjectImpl(FilesystemUtils.getModuleContentRoot(module)));
+      List<Module> modules = new ArrayList<>();
+      modules.add(module);
 
       JID user = new JID(contactInfo.getRosterEntry().getUser());
       List<JID> contacts = new ArrayList<>();
       contacts.add(user);
 
-      CollaborationUtils.startSession(resources, contacts);
+      CollaborationUtils.startSessionWithModules(modules, contacts);
     }
 
     private boolean exists() {

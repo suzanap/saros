@@ -54,14 +54,14 @@ public class ShareWithUserAction extends AnAction {
 
     // We allow only completely shared projects, so no need to check
     // for partially shared ones.
-    List<IResource> resources = Arrays.asList(getModuleFromVirtFile(virtFile, e.getProject()));
+    List<Module> resources = Arrays.asList(getModuleFromVirtFile(virtFile, e.getProject()));
 
     List<JID> contacts = Arrays.asList(userJID);
 
-    CollaborationUtils.startSession(resources, contacts);
+    CollaborationUtils.startSessionWithModules(resources, contacts);
   }
 
-  private IResource getModuleFromVirtFile(VirtualFile virtFile, Project project) {
+  private Module getModuleFromVirtFile(VirtualFile virtFile, Project project) {
 
     Module module = ProjectFileIndex.SERVICE.getInstance(project).getModuleForFile(virtFile);
 
@@ -71,7 +71,7 @@ public class ShareWithUserAction extends AnAction {
       throw new UnsupportedOperationException();
     }
 
-    return new IntelliJProjectImpl(FilesystemUtils.getModuleContentRoot(module));
+    return module;
   }
 
   @Override
