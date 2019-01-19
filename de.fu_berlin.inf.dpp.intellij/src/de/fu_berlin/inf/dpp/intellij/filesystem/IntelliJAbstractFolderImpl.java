@@ -264,4 +264,9 @@ public abstract class IntelliJAbstractFolderImpl extends IntelliJResourceImpl im
         },
         ModalityState.defaultModalityState());
   }
+
+  @Override
+  public int getType() {
+    return IResource.FOLDER;
+  }
 }
