@@ -20,6 +20,8 @@ public class Messages {
   public static String AddProjectToSessionWizard_module_not_found_message_condition;
   public static String AddProjectToSessionWizard_invalid_module_title;
   public static String AddProjectToSessionWizard_invalid_module_message_condition;
+  public static String AddProjectToSessionWizard_error_creating_module_object_title;
+  public static String AddProjectToSessionWizard_error_creating_module_object_message;
 
   public static String CollaborationUtils_confirm_closing;
   public static String CollaborationUtils_confirm_closing_text;
@@ -108,6 +110,17 @@ public class Messages {
 
   public static String LocalEditorManipulator_incompatible_encoding_title;
   public static String LocalEditorManipulator_incompatible_encoding_message;
+
+  public static String FollowModeNotificationDispatcher_started_following_title;
+  public static String FollowModeNotificationDispatcher_started_following_message;
+  public static String FollowModeNotificationDispatcher_stopped_following_title;
+  public static String FollowModeNotificationDispatcher_stopped_following_message;
+  public static String FollowModeNotificationDispatcher_end_reason_FOLLOWEE_LEFT_SESSION;
+  public static String
+      FollowModeNotificationDispatcher_end_reason_FOLLOWER_CLOSED_OR_SWITCHED_EDITOR;
+  public static String FollowModeNotificationDispatcher_end_reason_FOLLOWER_CLOSED_EDITOR;
+  public static String FollowModeNotificationDispatcher_end_reason_FOLLOWER_STOPPED;
+  public static String FollowModeNotificationDispatcher_end_reason_FOLLOWER_SWITCHES_FOLLOWEE;
 
   private Messages() {}
 }
