@@ -312,7 +312,7 @@ public abstract class AbstractOutgoingProjectNegotiation extends ProjectNegotiat
          * underlying storage
          */
         if (editorManager != null)
-          editorManager.saveEditors(referencePointManager.get(referencePoint));
+          editorManager.saveEditors(referencePoint);
 
         FileList projectFileList =
             FileListFactory.createFileList(
