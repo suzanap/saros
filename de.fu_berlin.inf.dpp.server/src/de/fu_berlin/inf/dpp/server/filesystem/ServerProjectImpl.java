@@ -7,6 +7,8 @@ import de.fu_berlin.inf.dpp.filesystem.IProject;
 import de.fu_berlin.inf.dpp.filesystem.IResource;
 import de.fu_berlin.inf.dpp.filesystem.IWorkspace;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 /** Server implementation of the {@link IProject} interface. */
 public class ServerProjectImpl extends ServerContainerImpl implements IProject {
@@ -74,5 +76,14 @@ public class ServerProjectImpl extends ServerContainerImpl implements IProject {
 
   private IPath getFullMemberPath(IPath memberPath) {
     return getFullPath().append(memberPath);
+  }
+
+  /**
+   * Creates the underlying folder structure for the project
+   *
+   * @throws IOException
+   */
+  public void create() throws IOException {
+    Files.createDirectory(toNioPath());
   }
 }
