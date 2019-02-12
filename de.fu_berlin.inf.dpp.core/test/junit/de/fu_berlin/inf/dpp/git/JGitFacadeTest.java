@@ -68,6 +68,37 @@ public class JGitFacadeTest {
         getObjectIdByRevisionString(localWorkDir, "HEAD"),
         getObjectIdByRevisionString(remoteWorkDir, "FETCH_HEAD"));
   }
+
+  @Test
+  public void testFetchFromBundleWithMerge()
+      throws IOException, NoFilepatternException, GitAPIException, IllegalArgumentException,
+          URISyntaxException {
+    File remoteWorkDir = tempFolder.newFolder("TempDir2");
+
+    JGitFacade.cloneFromRepo(localWorkDir, remoteWorkDir);
+
+    writeCommitToRepo(localWorkDir, 3);
+
+    String basis = JGitFacade.getSHA1HashByRevisionString(remoteWorkDir, "HEAD");
+
+    byte[] bundle = JGitFacade.createBundle(localWorkDir, "HEAD", basis);
+
+    assertNotEquals(
+        getObjectIdByRevisionString(localWorkDir, "HEAD"),
+        getObjectIdByRevisionString(remoteWorkDir, "HEAD"));
+
+    JGitFacade.fetchFromBundle(remoteWorkDir, bundle);
+    JGitFacade.mergeFromRef(remoteWorkDir, "refs/heads/bundle");
+
+    assertEquals(
+        getObjectIdByRevisionString(localWorkDir, "HEAD"),
+        getObjectIdByRevisionString(remoteWorkDir, "refs/heads/bundle"));
+
+    assertEquals(
+        getObjectIdByRevisionString(localWorkDir, "HEAD"),
+        getObjectIdByRevisionString(remoteWorkDir, "HEAD"));
+  }
+
   // handling exceptions
   @Test(expected = IOException.class)
   public void testCreateBundleEmptyWorkDir() throws IllegalArgumentException, IOException {
