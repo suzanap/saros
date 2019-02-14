@@ -9,9 +9,17 @@ import java.util.Collections;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.MergeCommand.FastForwardMode;
 import org.eclipse.jgit.api.RemoteRemoveCommand;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidMergeHeadsException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
+import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -175,5 +183,20 @@ public class JGitFacade {
     } catch (IOException e) {
       throw new IOException("failed while read from workDir", e);
     }
+  }
+
+  /**
+   * Allowing to merge commits if fast forward merge is possible. The current commit has to be a
+   * ancestor of the named commit (which is accessed by resolving the given Revision String).
+   */
+  public static void ffMerge(File workDirTree, String rev)
+      throws IOException, RevisionSyntaxException, NoHeadException, ConcurrentRefUpdateException,
+          CheckoutConflictException, InvalidMergeHeadsException, WrongRepositoryStateException,
+          NoMessageException, GitAPIException {
+    Git git = getGitByWorkDir(workDirTree);
+    git.merge()
+        .include(git.getRepository().resolve(rev))
+        .setFastForward(FastForwardMode.FF_ONLY)
+        .call();
   }
 }
