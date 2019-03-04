@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import org.apache.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +34,7 @@ import org.jetbrains.annotations.Nullable;
 import org.picocontainer.annotations.Inject;
 import saros.filesystem.IChecksumCache;
 import saros.filesystem.IProject;
+import saros.filesystem.IReferencePoint;
 import saros.filesystem.IReferencePointManager;
 import saros.filesystem.IWorkspace;
 import saros.intellij.editor.ProjectAPI;
@@ -469,6 +471,12 @@ public class AddProjectToSessionWizard extends Wizard {
 
     triggered = true;
 
+    Map<String, IReferencePoint> localReferencePoints = new HashMap<>();
+
+    for (Entry<String, IProject> entry : localProjects.entrySet()) {
+      localReferencePoints.put(entry.getKey(), entry.getValue().getReferencePoint());
+    }
+
     ProgressManager.getInstance()
         .run(
             new Task.Backgroundable(
@@ -477,7 +485,7 @@ public class AddProjectToSessionWizard extends Wizard {
               @Override
               public void run(ProgressIndicator indicator) {
                 final ProjectNegotiation.Status status =
-                    negotiation.run(localProjects, new ProgessMonitorAdapter(indicator));
+                    negotiation.run(localReferencePoints, new ProgessMonitorAdapter(indicator));
 
                 indicator.stop();
 
