@@ -408,7 +408,7 @@ public class AddProjectToSessionWizard extends Wizard {
 
     localProjects = new HashMap<String, IProject>();
 
-    remoteProjectID = data.get(0).getProjectID();
+    remoteProjectID = data.get(0).getReferencePointID();
     remoteProjectName = data.get(0).getProjectName();
 
     selectProjectPage =
@@ -604,7 +604,8 @@ public class AddProjectToSessionWizard extends Wizard {
 
     fillReferencePointManager(session, new HashSet<>(projectMapping.values()));
 
-    IReferencePointManager referencePointManager = session.getComponent(IReferencePointManager.class);
+    IReferencePointManager referencePointManager =
+        session.getComponent(IReferencePointManager.class);
 
     for (Map.Entry<String, IProject> entry : projectMapping.entrySet()) {
 
@@ -618,7 +619,8 @@ public class AddProjectToSessionWizard extends Wizard {
         if (data.isPartial()) throw new IllegalStateException("partial sharing is not supported");
 
         FileList localFileList =
-            FileListFactory.createFileList(referencePointManager,
+            FileListFactory.createFileList(
+                referencePointManager,
                 project.getReferencePoint(),
                 null,
                 checksumCache,
