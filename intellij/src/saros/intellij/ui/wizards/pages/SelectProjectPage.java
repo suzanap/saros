@@ -55,7 +55,7 @@ public class SelectProjectPage extends AbstractWizardPage {
     if (!newName.equals(projectName)) {
       wizard.disableNextButton();
     } else {
-      wizard.enableNextButtion();
+      wizard.enableNextButton();
     }
   }
 
