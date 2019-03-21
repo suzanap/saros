@@ -15,13 +15,12 @@ public final class RemoteHTMLTextElement extends HTMLSTFRemoteObject
 
   @Override
   public String getText() throws RemoteException {
-
-    Object text = browser.syncRun(String.format("return %s.text()", selector.getStatement()));
+    Object text = jQueryHelper.getTextOfSelection(selector);
     return text != null ? text.toString() : null;
   }
 
   @Override
   public void setText(String text) throws RemoteException {
-    browser.run(String.format("%s.text('%s')", selector.getStatement(), text));
+    jQueryHelper.setTextOfSelection(selector, text);
   }
 }
