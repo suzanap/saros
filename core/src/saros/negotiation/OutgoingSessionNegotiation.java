@@ -181,9 +181,7 @@ public final class OutgoingSessionNegotiation extends SessionNegotiation {
 
       IPreferenceStore clientProperties = new PreferenceStore();
       applySessionParameters(
-          actualSessionParameters,
-          sarosSession.getUserProperties(sarosSession.getHost()),
-          clientProperties);
+          actualSessionParameters, sarosSession.getHost().getPreferences(), clientProperties);
 
       User newUser = completeInvitation(clientProperties, monitor);
 
