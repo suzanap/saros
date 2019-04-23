@@ -152,4 +152,10 @@ public interface IInternal extends Remote {
    * @throws RemoteException if the file does not exists
    */
   public byte[] getFileContent(String projectName, String path) throws RemoteException;
+  
+  public void deleteFolder(String projectName, String folderName)
+	        throws RemoteException, CoreException;
+
+  public void deleteProject(String projectName) throws RemoteException,
+	        CoreException;
 }

@@ -404,4 +404,22 @@ public final class InternalImpl extends StfRemoteObject implements IInternal {
       throw new RemoteException(e.getMessage(), e.getCause());
     }
   }
+  
+  @Override
+  public void deleteFolder(String projectName, String folderName)
+      throws RemoteException, CoreException {
+      IProject project = ResourcesPlugin.getWorkspace().getRoot()
+          .getProject(projectName);
+      IFolder src = project.getFolder(folderName);
+      src.delete(true, false, null);
+  }
+
+  @Override
+  public void deleteProject(String projectName) throws RemoteException,
+      CoreException {
+      IProject project = ResourcesPlugin.getWorkspace().getRoot()
+          .getProject(projectName);
+      project.delete(true, false, null);
+
+  }
 }

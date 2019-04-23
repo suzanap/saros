@@ -17,7 +17,8 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.internal.AssumptionViolatedException;
 import org.junit.rules.MethodRule;
-import org.junit.rules.TestWatchman;
+//import org.junit.rules.TestWatchman;
+import org.junit.rules.TestWatcher;
 import org.junit.runners.model.FrameworkMethod;
 import saros.net.xmpp.JID;
 import saros.stf.client.tester.AbstractTester;
@@ -30,6 +31,7 @@ public abstract class StfTestCase {
   private static final Logger LOGGER = Logger.getLogger(StfTestCase.class.getName());
 
   /** JUnit monitor. Do <b>NOT</b> call any method of this instance ! */
+  /*
   @Rule
   public final MethodRule watchman =
       new TestWatchman() {
@@ -42,7 +44,7 @@ public abstract class StfTestCase {
            * the same as a violated assertions, and therefore should not mark
            * a test case as "failed".
            */
-          if (e instanceof AssumptionViolatedException) {
+          /*if (e instanceof AssumptionViolatedException) {
             return;
           }
 
@@ -125,7 +127,87 @@ public abstract class StfTestCase {
             }
           }
         }
-      };
+      };*/
+  @Rule
+  public final TestWatcher watcher = new TestWatcher() {
+      @Override
+      public void failed(Throwable e, Description description) {
+          if (!(e instanceof AssumptionViolatedException)) {
+              this.logMessage("******* TESTCASE "
+                  + description.getClassName() + ":"
+                  + description.getMethodName() + " FAILED *******");
+              this.captureScreenshot((description.getClassName() + "_" + description
+                  .getMethodName()).replace('.', '_'));
+              ByteArrayOutputStream out = new ByteArrayOutputStream();
+              e.printStackTrace(new PrintStream(out));
+              this.logMessage(new String(out.toByteArray()));
+          }
+      }
+
+      @Override
+      public void succeeded(Description description) {
+          this.logMessage("******* TESTCASE " + description.getClassName()
+              + ":" + description.getMethodName() + " SUCCEDED *******");
+      }
+
+      @Override
+      public void finished(Description description) {
+          this.logMessage("******* TESTCASE " + description.getClassName()
+              + ":" + description.getMethodName() + " FINISHED *******");
+      }
+
+      @Override
+      public void starting(Description description) {
+          StfTestCase.lastTestClass = description.getClass();
+          this.logMessage("******* STARTING TESTCASE "
+              + description.getClassName() + ":"
+              + description.getMethodName() + " *******");
+      }
+
+      @Override
+      public void skipped(AssumptionViolatedException e,
+          Description description) {
+          this.logMessage("******* TESTCASE " + description.getClassName()
+              + ":" + description.getMethodName() + " SKIPPED BECAUSE OF "
+              + e.getMessage() + "*******");
+      }
+
+      private void logMessage(String message) {
+          Iterator var3 = StfTestCase.currentTesters.iterator();
+
+          while (var3.hasNext()) {
+              AbstractTester tester = (AbstractTester) var3.next();
+
+              try {
+                  tester.remoteBot().logMessage(message);
+              } catch (Exception var5) {
+                  StfTestCase.LOGGER.log(Level.WARNING,
+                      "could not log message '" + message
+                          + "' at remote bot of tester " + tester, var5);
+              }
+          }
+
+      }
+
+      private void captureScreenshot(String name) {
+          Iterator var3 = StfTestCase.currentTesters.iterator();
+
+          while (var3.hasNext()) {
+              AbstractTester tester = (AbstractTester) var3.next();
+
+              try {
+                  tester.remoteBot().captureScreenshot(
+                      name + "_" + tester + "_" + System.currentTimeMillis()
+                          + ".jpg");
+              } catch (Exception var5) {
+                  StfTestCase.LOGGER.log(Level.WARNING,
+                      "could capture a screenshot at remote bot of tester "
+                          + tester, var5);
+              }
+          }
+
+      }
+  };
 
   private static List<AbstractTester> currentTesters = new ArrayList<AbstractTester>();
 
@@ -164,10 +246,16 @@ public abstract class StfTestCase {
    * @param testers additional testers e.g BOB, CARL
    * @throws Exception
    */
+  public static void selectFirst(AbstractTester tester,
+	        AbstractTester... testers) throws Exception {
+	        initTesters(tester, testers);
+	        setUpWorkbench();
+	        setUpSaros();
+	    }
   public static void select(AbstractTester tester, AbstractTester... testers) throws Exception {
     initTesters(tester, testers);
-    setUpWorkbench();
-    setUpSaros();
+    //setUpWorkbench();
+    //setUpSaros();
   }
 
   /**
@@ -195,7 +283,7 @@ public abstract class StfTestCase {
    * This method is called after every test case class. Override this method with care! Internal
    * calls {@linkplain #tearDownSaros}
    */
-  @AfterClass
+  //@AfterClass
   public static void cleanUpSaros() throws Exception {
     tearDownSaros();
   }
@@ -213,6 +301,43 @@ public abstract class StfTestCase {
    * @throws Exception if a (internal) failure occur
    */
   public static void tearDownSaros() throws Exception {
+      try {
+          terminateTestThreads(60 * 1000);
+      } catch (Throwable t) {
+          LOGGER.log(Level.SEVERE,
+              "aborting execution of all tests: " + t.getMessage(), t);
+          checkAndStopRunningTestThreads(true);
+      }
+
+      Exception exception = null;
+
+      for (AbstractTester tester : currentTesters) {
+          try {
+              tester.superBot().internal().resetSarosVersion();
+
+              tester.remoteBot().resetWorkbench();
+
+              // TODO clear the chat history, should be done via non-gui
+              // access
+              if (tester.superBot().views().sarosView().hasOpenChatrooms()) {
+                  try {
+                      tester.superBot().views().sarosView()
+                          .closeChatroomWithRegex(".*");
+                  } catch (Exception e) {
+                      LOGGER.log(Level.WARNING,
+                          "chatsrooms were closed lately by Saros", e);
+                  }
+              }
+
+          } catch (Exception e) {
+              exception = e;
+          }
+      }
+      if (exception != null)
+          throw exception;
+
+  }
+  public static void tearDownSarosLast() throws Exception {
 
     try {
       terminateTestThreads(60 * 1000);
@@ -263,6 +388,16 @@ public abstract class StfTestCase {
 
     if (exception != null) throw exception;
   }
+  
+  public static boolean isSession() throws Exception {
+      for (AbstractTester tester : currentTesters) {
+
+          if (tester.superBot().views().sarosView().isInSession() == false)
+              return false;
+
+      }
+      return true;
+  }
 
   /**
    * Brings workbench to a original state before beginning your tests
@@ -289,7 +424,7 @@ public abstract class StfTestCase {
         if (tester.remoteBot().isViewOpen("Welcome")) tester.remoteBot().view("Welcome").close();
         tester.superBot().menuBar().window().openPerspective();
         Util.closeUnnecessaryViews(tester);
-        tester.superBot().internal().clearWorkspace();
+        //tester.superBot().internal().clearWorkspace();
       } catch (Exception e) {
         exception = e;
       }
@@ -516,6 +651,36 @@ public abstract class StfTestCase {
         tester.superBot().views().sarosView().waitUntilIsNotInSession();
       }
     }
+  }
+  
+//checks conditional testing
+
+  public static boolean checkIfLevelONEiSucceeded() {
+      return STFTestWatcherLevelONEi.checkIfAllSucceeded();
+  }
+
+  public static boolean checkIfLevelONEiiSucceeded() {
+      return STFTestWatcherLevelONEii.checkIfAllSucceeded();
+  }
+
+  public static boolean checkIfLevelONEiandTWOiSucceeded() {
+      return STFTestWatcherLevelONEi.checkIfAllSucceeded()
+          && STFTestWatcherLevelTWOi.checkIfAllSucceeded();
+  }
+
+  public static boolean checkIfLevelONEiandTWOiiSucceeded() {
+      return STFTestWatcherLevelONEi.checkIfAllSucceeded()
+          && STFTestWatcherLevelTWOii.checkIfAllSucceeded();
+  }
+
+  public static boolean checkIfLevelONEiandTWOiiiSucceeded() {
+      return STFTestWatcherLevelONEi.checkIfAllSucceeded()
+          && STFTestWatcherLevelTWOiii.checkIfAllSucceeded();
+  }
+
+  public static boolean checkIfLevelONEiandTWOivSucceeded() {
+      return STFTestWatcherLevelONEi.checkIfAllSucceeded()
+          && STFTestWatcherLevelONEii.checkIfAllSucceeded();
   }
 
   /**
