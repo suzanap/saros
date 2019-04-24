@@ -5,7 +5,7 @@ import static de.fu_berlin.inf.dpp.stf.client.tester.SarosTester.BOB;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.apache.commons.lang.time.StopWatch;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -18,12 +18,11 @@ import de.fu_berlin.inf.dpp.stf.test.stf.Constants;
 import de.fu_berlin.inf.dpp.stf.testwatcher.STFTestWatcherLevelONEi;
 
 public class SimpleSessionConcurrently extends StfTestCase {
-    static StopWatch stopwatch = new StopWatch();
-    static long total = 0;
+    
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-        stopwatch.start();
+        
         selectFirst(ALICE, BOB);
 
     }
@@ -36,9 +35,7 @@ public class SimpleSessionConcurrently extends StfTestCase {
 
         tearDownSarosLast();
         stopwatch.stop();
-        writeToFile("SimpleSessionConcurrently", "Total:", stopwatch.getTime());
-
-        stopwatch.reset();
+       
     }
 
     @Test
