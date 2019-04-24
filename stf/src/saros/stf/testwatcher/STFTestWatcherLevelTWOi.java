@@ -1,4 +1,4 @@
-package de.fu_berlin.inf.dpp.stf.testwatcher;
+package saros.stf.testwatcher;
 
 import java.util.ArrayList;
 
