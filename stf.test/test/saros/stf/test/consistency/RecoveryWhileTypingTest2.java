@@ -30,7 +30,7 @@ public class RecoveryWhileTypingTest2 extends StfTestCase {
 
         /*
          * Assume.assumeTrue(checkIfLevelONEiSucceeded()); select(ALICE, BOB);
-         * 
+         *
          * if (isSession() == false) { clearWorkspaces();
          * ALICE.superBot().internal().createProject("Foo1_Saros");
          * Util.buildSessionConcurrently("Foo1_Saros",
