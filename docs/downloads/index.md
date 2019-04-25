@@ -6,9 +6,15 @@ See the [installation documentation](../documentation/installation.md) for more 
 
 ## Eclipse Update Site
 
-* Update site @Heroku: <https://get-saros.herokuapp.com/eclipse/>
-* Update site @SourceForge: <http://dpp.sf.net/update>
+[![Drag to your running Eclipse* workspace. *Requires Eclipse Marketplace Client](https://marketplace.eclipse.org/sites/all/themes/solstice/public/images/marketplace/btn-install.png)](http://marketplace.eclipse.org/marketplace-client-intro?mpc_install=856887)
+
+Update site <http://www.saros-project.org/update-site>
 
 ## Eclipse Dropin
 
-* Find latest release in [SourceForge](https://sourceforge.net/projects/dpp/files/latest/download?source=files)
+Find latest release in [GitHub](https://github.com/saros-project/saros/releases/latest)
+
+
+## IntelliJ Zip
+
+Find latest release in [GitHub](https://github.com/saros-project/saros/releases/latest)
