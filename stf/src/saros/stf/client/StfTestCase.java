@@ -255,9 +255,10 @@ public abstract class StfTestCase {
      * with care! Internal calls {@linkplain #tearDownSaros}
      */
     // @AfterClass
+    /*
     public static void cleanUpSaros() throws Exception {
         tearDownSaros();
-    }
+    }*/
 
     /**
      * Tries to reset Saros to a stable state for the given tester(s). It does

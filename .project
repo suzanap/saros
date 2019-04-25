@@ -3,6 +3,15 @@
 	<name>saros</name>
 	<comment></comment>
 	<projects>
+		<project>saros.core</project>
+		<project>saros.eclipse</project>
+		<project>saros.intellij</project>
+		<project>saros.server</project>
+		<project>saros.stf</project>
+		<project>saros.stf.test</project>
+		<project>saros.ui</project>
+		<project>saros.ui.frontend</project>
+		<project>saros.whiteboard</project>
 	</projects>
 	<buildSpec>
 	</buildSpec>
