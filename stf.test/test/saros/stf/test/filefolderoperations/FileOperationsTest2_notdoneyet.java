@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import org.eclipse.core.runtime.CoreException;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,11 +18,19 @@ import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.test.stf.Constants;
 
-public class FileOperationsTest extends StfTestCase {
+public class FileOperationsTest2_notdoneyet extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-        selectFirst(ALICE, BOB, CARL);
+
+        Assume.assumeTrue(checkIfLevelONEiSucceeded());
+        select(ALICE, BOB, CARL);
+        // setUpWorkbench();
+        // ALICE.superBot().internal().createProject("Foo1_Saros");
+
+        // Util.buildSessionSequentially("Foo1_Saros",
+        // TypeOfCreateProject.NEW_PROJECT, ALICE, BOB, CARL);
+
     }
 
     /**
@@ -33,27 +42,30 @@ public class FileOperationsTest extends StfTestCase {
      * <li>CARL (Read-Only Access)
      * </ol>
      */
+
     @Before
     public void beforeEveryTest() throws Exception {
-        closeAllShells();
-        closeAllEditors();
-        clearWorkspaces();
+        // closeAllShells();
+        // closeAllEditors();
 
-        Util.setUpSessionWithJavaProjectAndClass("Foo1_Saros", "my.pkg",
-            "MyClass", ALICE, BOB, CARL);
+        // ALICE.superBot().internal().createJavaClass("Foo1_Saros", "pkg",
+        // "MyClass");
 
-        BOB.superBot().views().packageExplorerView()
-            .waitUntilResourceIsShared("Foo1_Saros/src/my/pkg/MyClass.java");
+        // BOB.superBot().views().packageExplorerView()
+        // .waitUntilResourceIsShared("Foo1_Saros/src/pkg/MyClass.java");
 
-        CARL.superBot().views().packageExplorerView()
-            .waitUntilResourceIsShared("Foo1_Saros/src/my/pkg/MyClass.java");
+        // CARL.superBot().views().packageExplorerView()
+        // .waitUntilResourceIsShared("Foo1_Saros/src/pkg/MyClass.java");
 
-        Util.activateFollowMode(ALICE, CARL);
+        // Util.activateFollowMode(ALICE, CARL);
     }
 
     @After
-    public void afterEveryTest() throws Exception {
-        leaveSessionHostFirst(ALICE);
+    public void cleanUpSaros() throws Exception {
+
+        // ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
+        // tearDownSaros();
+
     }
 
     /**
@@ -74,30 +86,31 @@ public class FileOperationsTest extends StfTestCase {
     @Test
     public void testRenameFile() throws RemoteException {
 
-        assertTrue(BOB.superBot().views().packageExplorerView()
-            .selectPkg(Constants.PROJECT1, Constants.PKG1)
-            .exists(Constants.CLS1_SUFFIX));
+        // assertTrue(BOB.superBot().views().packageExplorerView()
+        // .selectPkg(Constants.PROJECT1, Constants.PKG1)
+        // .exists(Constants.CLS1_SUFFIX));
+
         ALICE.superBot().views().packageExplorerView()
-            .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
-            .refactor().rename(Constants.CLS2);
-
-        BOB.superBot().views().packageExplorerView().waitUntilClassExists(
-            Constants.PROJECT1, Constants.PKG1, Constants.CLS2);
-        assertFalse(BOB.superBot().views().packageExplorerView()
-            .selectPkg(Constants.PROJECT1, Constants.PKG1)
-            .exists(Constants.CLS1_SUFFIX));
-        assertTrue(BOB.superBot().views().packageExplorerView()
-            .selectPkg(Constants.PROJECT1, Constants.PKG1)
-            .exists(Constants.CLS2_SUFFIX));
-
-        CARL.superBot().views().packageExplorerView().waitUntilClassExists(
-            Constants.PROJECT1, Constants.PKG1, Constants.CLS2);
-        assertFalse(CARL.superBot().views().packageExplorerView()
-            .selectPkg(Constants.PROJECT1, Constants.PKG1)
-            .exists(Constants.CLS1_SUFFIX));
-        assertTrue(CARL.superBot().views().packageExplorerView()
-            .selectPkg(Constants.PROJECT1, Constants.PKG1)
-            .exists(Constants.CLS2_SUFFIX));
+            .selectPkg("Foo1_Saros", "pkg").refactor().rename("MyClass2");
+        /*
+         * BOB.superBot().views().packageExplorerView().waitUntilClassExists(
+         * Constants.PROJECT1, Constants.PKG1, Constants.CLS2);
+         * assertFalse(BOB.superBot().views().packageExplorerView()
+         * .selectPkg(Constants.PROJECT1, Constants.PKG1)
+         * .exists(Constants.CLS1_SUFFIX));
+         * assertTrue(BOB.superBot().views().packageExplorerView()
+         * .selectPkg(Constants.PROJECT1, Constants.PKG1)
+         * .exists(Constants.CLS2_SUFFIX));
+         *
+         * CARL.superBot().views().packageExplorerView().waitUntilClassExists(
+         * Constants.PROJECT1, Constants.PKG1, Constants.CLS2);
+         * assertFalse(CARL.superBot().views().packageExplorerView()
+         * .selectPkg(Constants.PROJECT1, Constants.PKG1)
+         * .exists(Constants.CLS1_SUFFIX));
+         * assertTrue(CARL.superBot().views().packageExplorerView()
+         * .selectPkg(Constants.PROJECT1, Constants.PKG1)
+         * .exists(Constants.CLS2_SUFFIX));
+         */
     }
 
     /**
@@ -115,7 +128,7 @@ public class FileOperationsTest extends StfTestCase {
      *
      * @throws RemoteException
      */
-    @Test
+    // @Test
     public void testDeleteFile() throws RemoteException {
         ALICE.superBot().views().packageExplorerView()
             .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
@@ -151,7 +164,7 @@ public class FileOperationsTest extends StfTestCase {
      *
      * @throws RemoteException
      */
-    @Test
+    // @Test
     public void testNewPkgAndClass() throws CoreException, IOException {
         ALICE.superBot().views().packageExplorerView().tree().newC()
             .pkg(Constants.PROJECT1, Constants.PKG2);
@@ -223,7 +236,7 @@ public class FileOperationsTest extends StfTestCase {
      *
      * @throws RemoteException
      */
-    @Test
+    // @Test
     public void testMoveClass() throws RemoteException {
         ALICE.superBot().views().packageExplorerView().tree().newC()
             .pkg(Constants.PROJECT1, Constants.PKG2);
@@ -270,7 +283,7 @@ public class FileOperationsTest extends StfTestCase {
      *
      * @throws RemoteException
      */
-    @Test
+    // @Test
     public void testRenamePkg() throws RemoteException {
         ALICE.superBot().views().packageExplorerView()
             .selectPkg(Constants.PROJECT1, Constants.PKG1).refactor()
@@ -310,7 +323,7 @@ public class FileOperationsTest extends StfTestCase {
      *
      * @throws RemoteException
      */
-    @Test
+    // @Test
     public void testDeletePkg() throws RemoteException {
         ALICE.superBot().views().packageExplorerView()
             .selectPkg(Constants.PROJECT1, Constants.PKG1).delete();

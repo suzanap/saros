@@ -21,21 +21,17 @@ public class RecoveryWhileTypingTest2 extends StfTestCase {
     @BeforeClass
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
-        selectFirst(ALICE, BOB);
+        select(ALICE, BOB);
 
-        ALICE.superBot().internal().createProject("Foo1_Saros");
+        Assume.assumeTrue(checkIfLevelONEiSucceeded());
+        select(ALICE, BOB);
 
-        Util.buildSessionConcurrently("Foo1_Saros",
-            TypeOfCreateProject.NEW_PROJECT, ALICE, BOB);
-
-        /*
-         * Assume.assumeTrue(checkIfLevelONEiSucceeded()); select(ALICE, BOB);
-         *
-         * if (isSession() == false) { clearWorkspaces();
-         * ALICE.superBot().internal().createProject("Foo1_Saros");
-         * Util.buildSessionConcurrently("Foo1_Saros",
-         * TypeOfCreateProject.NEW_PROJECT, ALICE, BOB); }
-         */
+        if (isSession() == false) {
+            clearWorkspaces();
+            ALICE.superBot().internal().createProject("Foo1_Saros");
+            Util.buildSessionConcurrently("Foo1_Saros",
+                TypeOfCreateProject.NEW_PROJECT, ALICE, BOB);
+        }
 
     }
 
