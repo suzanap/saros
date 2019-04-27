@@ -2,7 +2,8 @@ package saros.stf.test;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import saros.stf.test.consistency.RecoveryWhileTypingTest2;
+import saros.stf.test.chatview.ChatViewFunctionsTest2;
+import saros.stf.test.editing.ConcurrentEditingTest2;
 
 /*
 import de.fu_berlin.inf.dpp.stf.test.consistency.AddMultipleFilesTest2;
@@ -30,37 +31,36 @@ import de.fu_berlin.inf.dpp.stf.test.session.EditFileThatIsNotOpenOnRemoteSideTe
 import de.fu_berlin.inf.dpp.stf.test.session.EstablishSessionWithDifferentTransportModesTest;
 */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ SimpleSessionConcurrently.class,
+@Suite.SuiteClasses({ // SimpleSessionConcurrently.class,
     // SimpleSessionSequentially.class,
-    // ChatViewFunctionsTest2.class,
+    ChatViewFunctionsTest2.class,
 
     // AddMultipleFilesTest2.class,
     // ModifyFileWithoutEditorTest2.class,/*
-    RecoveryWhileTypingTest2.class /*
-                                    * , ConcurrentEditingTest2.class,
-                                    * EditDifferentFilesTest2.class,
-                                    * Editing3ProjectsTest2.class,
-                                    * EditWithReadAccessOnlyTest2.class,
-                                    * FolderOperationsTest2.class,
-                                    * SimpleFollowModeIITest2.class,
-                                    * FollowModeDisabledInNewSessionTest2.
-                                    * class, FollowModeTest2.class,
-                                    * RefactorInFollowModeTest2.class,
-                                    * SimpleFollowModeITest2.class,
-                                    * WriteAccessChangeAndImmediateWriteTest2
-                                    * .class, HostInvitesBelatedlyTest.class,
-                                    * InviteWithDifferentVersionsTest.class,
-                                    * ShareProjectUsingExistingProjectTest.
-                                    * class, ModifyNonSharedFilesTest.class,
-                                    * ShareFilesFromOneProjectToMultipleRemoteProjectsTest
-                                    * .class,
-                                    * ShareFilesToProjectsWithDifferentEncodingTest.
-                                    * class, HandleContactsTest.class,
-                                    * EditFileThatIsNotOpenOnRemoteSideTest.
-                                    * class,
-                                    * EstablishSessionWithDifferentTransportModesTest
-                                    * .class
-                                    */ })
+    // RecoveryWhileTypingTest2.class ,
+    ConcurrentEditingTest2.class/*
+                                 * , EditDifferentFilesTest2.class,
+                                 * Editing3ProjectsTest2.class,
+                                 * EditWithReadAccessOnlyTest2.class,
+                                 * FolderOperationsTest2.class,
+                                 * SimpleFollowModeIITest2.class,
+                                 * FollowModeDisabledInNewSessionTest2. class,
+                                 * FollowModeTest2.class,
+                                 * RefactorInFollowModeTest2.class,
+                                 * SimpleFollowModeITest2.class,
+                                 * WriteAccessChangeAndImmediateWriteTest2
+                                 * .class, HostInvitesBelatedlyTest.class,
+                                 * InviteWithDifferentVersionsTest.class,
+                                 * ShareProjectUsingExistingProjectTest. class,
+                                 * ModifyNonSharedFilesTest.class,
+                                 * ShareFilesFromOneProjectToMultipleRemoteProjectsTest
+                                 * .class,
+                                 * ShareFilesToProjectsWithDifferentEncodingTest.
+                                 * class, HandleContactsTest.class,
+                                 * EditFileThatIsNotOpenOnRemoteSideTest. class,
+                                 * EstablishSessionWithDifferentTransportModesTest
+                                 * .class
+                                 */ })
 public class AliceAndBobTestSuite {
     //
 }
