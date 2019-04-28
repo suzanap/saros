@@ -9,6 +9,7 @@ import static saros.stf.shared.Constants.SHELL_SESSION_INVITATION;
 
 import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,7 +25,8 @@ public class EditDuringNonHostInvitationTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-        selectFirst(ALICE, BOB, CARL);
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
+        select(ALICE, BOB, CARL);
         if (ALICE.superBot().views().sarosView().isInSession() == false
             && BOB.superBot().views().sarosView().isInSession() == false) {
             clearWorkspaces();

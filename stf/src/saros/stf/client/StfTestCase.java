@@ -24,9 +24,11 @@ import saros.stf.client.util.Util;
 import saros.stf.server.rmi.remotebot.IRemoteWorkbenchBot;
 import saros.stf.testwatcher.STFTestWatcherLevelONEi;
 import saros.stf.testwatcher.STFTestWatcherLevelONEii;
+import saros.stf.testwatcher.STFTestWatcherLevelONEiii;
 import saros.stf.testwatcher.STFTestWatcherLevelTWOi;
 import saros.stf.testwatcher.STFTestWatcherLevelTWOii;
 import saros.stf.testwatcher.STFTestWatcherLevelTWOiii;
+import saros.stf.testwatcher.STFTestWatcherLevelTWOiv;
 import saros.test.util.EclipseTestThread;
 
 public abstract class StfTestCase {
@@ -37,7 +39,7 @@ public abstract class StfTestCase {
     /** JUnit monitor. Do <b>NOT</b> call any method of this instance ! */
     /*
      * @Rule public final MethodRule watchman = new TestWatchman() {
-     * 
+     *
      * @Override public void failed(Throwable e, FrameworkMethod method) { /*
      * Some test runners interpret a violated assumption (as in
      * `Assume.assumeTrue(condition)` to conditionally ignore a test case) as a
@@ -47,42 +49,42 @@ public abstract class StfTestCase {
      */
     /*
      * if (e instanceof AssumptionViolatedException) { return; }
-     * 
+     *
      * logMessage( "******* " + "TESTCASE " +
      * method.getMethod().getDeclaringClass().getName() + ":" + method.getName()
      * + " FAILED *******"); captureScreenshot(
      * (method.getMethod().getDeclaringClass().getName() + "_" +
      * method.getName()) .replace('.', '_'));
-     * 
+     *
      * ByteArrayOutputStream out = new ByteArrayOutputStream();
      * e.printStackTrace(new PrintStream(out)); logMessage(new
      * String(out.toByteArray())); }
-     * 
+     *
      * @Override public void succeeded(FrameworkMethod method) { logMessage(
      * "******* " + "TESTCASE " +
      * method.getMethod().getDeclaringClass().getName() + ":" + method.getName()
      * + " SUCCEDED *******"); }
-     * 
+     *
      * @Override public void finished(FrameworkMethod method) { logMessage(
      * "******* " + "TESTCASE " +
      * method.getMethod().getDeclaringClass().getName() + ":" + method.getName()
      * + " FINISHED *******"); }
-     * 
+     *
      * @Override public void starting(FrameworkMethod method) {
-     * 
+     *
      * lastTestClass = method.getMethod().getDeclaringClass();
-     * 
+     *
      * logMessage( "******* " + "STARTING TESTCASE " +
      * method.getMethod().getDeclaringClass().getName() + ":" + method.getName()
      * + " *******"); }
-     * 
+     *
      * private void logMessage(String message) { for (AbstractTester tester :
      * currentTesters) { try { tester.remoteBot().logMessage(message); } catch
      * (Exception e) { LOGGER.log( Level.WARNING, "could not log message '" +
      * message + "' at remote bot of tester " + tester, e); } } }
-     * 
+     *
      * private void captureScreenshot(String name) {
-     * 
+     *
      * for (AbstractTester tester : currentTesters) { try { tester .remoteBot()
      * .captureScreenshot( name + "_" + tester + "_" +
      * System.currentTimeMillis() + ".jpg"); } catch (Exception e) { LOGGER.log(
@@ -256,9 +258,8 @@ public abstract class StfTestCase {
      */
     // @AfterClass
     /*
-    public static void cleanUpSaros() throws Exception {
-        tearDownSaros();
-    }*/
+     * public static void cleanUpSaros() throws Exception { tearDownSaros(); }
+     */
 
     /**
      * Tries to reset Saros to a stable state for the given tester(s). It does
@@ -671,6 +672,10 @@ public abstract class StfTestCase {
         return STFTestWatcherLevelONEii.checkIfAllSucceeded();
     }
 
+    public static boolean checkIfLevelONEiiiSucceeded() {
+        return STFTestWatcherLevelONEiii.checkIfAllSucceeded();
+    }
+
     public static boolean checkIfLevelONEiandTWOiSucceeded() {
         return STFTestWatcherLevelONEi.checkIfAllSucceeded()
             && STFTestWatcherLevelTWOi.checkIfAllSucceeded();
@@ -689,6 +694,16 @@ public abstract class StfTestCase {
     public static boolean checkIfLevelONEiandTWOivSucceeded() {
         return STFTestWatcherLevelONEi.checkIfAllSucceeded()
             && STFTestWatcherLevelONEii.checkIfAllSucceeded();
+    }
+
+    public static boolean checkIfLevelONEiiiandTWOiiSucceeded() {
+        return STFTestWatcherLevelONEiii.checkIfAllSucceeded()
+            && STFTestWatcherLevelTWOii.checkIfAllSucceeded();
+    }
+
+    public static boolean checkIfLevelONEiiiandTWOivSucceeded() {
+        return STFTestWatcherLevelONEiii.checkIfAllSucceeded()
+            && STFTestWatcherLevelTWOiv.checkIfAllSucceeded();
     }
 
     /**

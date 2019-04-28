@@ -9,6 +9,7 @@ import static saros.stf.shared.Constants.SHELL_ADD_PROJECTS;
 import static saros.stf.shared.Constants.SHELL_SESSION_INVITATION;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import saros.stf.client.StfTestCase;
@@ -20,6 +21,7 @@ public class ModifyDocumentBeforeProjectNegotiationTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         selectFirst(ALICE, BOB, CARL);
         if (ALICE.superBot().views().sarosView().isInSession() == false
             && BOB.superBot().views().sarosView().isInSession() == false) {
@@ -35,7 +37,7 @@ public class ModifyDocumentBeforeProjectNegotiationTest3 extends StfTestCase {
     public void restoreNetwork() throws Exception {
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
 
-        tearDownSaros();
+        tearDownSarosLast();
     }
 
     @Test

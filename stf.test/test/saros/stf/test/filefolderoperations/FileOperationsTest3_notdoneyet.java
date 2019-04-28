@@ -23,7 +23,7 @@ public class FileOperationsTest3_notdoneyet extends StfTestCase {
     @BeforeClass
     public static void selectTesters() throws Exception {
 
-        Assume.assumeTrue(checkIfLevelONEiSucceeded());
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         select(ALICE, BOB, CARL);
         // setUpWorkbench();
         // ALICE.superBot().internal().createProject("Foo1_Saros");

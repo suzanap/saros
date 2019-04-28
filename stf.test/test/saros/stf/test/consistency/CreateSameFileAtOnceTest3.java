@@ -21,8 +21,8 @@ public class CreateSameFileAtOnceTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-        Assume.assumeTrue(checkIfLevelONEiSucceeded());
-        select(ALICE, BOB, CARL);
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
+        selectFirst(ALICE, BOB, CARL);
         if (!isSession()) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");

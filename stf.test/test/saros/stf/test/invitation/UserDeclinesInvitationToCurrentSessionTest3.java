@@ -8,6 +8,7 @@ import static saros.stf.shared.Constants.CANCEL;
 import static saros.stf.shared.Constants.SHELL_SESSION_INVITATION;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import saros.stf.annotation.TestLink;
@@ -21,7 +22,8 @@ public class UserDeclinesInvitationToCurrentSessionTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-        selectFirst(ALICE, BOB, CARL);
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
+        select(ALICE, BOB, CARL);
         if (ALICE.superBot().views().sarosView().isInSession() == false
             && BOB.superBot().views().sarosView().isInSession() == false) {
             clearWorkspaces();
@@ -36,7 +38,7 @@ public class UserDeclinesInvitationToCurrentSessionTest3 extends StfTestCase {
     public void restoreNetwork() throws Exception {
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
 
-        tearDownSaros();
+        tearDownSarosLast();
     }
 
     @Test

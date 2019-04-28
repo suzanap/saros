@@ -9,13 +9,16 @@ import static saros.stf.shared.Constants.SHELL_SESSION_INVITATION;
 
 import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import saros.stf.annotation.TestLink;
 import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
 import saros.stf.test.stf.Constants;
+import saros.stf.testwatcher.STFTestWatcherLevelTWOiv;
 import saros.test.util.EclipseTestThread;
 
 @TestLink(id = "Saros-36_edit_during_invitation")
@@ -23,6 +26,7 @@ public class EditDuringInvitationTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         selectFirst(ALICE, BOB, CARL);
         if (ALICE.superBot().views().sarosView().isInSession() == false
             && BOB.superBot().views().sarosView().isInSession() == false) {
@@ -33,6 +37,10 @@ public class EditDuringInvitationTest3 extends StfTestCase {
         }
 
     }
+
+    @Rule
+
+    public STFTestWatcherLevelTWOiv watcherTWOiv = new STFTestWatcherLevelTWOiv();
 
     @After
     public void restoreNetwork() throws Exception {

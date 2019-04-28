@@ -5,6 +5,7 @@ import static saros.stf.client.tester.SarosTester.BOB;
 import static saros.stf.client.tester.SarosTester.CARL;
 
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 
 public class InviteAndLeaveStressInstantSessionTest3
@@ -12,6 +13,7 @@ public class InviteAndLeaveStressInstantSessionTest3
 
     @BeforeClass
     public static void selectTesters() throws Exception {
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         selectFirst(ALICE, BOB, CARL);
 
         ALICE.superBot().menuBar().saros().preferences()

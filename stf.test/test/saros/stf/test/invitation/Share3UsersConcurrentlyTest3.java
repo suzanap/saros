@@ -8,12 +8,14 @@ import static saros.stf.client.tester.SarosTester.CARL;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
 import saros.session.User.Permission;
 import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
 import saros.stf.test.stf.Constants;
+import saros.stf.testwatcher.STFTestWatcherLevelONEiii;
 
 public class Share3UsersConcurrentlyTest3 extends StfTestCase {
 
@@ -30,6 +32,9 @@ public class Share3UsersConcurrentlyTest3 extends StfTestCase {
     public static void selectTesters() throws Exception {
         selectFirst(ALICE, BOB, CARL);
     }
+
+    @Rule
+    public STFTestWatcherLevelONEiii watcherONEiii = new STFTestWatcherLevelONEiii();
 
     @AfterClass
     public static void cleanUpSaros() throws Exception {

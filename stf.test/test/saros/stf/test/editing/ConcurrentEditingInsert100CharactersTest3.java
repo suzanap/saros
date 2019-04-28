@@ -6,6 +6,7 @@ import static saros.stf.client.tester.SarosTester.BOB;
 import static saros.stf.client.tester.SarosTester.CARL;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import saros.stf.client.StfTestCase;
@@ -66,6 +67,7 @@ public class ConcurrentEditingInsert100CharactersTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
+        Assume.assumeTrue(checkIfLevelONEiiiandTWOiiSucceeded());
         select(ALICE, BOB, CARL);
         if (!isSession()) {
             clearWorkspaces();

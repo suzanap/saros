@@ -12,6 +12,7 @@ import static saros.stf.shared.Constants.SHELL_ADD_PROJECTS_TO_SESSION;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class ShareMultipleProjectsTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         selectFirst(ALICE, BOB, CARL);
     }
 

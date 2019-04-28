@@ -10,6 +10,7 @@ import static saros.stf.shared.Constants.SHELL_SESSION_INVITATION;
 import java.util.regex.Pattern;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -23,6 +24,7 @@ public class AwarenessInformationVisibleAfterInvitationTest3
 
     @BeforeClass
     public static void selectTesters() throws Exception {
+        Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         selectFirst(ALICE, BOB, CARL);
     }
 

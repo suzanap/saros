@@ -53,7 +53,7 @@ public class ConcurrentEditingTest2 extends StfTestCase {
     }
 
     @Rule
-    public STFTestWatcherLevelTWOii watcherLevelTWO = new STFTestWatcherLevelTWOii();
+    public STFTestWatcherLevelTWOii watcherLevelTWOii = new STFTestWatcherLevelTWOii();
 
     static final String FILE = "file.txt";
 

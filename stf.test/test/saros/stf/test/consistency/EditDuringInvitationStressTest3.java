@@ -10,6 +10,7 @@ import static saros.stf.shared.Constants.SHELL_SESSION_INVITATION;
 import java.rmi.RemoteException;
 import java.util.Random;
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import saros.stf.client.StfTestCase;
@@ -27,7 +28,8 @@ public class EditDuringInvitationStressTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-        selectFirst(ALICE, BOB, CARL);
+        Assume.assumeTrue(checkIfLevelONEiiiandTWOivSucceeded());
+        select(ALICE, BOB, CARL);
         if (ALICE.superBot().views().sarosView().isInSession() == false
             && BOB.superBot().views().sarosView().isInSession() == false) {
             clearWorkspaces();
