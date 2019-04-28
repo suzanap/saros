@@ -203,9 +203,27 @@ public interface IInternal extends Remote {
     public byte[] getFileContent(String projectName, String path)
         throws RemoteException;
 
+    /**
+     * Deletes the given folder from a project
+     *
+     * @param projectName
+     *            the name project where the java class should be created
+     * @param folderName
+     *            the name of the folder to be deleted
+     * @throws RemoteException,CoreException
+     *             if the folder does not exists
+     */
     public void deleteFolder(String projectName, String folderName)
         throws RemoteException, CoreException;
 
+    /**
+     * Deletes the given project
+     *
+     * @param projectName
+     *            the name project where the java class should be created
+     * @throws RemoteException,CoreException
+     *             if the project does not exists
+     */
     public void deleteProject(String projectName)
         throws RemoteException, CoreException;
 }
