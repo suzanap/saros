@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import org.eclipse.core.runtime.CoreException;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -54,6 +55,12 @@ public class FileOperationsTest extends StfTestCase {
     @After
     public void afterEveryTest() throws Exception {
         leaveSessionHostFirst(ALICE);
+    }
+
+    @AfterClass
+    public void cleanUpSaros() throws Exception {
+        ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
+        tearDownSaros();
     }
 
     /**

@@ -1,4 +1,4 @@
-package saros.stf.test;
+package saros.stf.test.invitation;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -15,7 +15,7 @@ import saros.stf.shared.Constants.TypeOfCreateProject;
 import saros.stf.test.stf.Constants;
 import saros.stf.testwatcher.STFTestWatcherLevelONEi;
 
-public class SimpleSessionConcurrently extends StfTestCase {
+public class Share2UsersConcurrentlyTest extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {

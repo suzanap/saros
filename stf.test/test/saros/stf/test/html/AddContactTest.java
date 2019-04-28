@@ -18,7 +18,7 @@ import saros.stf.client.util.Util;
 public class AddContactTest extends StfHtmlTestCase {
     @BeforeClass
     public static void selectTesters() throws Exception {
-        select(ALICE, BOB);
+        selectFirst(ALICE, BOB);
     }
 
     @Before
@@ -28,9 +28,7 @@ public class AddContactTest extends StfHtmlTestCase {
 
     @After
     public void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     @Test

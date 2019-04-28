@@ -6,6 +6,8 @@ import static saros.stf.client.tester.SarosTester.BOB;
 
 import java.io.IOException;
 import org.eclipse.core.runtime.CoreException;
+import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import saros.stf.client.StfTestCase;
@@ -15,102 +17,106 @@ import saros.stf.test.stf.Constants;
 
 public class HostInvitesBelatedlyTest extends StfTestCase {
 
-  @BeforeClass
-  public static void selectTesters() throws Exception {
-    select(ALICE, BOB);
-  }
+    @BeforeClass
+    public static void selectTesters() throws Exception {
 
-  /**
-   * Steps:
-   *
-   * <p>1. ALICE edits the file CLS but don't saves it.
-   *
-   * <p>2. BOB edits the file CLS in the project currently used and saves it.
-   *
-   * <p>3. ALICE edits the file CLS2 but don't saves it.
-   *
-   * <p>4. BOB edits the file CLS2 in the project currently used and don't saves it.
-   *
-   * <p>5. ALICE invites BOB.
-   *
-   * <p>6. The question about the changed files at BOB is answered with YES.
-   *
-   * <p>Expected Results:
-   *
-   * <p>7. BOB has the same project like host.
-   *
-   * <p>FIXME: There are some bugs, if BOB's editors are not closed, BOB has the different project
-   * like host.
-   *
-   * @throws CoreException
-   * @throws IOException
-   * @throws InterruptedException
-   */
-  @Test
-  public void testSynchronizeWithOpenDirtyEditorsAtInviteesSide() throws Exception {
-    ALICE
-        .superBot()
-        .views()
-        .packageExplorerView()
-        .tree()
-        .newC()
-        .javaProjectWithClasses(Constants.PROJECT1, Constants.PKG1, Constants.CLS1, Constants.CLS2);
+        Assume.assumeTrue(checkIfLevelONEiSucceeded());
+        selectFirst(ALICE, BOB);
 
-    BOB.superBot()
-        .views()
-        .packageExplorerView()
-        .tree()
-        .newC()
-        .javaProjectWithClasses(Constants.PROJECT1, Constants.PKG1, Constants.CLS1, Constants.CLS2);
+    }
 
-    ALICE
-        .superBot()
-        .views()
-        .packageExplorerView()
-        .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
-        .open();
+    @AfterClass
+    public static void cleanUpSaros() throws Exception {
+        tearDownSarosLast();
+    }
 
-    ALICE.remoteBot().editor(Constants.CLS1_SUFFIX).setTextFromFile(Constants.CP1);
+    /**
+     * Steps:
+     *
+     * 1. ALICE edits the file CLS but don't saves it.
+     *
+     * 2. BOB edits the file CLS in the project currently used and saves it.
+     *
+     * 3. ALICE edits the file CLS2 but don't saves it.
+     *
+     * 4. BOB edits the file CLS2 in the project currently used and don't saves
+     * it.
+     *
+     * 5. ALICE invites BOB.
+     *
+     * 6. The question about the changed files at BOB is answered with YES.
+     *
+     *
+     * Expected Results:
+     *
+     * 7. BOB has the same project like host.
+     *
+     * FIXME: There are some bugs, if BOB's editors are not closed, BOB has the
+     * different project like host.
+     *
+     * @throws CoreException
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    @Test
+    public void testSynchronizeWithOpenDirtyEditofrsAtInviteesSide()
+        throws Exception {
 
-    BOB.superBot()
-        .views()
-        .packageExplorerView()
-        .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
-        .open();
+        ALICE.superBot().views().packageExplorerView().tree().newC()
+            .javaProjectWithClasses(Constants.PROJECT1, Constants.PKG1,
+                Constants.CLS1, Constants.CLS2);
 
-    BOB.remoteBot().editor(Constants.CLS1_SUFFIX).setTextFromFile(Constants.CP1_CHANGE);
+        BOB.superBot().views().packageExplorerView().tree().newC()
+            .javaProjectWithClasses(Constants.PROJECT1, Constants.PKG1,
+                Constants.CLS1, Constants.CLS2);
 
-    ALICE
-        .superBot()
-        .views()
-        .packageExplorerView()
-        .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS2)
-        .open();
+        ALICE.superBot().views().packageExplorerView()
+            .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
+            .open();
 
-    ALICE.remoteBot().editor(Constants.CLS2_SUFFIX).setTextFromFile(Constants.CP2);
+        ALICE.remoteBot().editor(Constants.CLS1_SUFFIX)
+            .setTextFromFile(Constants.CP1);
 
-    BOB.superBot()
-        .views()
-        .packageExplorerView()
-        .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS2)
-        .open();
+        BOB.superBot().views().packageExplorerView()
+            .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
+            .open();
 
-    BOB.remoteBot().editor(Constants.CLS2_SUFFIX).setTextFromFile(Constants.CP2_CHANGE);
+        BOB.remoteBot().editor(Constants.CLS1_SUFFIX)
+            .setTextFromFile(Constants.CP1_CHANGE);
 
-    Util.buildSessionConcurrently(
-        Constants.PROJECT1, TypeOfCreateProject.EXIST_PROJECT, ALICE, BOB);
+        ALICE.superBot().views().packageExplorerView()
+            .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS2)
+            .open();
 
-    Thread.sleep(5000);
+        ALICE.remoteBot().editor(Constants.CLS2_SUFFIX)
+            .setTextFromFile(Constants.CP2);
 
-    String CLSContentOfAlice = ALICE.remoteBot().editor(Constants.CLS1_SUFFIX).getText();
+        BOB.superBot().views().packageExplorerView()
+            .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS2)
+            .open();
 
-    String CLS2ContentOfAlice = ALICE.remoteBot().editor(Constants.CLS2_SUFFIX).getText();
+        BOB.remoteBot().editor(Constants.CLS2_SUFFIX)
+            .setTextFromFile(Constants.CP2_CHANGE);
 
-    String CLSContentOfBob = BOB.remoteBot().editor(Constants.CLS1_SUFFIX).getText();
+        Util.buildSessionConcurrently(Constants.PROJECT1,
+            TypeOfCreateProject.EXIST_PROJECT, ALICE, BOB);
 
-    String CLS2ContentOfBob = BOB.remoteBot().editor(Constants.CLS2_SUFFIX).getText();
+        Thread.sleep(5000);
 
-    assertEquals(CLSContentOfAlice, CLSContentOfBob);
-    assertEquals(CLS2ContentOfAlice, CLS2ContentOfBob);
-  }
+        String CLSContentOfAlice = ALICE.remoteBot()
+            .editor(Constants.CLS1_SUFFIX).getText();
+
+        String CLS2ContentOfAlice = ALICE.remoteBot()
+            .editor(Constants.CLS2_SUFFIX).getText();
+
+        String CLSContentOfBob = BOB.remoteBot().editor(Constants.CLS1_SUFFIX)
+            .getText();
+
+        String CLS2ContentOfBob = BOB.remoteBot().editor(Constants.CLS2_SUFFIX)
+            .getText();
+
+        assertEquals(CLSContentOfAlice, CLSContentOfBob);
+        assertEquals(CLS2ContentOfAlice, CLS2ContentOfBob);
+
+    }
 }

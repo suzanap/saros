@@ -11,7 +11,7 @@ import org.junit.runners.Suite;
   InviteWithDifferentVersionsTest.class,
   NonHostInvitesContactTest.class,
   ParallelInvitationWithTerminationByHostTest.class,
-  Share2UsersSequentiallyTest_SimpleSessionSequentially.class,
+  Share2UsersSequentiallyTest.class,
   Share2UsersSequentiallyInstantSessionTest.class,
   Share3UsersConcurrentlyTest.class,
   Share3UsersLeavingSessionTest.class,

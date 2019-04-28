@@ -5,80 +5,102 @@ import static saros.stf.client.tester.SarosTester.ALICE;
 import static saros.stf.client.tester.SarosTester.BOB;
 
 import java.util.List;
+import org.junit.After;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import saros.stf.annotation.TestLink;
 import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
 
-@TestLink(id = "Saros-40_followmode_and_refactoring")
 public class RefactorInFollowModeTest extends StfTestCase {
 
-  @BeforeClass
-  public static void selectTesters() throws Exception {
-    select(ALICE, BOB);
-  }
+    static long total = 0;
 
-  @Test
-  public void testRefactorInFollowMode() throws Exception {
+    @BeforeClass
+    public static void selectTesters() throws Exception {
 
-    ALICE.superBot().internal().createJavaProject("foo");
-    ALICE.superBot().internal().createJavaClass("foo", "bar", "HelloWorld");
+        Assume.assumeTrue(checkIfLevelONEiandTWOiiiSucceeded());
+        select(ALICE, BOB);
+        // if for some reason there is no session, build up a new session
+        if (isSession() == false) {
+            clearWorkspaces();
+            ALICE.superBot().internal().createProject("Foo1_Saros");
+            Util.buildSessionConcurrently("Foo1_Saros",
+                TypeOfCreateProject.NEW_PROJECT, ALICE, BOB);
+        }
+    }
 
-    ALICE.superBot().views().packageExplorerView().selectClass("foo", "bar", "HelloWorld").open();
+    @Before
+    public void setUp() throws Exception {
+        closeAllShells();
+        closeAllEditors();
+    }
 
-    StringBuilder builder = new StringBuilder();
-    builder.append(ALICE.remoteBot().editor("HelloWorld.java").getText());
-    builder.setLength(builder.length() - 1);
-    builder.append("\n\nint myfoobar = 0;\n");
-    for (int i = 0; i < 10; i++)
-      builder
-          .append("public void test")
-          .append(i)
-          .append("()\n{myfoobar = ")
-          .append(i)
-          .append(
-              ";\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+    @After
+    public void cleanUpSaros() throws Exception {
+        ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
+        tearDownSaros();
+    }
 
-    builder.append("}");
+    @Test
+    public void testRefactorInFollowMode() throws Exception {
 
-    ALICE.remoteBot().editor("HelloWorld.java").closeWithSave();
+        ALICE.superBot().internal().createJavaClass("Foo1_Saros", "bar",
+            "HelloWorld");
 
-    Util.buildSessionSequentially("foo", TypeOfCreateProject.NEW_PROJECT, ALICE, BOB);
+        ALICE.superBot().views().packageExplorerView()
+            .selectClass("Foo1_Saros", "bar", "HelloWorld").open();
 
-    BOB.superBot()
-        .views()
-        .packageExplorerView()
-        .waitUntilResourceIsShared("foo/src/bar/HelloWorld.java");
+        StringBuilder builder = new StringBuilder();
+        builder.append(ALICE.remoteBot().editor("HelloWorld.java").getText());
+        builder.setLength(builder.length() - 1);
+        builder.append("\n\nint myfoobar = 0;\n");
+        for (int i = 0; i < 10; i++)
+            builder.append("public void test").append(i)
+                .append("()\n{myfoobar = ").append(i).append(
+                    ";\n}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
-    ALICE.superBot().views().packageExplorerView().selectClass("foo", "bar", "HelloWorld").open();
+        builder.append("}");
 
-    BOB.superBot().views().sarosView().selectUser(ALICE.getJID()).followParticipant();
+        ALICE.remoteBot().editor("HelloWorld.java").closeWithSave();
 
-    List<Integer> viewPortBeforeRefactor = BOB.remoteBot().editor("HelloWorld.java").getViewport();
+        BOB.superBot().views().packageExplorerView()
+            .waitUntilResourceIsShared("Foo1_Saros/src/bar/HelloWorld.java");
 
-    ALICE.remoteBot().editor("HelloWorld.java").setText(builder.toString());
+        ALICE.superBot().views().packageExplorerView()
+            .selectClass("Foo1_Saros", "bar", "HelloWorld").open();
 
-    ALICE.remoteBot().editor("HelloWorld.java").navigateTo(4, 8);
+        BOB.superBot().views().sarosView().selectUser(ALICE.getJID())
+            .followParticipant();
 
-    // wait for the text to be selected
-    Thread.sleep(10000);
+        List<Integer> viewPortBeforeRefactor = BOB.remoteBot()
+            .editor("HelloWorld.java").getViewport();
 
-    ALICE.remoteBot().activateWorkbench();
-    ALICE.remoteBot().menu("Refactor").menu("Rename...").click();
-    ALICE.remoteBot().editor("HelloWorld.java").typeText("bar\n");
+        ALICE.remoteBot().editor("HelloWorld.java").setText(builder.toString());
 
-    // refactor might take a while
-    Thread.sleep(10000);
+        ALICE.remoteBot().editor("HelloWorld.java").navigateTo(4, 8);
 
-    List<Integer> viewPortAfterRefactor = BOB.remoteBot().editor("HelloWorld.java").getViewport();
+        // wait for the text to be selected
+        Thread.sleep(10000);
 
-    assertEquals("viewport changed", viewPortBeforeRefactor.get(0), viewPortAfterRefactor.get(0));
+        ALICE.remoteBot().activateWorkbench();
+        ALICE.remoteBot().menu("Refactor").menu("Rename...").click();
+        ALICE.remoteBot().editor("HelloWorld.java").typeText("bar\n");
 
-    assertEquals(
-        "file content is not the same",
-        ALICE.remoteBot().editor("HelloWorld.java").getText(),
-        BOB.remoteBot().editor("HelloWorld.java").getText());
-  }
+        // refactor might take a while
+        Thread.sleep(10000);
+
+        List<Integer> viewPortAfterRefactor = BOB.remoteBot()
+            .editor("HelloWorld.java").getViewport();
+
+        assertEquals("viewport changed", viewPortBeforeRefactor.get(0),
+            viewPortAfterRefactor.get(0));
+
+        assertEquals("file content is not the same",
+            ALICE.remoteBot().editor("HelloWorld.java").getText(),
+            BOB.remoteBot().editor("HelloWorld.java").getText());
+
+    }
 }
