@@ -15,7 +15,7 @@ import saros.stf.shared.Constants.TypeOfCreateProject;
 import saros.stf.test.stf.Constants;
 import saros.stf.testwatcher.STFTestWatcherLevelONEii;
 
-public class SimpleSessionSequentially extends StfTestCase {
+public class Share2UsersSequentiallyTest extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {

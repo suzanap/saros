@@ -17,7 +17,7 @@ import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
 
 @TestLink(id = "Saros-131_create_same_file_at_once")
-public class CreateSameFileAtOnceTest2 extends StfTestCase {
+public class CreateSameFileAtOnceTest3 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
@@ -51,16 +51,16 @@ public class CreateSameFileAtOnceTest2 extends StfTestCase {
     @Test
     public void testCreateSameFileAtOnce() throws Exception {
 
-        ALICE.superBot().internal().createFile("Foo1_Saros", "sync.dummy",
+        ALICE.superBot().internal().createFile("Foo1_Saros", "src/sync.dummy",
             "dummy");
 
         // Util.buildSessionSequentially("foo", TypeOfCreateProject.NEW_PROJECT,
         // ALICE, BOB, CARL);
 
         BOB.superBot().views().packageExplorerView()
-            .waitUntilResourceIsShared("Foo1_Saros/sync.dummy");
+            .waitUntilResourceIsShared("Foo1_Saros/src/sync.dummy");
         CARL.superBot().views().packageExplorerView()
-            .waitUntilResourceIsShared("Foo1_Saros/sync.dummy");
+            .waitUntilResourceIsShared("Foo1_Saros/src/sync.dummy");
 
         AbstractTester firstTester = BOB;
         AbstractTester secondTester = CARL;
@@ -73,11 +73,11 @@ public class CreateSameFileAtOnceTest2 extends StfTestCase {
         BOB.controlBot().getNetworkManipulator().blockOutgoingSessionPackets();
         CARL.controlBot().getNetworkManipulator().blockOutgoingSessionPackets();
 
-        firstTester.superBot().internal().createFile("Foo1_Saros", "readme.txt",
-            firstTester.toString());
+        firstTester.superBot().internal().createFile("Foo1_Saros",
+            "src/readme.txt", firstTester.toString());
 
         secondTester.superBot().internal().createFile("Foo1_Saros",
-            "readme.txt", secondTester.toString());
+            "src/readme.txt", secondTester.toString());
 
         BOB.controlBot().getNetworkManipulator()
             .unblockOutgoingSessionPackets();
@@ -86,22 +86,22 @@ public class CreateSameFileAtOnceTest2 extends StfTestCase {
             .unblockOutgoingSessionPackets();
 
         ALICE.superBot().views().packageExplorerView()
-            .waitUntilResourceIsShared("Foo1_Saros/readme.txt");
+            .waitUntilResourceIsShared("Foo1_Saros/src/readme.txt");
 
         ALICE.superBot().views().packageExplorerView()
-            .selectFile("Foo1_Saros", "readme.txt").open();
+            .selectFile("Foo1_Saros", "src", "readme.txt").open();
         ALICE.remoteBot().editor("readme.txt").waitUntilIsActive();
 
         String aliceText = ALICE.remoteBot().editor("readme.txt").getText();
 
         BOB.superBot().views().packageExplorerView()
-            .selectFile("Foo1_Saros", "readme.txt").open();
+            .selectFile("Foo1_Saros", "src", "readme.txt").open();
         BOB.remoteBot().editor("readme.txt").waitUntilIsActive();
 
         String bobText = BOB.remoteBot().editor("readme.txt").getText();
 
         CARL.superBot().views().packageExplorerView()
-            .selectFile("Foo1_Saros", "readme.txt").open();
+            .selectFile("Foo1_Saros", "src", "readme.txt").open();
         CARL.remoteBot().editor("readme.txt").waitUntilIsActive();
 
         String carlText = CARL.remoteBot().editor("readme.txt").getText();
@@ -127,7 +127,7 @@ public class CreateSameFileAtOnceTest2 extends StfTestCase {
         tester.superBot().views().sarosView().resolveInconsistency();
 
         tester.superBot().views().packageExplorerView()
-            .selectFile("Foo1_Saros", "readme.txt").open();
+            .selectFile("Foo1_Saros", "src", "readme.txt").open();
         tester.remoteBot().editor("readme.txt").waitUntilIsActive();
 
         String repairedText = tester.remoteBot().editor("readme.txt").getText();

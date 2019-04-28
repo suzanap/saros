@@ -13,7 +13,7 @@ import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
 import saros.stf.test.stf.Constants;
 
-public class Share2UsersSequentiallyTest extends StfTestCase {
+public class Share2UsersSequentiallyTest_SimpleSessionSequentially extends StfTestCase {
 
   @BeforeClass
   public static void selectTesters() throws Exception {

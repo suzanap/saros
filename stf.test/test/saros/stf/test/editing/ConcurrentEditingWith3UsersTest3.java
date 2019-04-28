@@ -19,7 +19,7 @@ import saros.test.util.EclipseTestThread;
  *
  * @author nwarnatsch
  */
-public class ConcurrentEditingWith3UsersTest2 extends StfTestCase {
+public class ConcurrentEditingWith3UsersTest3 extends StfTestCase {
     private EclipseTestThread aliceEditTaskThread;
     private EclipseTestThread bobEditTaskThread;
     private EclipseTestThread carlEditTaskThread;

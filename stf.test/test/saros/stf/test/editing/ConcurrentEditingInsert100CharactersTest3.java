@@ -14,7 +14,7 @@ import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
 import saros.test.util.EclipseTestThread;
 
-public class ConcurrentEditingInsert100CharactersTest2 extends StfTestCase {
+public class ConcurrentEditingInsert100CharactersTest3 extends StfTestCase {
 
     private static final long TIMEOUT = 5 * 60 * 1000;
 

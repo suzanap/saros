@@ -6,7 +6,7 @@ import static saros.stf.client.tester.SarosTester.BOB;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
-public class Share2UsersSequentiallyInstantSessionTest extends Share2UsersSequentiallyTest {
+public class Share2UsersSequentiallyInstantSessionTest extends Share2UsersSequentiallyTest_SimpleSessionSequentially {
 
   @BeforeClass
   public static void selectTesters() throws Exception {

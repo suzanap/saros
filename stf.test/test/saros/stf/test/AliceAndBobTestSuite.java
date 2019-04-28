@@ -16,6 +16,7 @@ import saros.stf.test.followmode.FollowModeTest2;
 import saros.stf.test.followmode.RefactorInFollowModeTest2;
 import saros.stf.test.followmode.SimpleFollowModeIITest2;
 import saros.stf.test.followmode.SimpleFollowModeITest2;
+import saros.stf.test.html.AddContactTest2;
 import saros.stf.test.invitation.HostInvitesBelatedlyTest2;
 import saros.stf.test.invitation.InviteWithDifferentVersionsTest2;
 import saros.stf.test.invitation.ShareProjectUsingExistingProjectTest2;
@@ -29,7 +30,7 @@ import saros.stf.test.session.EstablishSessionWithDifferentTransportModesTest2;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ SimpleSessionConcurrently.class,
-    SimpleSessionSequentially.class, ChatViewFunctionsTest2.class,
+    Share2UsersSequentiallyTest.class, ChatViewFunctionsTest2.class,
     AddMultipleFilesTest2.class, ModifyFileWithoutEditorTest2.class,
     RecoveryWhileTypingTest2.class, ConcurrentEditingTest2.class,
     EditDifferentFilesTest2.class, Editing3ProjectsTest2.class,
@@ -43,7 +44,8 @@ import saros.stf.test.session.EstablishSessionWithDifferentTransportModesTest2;
     ShareFilesFromOneProjectToMultipleRemoteProjectsTest2.class,
     ShareFilesToProjectsWithDifferentEncodingTest2.class,
     HandleContactsTest2.class, EditFileThatIsNotOpenOnRemoteSideTest2.class,
-    EstablishSessionWithDifferentTransportModesTest2.class })
+    EstablishSessionWithDifferentTransportModesTest2.class,
+    AddContactTest2.class })
 public class AliceAndBobTestSuite {
     //
 }

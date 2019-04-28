@@ -18,7 +18,7 @@ import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.test.stf.Constants;
 
-public class FileOperationsTest2_notdoneyet extends StfTestCase {
+public class FileOperationsTest3_notdoneyet extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
