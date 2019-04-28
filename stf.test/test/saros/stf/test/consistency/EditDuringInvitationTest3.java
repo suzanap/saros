@@ -18,7 +18,7 @@ import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
 import saros.stf.test.stf.Constants;
-import saros.stf.testwatcher.STFTestWatcherLevelTWOiv;
+import saros.stf.testwatcher.STFTestWatcherLevelTWOiii;
 import saros.test.util.EclipseTestThread;
 
 @TestLink(id = "Saros-36_edit_during_invitation")
@@ -28,6 +28,7 @@ public class EditDuringInvitationTest3 extends StfTestCase {
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         selectFirst(ALICE, BOB, CARL);
+        // if for some reason there is no session, build up a new session
         if (ALICE.superBot().views().sarosView().isInSession() == false
             && BOB.superBot().views().sarosView().isInSession() == false) {
             clearWorkspaces();
@@ -40,7 +41,7 @@ public class EditDuringInvitationTest3 extends StfTestCase {
 
     @Rule
 
-    public STFTestWatcherLevelTWOiv watcherTWOiv = new STFTestWatcherLevelTWOiv();
+    public STFTestWatcherLevelTWOiii watcherTWOiv = new STFTestWatcherLevelTWOiii();
 
     @After
     public void restoreNetwork() throws Exception {
@@ -59,10 +60,6 @@ public class EditDuringInvitationTest3 extends StfTestCase {
 
         ALICE.superBot().views().sarosView().selectContact(CARL.getJID())
             .addToSarosSession();
-
-        // BOB.superBot().views().packageExplorerView()
-        // .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
-        // .open();
 
         BOB.superBot().views().packageExplorerView()
             .selectFile("Foo1_Saros", "src", "my", "pkg", "MyClass.java")
@@ -92,9 +89,6 @@ public class EditDuringInvitationTest3 extends StfTestCase {
             .getText();
         CARL.superBot().views().packageExplorerView()
             .waitUntilResourceIsShared("Foo1_Saros/src/my/pkg/MyClass.java");
-
-        // CARL.superBot().views().packageExplorerView().waitUntilClassExists(
-        // Constants.PROJECT1, Constants.PKG1, Constants.CLS1);
 
         CARL.superBot().views().packageExplorerView()
             .selectFile("Foo1_Saros", "src", "my", "pkg", "MyClass.java")

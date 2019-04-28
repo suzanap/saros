@@ -36,7 +36,6 @@ public class NonHostInvitesContactTest3 extends StfTestCase {
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         selectFirst(ALICE, BOB, CARL);
-
     }
 
     @Before
@@ -46,16 +45,15 @@ public class NonHostInvitesContactTest3 extends StfTestCase {
         clearWorkspaces();
     }
 
-    @AfterClass
-    public static void cleanUpSaros() throws Exception {
-
-        tearDownSarosLast();
-    }
-
     @After
     public void runAfterEveryTest() throws Exception {
         leaveSessionHostFirst(ALICE);
         clearWorkspaces();
+    }
+
+    @AfterClass
+    public static void cleanUpSaros() throws Exception {
+        tearDownSarosLast();
     }
 
     /**

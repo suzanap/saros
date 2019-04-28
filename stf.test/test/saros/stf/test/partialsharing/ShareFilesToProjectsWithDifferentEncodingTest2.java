@@ -21,19 +21,15 @@ public class ShareFilesToProjectsWithDifferentEncodingTest2
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         selectFirst(ALICE, BOB);
-
     }
 
     @Before
     public void setUp() throws Exception {
-
         closeAllShells();
         closeAllEditors();
         clearWorkspaces();
-
     }
 
     @After

@@ -27,6 +27,7 @@ public class EditDuringNonHostInvitationTest3 extends StfTestCase {
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         select(ALICE, BOB, CARL);
+        // if for some reason there is no session, build up a new session
         if (ALICE.superBot().views().sarosView().isInSession() == false
             && BOB.superBot().views().sarosView().isInSession() == false) {
             clearWorkspaces();
@@ -40,7 +41,6 @@ public class EditDuringNonHostInvitationTest3 extends StfTestCase {
     @After
     public void restoreNetwork() throws Exception {
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
-
         tearDownSaros();
     }
 

@@ -28,9 +28,7 @@ public class AddContactTest2 extends StfHtmlTestCase {
 
     @After
     public void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     @Test

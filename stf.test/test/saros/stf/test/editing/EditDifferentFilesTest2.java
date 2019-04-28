@@ -21,7 +21,7 @@ public class EditDifferentFilesTest2 extends StfTestCase {
 
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         select(ALICE, BOB);
-
+        // if for some reason there is no session, build up a new session
         if (isSession() == false) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");
@@ -33,10 +33,8 @@ public class EditDifferentFilesTest2 extends StfTestCase {
 
     @Before
     public void setUp() throws Exception {
-
         closeAllShells();
         closeAllEditors();
-
     }
 
     @After

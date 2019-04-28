@@ -69,6 +69,7 @@ public class ConcurrentEditingInsert100CharactersTest3 extends StfTestCase {
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiiiandTWOiiSucceeded());
         select(ALICE, BOB, CARL);
+        // if for some reason there is no session, build up a new session
         if (!isSession()) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");

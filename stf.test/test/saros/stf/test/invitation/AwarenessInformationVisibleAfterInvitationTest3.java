@@ -40,9 +40,7 @@ public class AwarenessInformationVisibleAfterInvitationTest3
 
     @AfterClass
     public static void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     /**

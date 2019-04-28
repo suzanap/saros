@@ -16,7 +16,7 @@ import org.junit.Test;
 import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
-import saros.stf.testwatcher.STFTestWatcherLevelTWOiii;
+import saros.stf.testwatcher.STFTestWatcherLevelTWOii;
 
 public class SimpleFollowModeIITest2 extends StfTestCase {
 
@@ -25,41 +25,35 @@ public class SimpleFollowModeIITest2 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         select(ALICE, BOB);
-
+        // if for some reason there is no session, build up a new session
         if (isSession() == false) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");
             Util.buildSessionConcurrently("Foo1_Saros",
                 TypeOfCreateProject.NEW_PROJECT, ALICE, BOB);
         }
-
     }
 
     @Before
     public void setUp() throws Exception {
-
         closeAllShells();
         closeAllEditors();
-
     }
 
     @After
     public void cleanUpSaros() throws Exception {
-
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
         ALICE.superBot().views().sarosView().selectUser(BOB.getJID())
             .grantWriteAccess();
         ALICE.superBot().views().sarosView().selectUser(BOB.getJID())
             .waitUntilHasWriteAccess();
         tearDownSaros();
-
     }
 
     @Rule
-    public STFTestWatcherLevelTWOiii watcherLevelTWO = new STFTestWatcherLevelTWOiii();
+    public STFTestWatcherLevelTWOii watcherLevelTWOiii = new STFTestWatcherLevelTWOii();
 
     @Test
     public void testSimpleFollowMode() throws Exception {

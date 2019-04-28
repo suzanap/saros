@@ -37,6 +37,7 @@ public class SimpleSessionConcurrently extends StfTestCase {
     @Test
     public void simpleSessionConcurrently()
         throws Exception, InterruptedException {
+
         ALICE.superBot().views().packageExplorerView().tree().newC()
             .javaProjectWithClasses(Constants.PROJECT1, Constants.PKG1,
                 Constants.CLS1);

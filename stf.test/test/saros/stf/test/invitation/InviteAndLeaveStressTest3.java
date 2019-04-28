@@ -7,12 +7,10 @@ import static saros.stf.client.tester.SarosTester.CARL;
 import org.junit.AfterClass;
 import org.junit.Assume;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
-import saros.stf.testwatcher.STFTestWatcherLevelTWOiv;
 
 public class InviteAndLeaveStressTest3 extends StfTestCase {
 
@@ -24,14 +22,9 @@ public class InviteAndLeaveStressTest3 extends StfTestCase {
         selectFirst(ALICE, BOB, CARL);
     }
 
-    @Rule
-    public STFTestWatcherLevelTWOiv watcherTWOiv = new STFTestWatcherLevelTWOiv();
-
     @AfterClass
     public static void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     @Test

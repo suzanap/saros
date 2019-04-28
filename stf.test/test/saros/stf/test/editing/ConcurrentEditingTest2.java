@@ -16,7 +16,7 @@ import saros.stf.client.StfTestCase;
 import saros.stf.client.util.Util;
 import saros.stf.shared.Constants.TypeOfCreateProject;
 import saros.stf.test.stf.Constants;
-import saros.stf.testwatcher.STFTestWatcherLevelTWOii;
+import saros.stf.testwatcher.STFTestWatcherLevelTWOi;
 
 public class ConcurrentEditingTest2 extends StfTestCase {
 
@@ -25,9 +25,8 @@ public class ConcurrentEditingTest2 extends StfTestCase {
 
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         select(ALICE, BOB);
-
+        // if for some reason there is no session, build up a new session
         if (isSession() == false) {
-
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");
             Util.buildSessionConcurrently("Foo1_Saros",
@@ -38,22 +37,18 @@ public class ConcurrentEditingTest2 extends StfTestCase {
 
     @Before
     public void setUp() throws Exception {
-
         closeAllShells();
         closeAllEditors();
-
     }
 
     @After
     public void cleanUpSaros() throws Exception {
-
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
         tearDownSaros();
-
     }
 
     @Rule
-    public STFTestWatcherLevelTWOii watcherLevelTWOii = new STFTestWatcherLevelTWOii();
+    public STFTestWatcherLevelTWOi watcherLevelTWOii = new STFTestWatcherLevelTWOi();
 
     static final String FILE = "file.txt";
 

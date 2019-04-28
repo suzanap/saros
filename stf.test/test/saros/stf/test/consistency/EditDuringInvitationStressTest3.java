@@ -30,6 +30,7 @@ public class EditDuringInvitationStressTest3 extends StfTestCase {
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiiiandTWOivSucceeded());
         select(ALICE, BOB, CARL);
+        // if for some reason there is no session, build up a new session
         if (ALICE.superBot().views().sarosView().isInSession() == false
             && BOB.superBot().views().sarosView().isInSession() == false) {
             clearWorkspaces();

@@ -31,7 +31,6 @@ public class ShareMultipleProjectsTest3 extends StfTestCase {
 
     @Before
     public void beforeEveryTest() throws Exception {
-
         clearWorkspaces();
         ALICE.superBot().views().packageExplorerView().tree().newC()
             .javaProjectWithClasses("foo", "bar", "HelloAlice");

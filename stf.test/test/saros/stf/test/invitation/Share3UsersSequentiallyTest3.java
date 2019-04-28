@@ -32,7 +32,6 @@ public class Share3UsersSequentiallyTest3 extends StfTestCase {
 
     @AfterClass
     public static void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
     }
 

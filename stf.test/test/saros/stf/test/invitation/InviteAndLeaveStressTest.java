@@ -16,7 +16,7 @@ public class InviteAndLeaveStressTest extends StfTestCase {
 
   @BeforeClass
   public static void selectTesters() throws Exception {
-    select(ALICE, BOB, CARL);
+    selectFirst(ALICE, BOB, CARL);
   }
 
   @Test

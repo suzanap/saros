@@ -36,18 +36,14 @@ public class EstablishSessionWithDifferentTransportModesTest2
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-
         Assume.assumeTrue(checkIfLevelONEiiSucceeded());
         selectFirst(ALICE, BOB);
-
     }
 
     @AfterClass
     public static void resetTransportMode() throws Exception {
-
         activateTransportMode(null);
         tearDownSarosLast();
-
     }
 
     @Before

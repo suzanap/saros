@@ -28,7 +28,6 @@ public class ChatViewFunctionsTest2 extends StfTestCase {
 
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         selectFirst(ALICE, BOB);
-
         ALICE.superBot().internal().createProject("Foo1_Saros");
 
         Util.buildSessionConcurrently("Foo1_Saros",
@@ -46,7 +45,8 @@ public class ChatViewFunctionsTest2 extends StfTestCase {
 
     @After
     public void cleanUpSaros() throws Exception {
-
+        // delete only the source folder of the project, the project remains
+        // shared
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
         tearDownSaros();
 
@@ -139,7 +139,6 @@ public class ChatViewFunctionsTest2 extends StfTestCase {
     @Test
     public void testVisualChatNotification() throws Exception {
 
-        // Assume.assumeTrue(checkIfLevelONEiSucceeded());
         // Initial state: session chat open and with focus, two message
         // exchanged, no notification shown
         ALICE.superBot().views().sarosView()

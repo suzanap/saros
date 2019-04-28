@@ -27,10 +27,8 @@ public class InviteWithDifferentVersionsTest2 extends StfTestCase {
 
     @AfterClass
     public static void cleanUpSaros() throws Exception {
-
         BOB.superBot().internal().resetSarosVersion();
         tearDownSarosLast();
-
     }
 
     @Test

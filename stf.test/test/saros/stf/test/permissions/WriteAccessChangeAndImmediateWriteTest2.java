@@ -27,7 +27,7 @@ public class WriteAccessChangeAndImmediateWriteTest2 extends StfTestCase {
 
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         select(ALICE, BOB);
-
+        // if for some reason there is no session, build up a new session
         if (isSession() == false) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");
@@ -49,10 +49,6 @@ public class WriteAccessChangeAndImmediateWriteTest2 extends StfTestCase {
     public void cleanUpSaros() throws Exception {
 
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
-        // ALICE.superBot().views().sarosView().selectUser(BOB.getJID())
-        // .grantWriteAccess();
-        // ALICE.superBot().views().sarosView().selectUser(BOB.getJID())
-        // .waitUntilHasWriteAccess();
         tearDownSarosLast();
 
     }
@@ -92,9 +88,6 @@ public class WriteAccessChangeAndImmediateWriteTest2 extends StfTestCase {
             .selectFile("Foo1_Saros", "src", "my", "pkg", "MyClass.java")
             .open();
 
-        // BOB.superBot().views().packageExplorerView()
-        // .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
-        // .open();
         BOB.remoteBot().editor(Constants.CLS1_SUFFIX)
             .setTextFromFile(Constants.CP1);
         BOB.superBot().views().sarosView().waitUntilIsInconsistencyDetected();

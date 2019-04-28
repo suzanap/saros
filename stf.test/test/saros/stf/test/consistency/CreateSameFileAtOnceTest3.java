@@ -23,6 +23,7 @@ public class CreateSameFileAtOnceTest3 extends StfTestCase {
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiiiSucceeded());
         selectFirst(ALICE, BOB, CARL);
+        // if for some reason there is no session, build up a new session
         if (!isSession()) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");
@@ -30,12 +31,6 @@ public class CreateSameFileAtOnceTest3 extends StfTestCase {
                 TypeOfCreateProject.NEW_PROJECT, ALICE, BOB, CARL);
         }
 
-        /*
-         * ALICE.superBot().internal().createProject("Foo1_Saros");
-         *
-         * Util.buildSessionSequentially("Foo1_Saros",
-         * TypeOfCreateProject.NEW_PROJECT, ALICE, BOB, CARL);
-         */
     }
 
     @After
@@ -53,10 +48,6 @@ public class CreateSameFileAtOnceTest3 extends StfTestCase {
 
         ALICE.superBot().internal().createFile("Foo1_Saros", "src/sync.dummy",
             "dummy");
-
-        // Util.buildSessionSequentially("foo", TypeOfCreateProject.NEW_PROJECT,
-        // ALICE, BOB, CARL);
-
         BOB.superBot().views().packageExplorerView()
             .waitUntilResourceIsShared("Foo1_Saros/src/sync.dummy");
         CARL.superBot().views().packageExplorerView()

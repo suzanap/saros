@@ -43,8 +43,7 @@ public class AccountPreferenceTest1 extends StfTestCase {
 
     @After
     public void cleanUpSaros() throws Exception {
-
-        tearDownSarosLast();
+        tearDownSarosLast(); // tearDownSaros completely
 
     }
 

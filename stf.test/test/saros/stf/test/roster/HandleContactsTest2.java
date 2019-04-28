@@ -26,23 +26,17 @@ public class HandleContactsTest2 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-
         selectFirst(ALICE, BOB);
-
     }
 
     @After
     public void afterEveryTest() throws Exception {
-
         resetContacts();
-
     }
 
     @AfterClass
     public static void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     /**

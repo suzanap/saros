@@ -34,10 +34,8 @@ public class ShareProjectUsingExistingProjectTest2 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-
         Assume.assumeTrue(checkIfLevelONEiiSucceeded());
         selectFirst(ALICE, BOB);
-
     }
 
     @Before
@@ -54,7 +52,6 @@ public class ShareProjectUsingExistingProjectTest2 extends StfTestCase {
 
     @After
     public void runAfterEveryTest() throws Exception {
-
         leaveSessionHostFirst(ALICE);
         clearWorkspaces();
 
@@ -62,7 +59,6 @@ public class ShareProjectUsingExistingProjectTest2 extends StfTestCase {
 
     @AfterClass
     public static void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
     }
 

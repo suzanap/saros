@@ -22,7 +22,7 @@ public class Editing3ProjectsTest2 extends StfTestCase {
 
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         select(ALICE, BOB);
-
+        // if for some reason there is no session, build up a new session
         if (isSession() == false) {
             // selectFirst(ALICE, BOB);
             clearWorkspaces();
@@ -30,7 +30,6 @@ public class Editing3ProjectsTest2 extends StfTestCase {
             Util.buildSessionConcurrently("Foo1_Saros",
                 TypeOfCreateProject.NEW_PROJECT, ALICE, BOB);
         }
-
     }
 
     @Before
@@ -42,7 +41,7 @@ public class Editing3ProjectsTest2 extends StfTestCase {
 
     @After
     public void cleanUpSaros() throws Exception {
-
+        // deleting all unnecessary projects; session still remains active
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
         ALICE.superBot().internal().deleteProject("Foo2_Saros");
         ALICE.superBot().internal().deleteProject("Foo3_Saros");

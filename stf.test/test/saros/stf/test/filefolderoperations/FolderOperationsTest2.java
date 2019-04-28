@@ -25,7 +25,7 @@ public class FolderOperationsTest2 extends StfTestCase {
 
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         select(ALICE, BOB);
-
+        // if for some reason there is no session, build up a new session
         if (isSession() == false) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");
@@ -37,19 +37,14 @@ public class FolderOperationsTest2 extends StfTestCase {
 
     @Before
     public void setUp() throws Exception {
-
         closeAllShells();
         closeAllEditors();
-
     }
 
     @After
     public void cleanUpSaros() throws Exception {
-
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
-
         tearDownSaros();
-
     }
 
     @Test

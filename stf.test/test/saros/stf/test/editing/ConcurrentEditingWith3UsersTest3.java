@@ -7,7 +7,6 @@ import static saros.stf.client.tester.SarosTester.CARL;
 
 import org.junit.After;
 import org.junit.Assume;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import saros.stf.client.StfTestCase;
@@ -34,6 +33,7 @@ public class ConcurrentEditingWith3UsersTest3 extends StfTestCase {
     @BeforeClass
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiiiandTWOiiSucceeded());
+        // if for some reason there is no session, build up a new session
         select(ALICE, BOB, CARL);
         if (!isSession()) {
             clearWorkspaces();
@@ -41,11 +41,6 @@ public class ConcurrentEditingWith3UsersTest3 extends StfTestCase {
             Util.buildSessionConcurrently("Foo1_Saros",
                 TypeOfCreateProject.NEW_PROJECT, ALICE, BOB, CARL);
         }
-    }
-
-    @Before
-    public void runBeforeEveryTest() throws Exception {
-        // clearWorkspaces();
     }
 
     @After

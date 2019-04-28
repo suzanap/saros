@@ -21,31 +21,25 @@ public class FollowModeTest2 extends StfTestCase {
 
         Assume.assumeTrue(checkIfLevelONEiandTWOiiiSucceeded());
         select(ALICE, BOB);
-
+        // if for some reason there is no session, build up a new session
         if (isSession() == false) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");
             Util.buildSessionConcurrently("Foo1_Saros",
                 TypeOfCreateProject.NEW_PROJECT, ALICE, BOB);
         }
-
     }
 
     @Before
     public void setUp() throws Exception {
-
         closeAllShells();
         closeAllEditors();
-
     }
 
     @After
     public void cleanUpSaros() throws Exception {
-
         ALICE.superBot().internal().deleteFolder("Foo1_Saros", "src");
-
         tearDownSaros();
-
     }
 
     @Test
@@ -53,16 +47,11 @@ public class FollowModeTest2 extends StfTestCase {
 
         ALICE.superBot().internal().createJavaClass(Constants.PROJECT1,
             Constants.PKG1, Constants.CLS1);
-
         BOB.superBot().views().packageExplorerView().waitUntilClassExists(
             Constants.PROJECT1, Constants.PKG1, Constants.CLS1);
         ALICE.superBot().views().packageExplorerView()
             .selectFile("Foo1_Saros", "src", "my", "pkg", "MyClass.java")
             .open();
-
-        // ALICE.superBot().views().packageExplorerView()
-        // .selectClass(Constants.PROJECT1, Constants.PKG1, Constants.CLS1)
-        // .open();
 
         ALICE.remoteBot().editor(Constants.CLS1_SUFFIX)
             .setTextFromFile(Constants.CP1);

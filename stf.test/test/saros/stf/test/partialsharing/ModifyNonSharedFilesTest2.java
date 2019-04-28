@@ -17,17 +17,13 @@ public class ModifyNonSharedFilesTest2 extends StfTestCase {
 
     @BeforeClass
     public static void selectTesters() throws Exception {
-
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
         selectFirst(ALICE, BOB);
-
     }
 
     @AfterClass
     public static void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     @Test

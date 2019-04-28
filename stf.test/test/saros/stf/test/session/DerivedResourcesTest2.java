@@ -19,6 +19,7 @@ public class DerivedResourcesTest2 extends StfTestCase {
     @BeforeClass
     public static void selectTesters() throws Exception {
         Assume.assumeTrue(checkIfLevelONEiSucceeded());
+        // if for some reason there is no session, build up a new session
         select(ALICE, BOB);
         if (!isSession()) {
             clearWorkspaces();

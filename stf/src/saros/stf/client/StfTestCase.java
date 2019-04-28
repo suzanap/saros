@@ -28,7 +28,6 @@ import saros.stf.testwatcher.STFTestWatcherLevelONEiii;
 import saros.stf.testwatcher.STFTestWatcherLevelTWOi;
 import saros.stf.testwatcher.STFTestWatcherLevelTWOii;
 import saros.stf.testwatcher.STFTestWatcherLevelTWOiii;
-import saros.stf.testwatcher.STFTestWatcherLevelTWOiv;
 import saros.test.util.EclipseTestThread;
 
 public abstract class StfTestCase {
@@ -37,60 +36,7 @@ public abstract class StfTestCase {
         .getLogger(StfTestCase.class.getName());
 
     /** JUnit monitor. Do <b>NOT</b> call any method of this instance ! */
-    /*
-     * @Rule public final MethodRule watchman = new TestWatchman() {
-     *
-     * @Override public void failed(Throwable e, FrameworkMethod method) { /*
-     * Some test runners interpret a violated assumption (as in
-     * `Assume.assumeTrue(condition)` to conditionally ignore a test case) as a
-     * test failure. However, a violated assumption is not the same as a
-     * violated assertions, and therefore should not mark a test case as
-     * "failed".
-     */
-    /*
-     * if (e instanceof AssumptionViolatedException) { return; }
-     *
-     * logMessage( "******* " + "TESTCASE " +
-     * method.getMethod().getDeclaringClass().getName() + ":" + method.getName()
-     * + " FAILED *******"); captureScreenshot(
-     * (method.getMethod().getDeclaringClass().getName() + "_" +
-     * method.getName()) .replace('.', '_'));
-     *
-     * ByteArrayOutputStream out = new ByteArrayOutputStream();
-     * e.printStackTrace(new PrintStream(out)); logMessage(new
-     * String(out.toByteArray())); }
-     *
-     * @Override public void succeeded(FrameworkMethod method) { logMessage(
-     * "******* " + "TESTCASE " +
-     * method.getMethod().getDeclaringClass().getName() + ":" + method.getName()
-     * + " SUCCEDED *******"); }
-     *
-     * @Override public void finished(FrameworkMethod method) { logMessage(
-     * "******* " + "TESTCASE " +
-     * method.getMethod().getDeclaringClass().getName() + ":" + method.getName()
-     * + " FINISHED *******"); }
-     *
-     * @Override public void starting(FrameworkMethod method) {
-     *
-     * lastTestClass = method.getMethod().getDeclaringClass();
-     *
-     * logMessage( "******* " + "STARTING TESTCASE " +
-     * method.getMethod().getDeclaringClass().getName() + ":" + method.getName()
-     * + " *******"); }
-     *
-     * private void logMessage(String message) { for (AbstractTester tester :
-     * currentTesters) { try { tester.remoteBot().logMessage(message); } catch
-     * (Exception e) { LOGGER.log( Level.WARNING, "could not log message '" +
-     * message + "' at remote bot of tester " + tester, e); } } }
-     *
-     * private void captureScreenshot(String name) {
-     *
-     * for (AbstractTester tester : currentTesters) { try { tester .remoteBot()
-     * .captureScreenshot( name + "_" + tester + "_" +
-     * System.currentTimeMillis() + ".jpg"); } catch (Exception e) { LOGGER.log(
-     * Level.WARNING, "could capture a screenshot at remote bot of tester " +
-     * tester, e); } } } };
-     */
+
     @Rule
     public final TestWatcher watcher = new TestWatcher() {
         @Override
@@ -199,10 +145,11 @@ public abstract class StfTestCase {
      * Calls
      *
      * <ol>
-     * <li>reset all contact names by calling
-     * {@linkplain #initTesters(AbstractTester, AbstractTester...)}
+     * <li>reset all contact names by calling for the first test case of the
+     * category {@linkplain #initTesters(AbstractTester, AbstractTester...)}
      * <li>{@linkplain #setUpWorkbench()}
      * <li>{@linkplain #setUpSaros()}
+     * <li>{@linkplain #reconnectAllTesters()}
      * </ol>
      *
      * @param tester
@@ -216,13 +163,31 @@ public abstract class StfTestCase {
         initTesters(tester, testers);
         setUpWorkbench();
         setUpSaros();
+        reconnectAllTesters();
     }
 
+    /**
+     * Calls
+     *
+     * <ol>
+     * <li>reset all contact names by calling for the test cases of the
+     * category, which are not the first case
+     * {@linkplain #initTesters(AbstractTester, AbstractTester...)}
+     * <li>{@linkplain #setUpWorkbench()}
+     * <li>{@linkplain #setUpSaros()}
+     * <li>{@linkplain #reconnectAllTesters()}
+     * </ol>
+     *
+     * @param tester
+     *            a tester e.g ALICE
+     * @param testers
+     *            additional testers e.g BOB, CARL
+     * @throws Exception
+     */
     public static void select(AbstractTester tester, AbstractTester... testers)
         throws Exception {
         initTesters(tester, testers);
-        // setUpWorkbench();
-        // setUpSaros();
+        reconnectAllTesters();
     }
 
     /**
@@ -253,23 +218,13 @@ public abstract class StfTestCase {
     }
 
     /**
-     * This method is called after every test case class. Override this method
-     * with care! Internal calls {@linkplain #tearDownSaros}
-     */
-    // @AfterClass
-    /*
-     * public static void cleanUpSaros() throws Exception { tearDownSaros(); }
-     */
-
-    /**
      * Tries to reset Saros to a stable state for the given tester(s). It does
      * that be performing the following actions
      *
      * <ol>
      * <li>reset all contact names by calling
      * {@linkplain #resetNicknames(AbstractTester)}
-     * <li>disconnect from the current session
-     * <li>delete the contents of the workspace
+     * <li>reseting the Workbench
      * </ol>
      *
      * @throws Exception
@@ -313,6 +268,21 @@ public abstract class StfTestCase {
 
     }
 
+    /**
+     * Tries to reset Saros to a stable state for the given tester(s). It does
+     * that be performing the following actions (for the last test case of the
+     * category)
+     *
+     * <ol>
+     * <li>reset all contact names by calling
+     * {@linkplain #resetNicknames(AbstractTester)}
+     * <li>disconnect from the current session
+     * <li>delete the contents of the workspace
+     * </ol>
+     *
+     * @throws Exception
+     *             if a (internal) failure occur
+     */
     public static void tearDownSarosLast() throws Exception {
 
         try {
@@ -372,6 +342,13 @@ public abstract class StfTestCase {
             throw exception;
     }
 
+    /**
+     * Checks if all current testers are in an active session
+     *
+     * @throws Exception
+     *             if a (internal) failure occur
+     */
+
     public static boolean isSession() throws Exception {
         for (AbstractTester tester : currentTesters) {
 
@@ -383,13 +360,30 @@ public abstract class StfTestCase {
     }
 
     /**
+     * Reconnects all the current testers
+     *
+     * @throws Exception
+     *             if a (internal) failure occur
+     */
+
+    public static void reconnectAllTesters() throws Exception {
+        for (AbstractTester tester : currentTesters) {
+            if (!tester.superBot().views().sarosView().isConnected()) {
+                tester.superBot().views().sarosView().connect();
+
+            }
+
+        }
+
+    }
+
+    /**
      * Brings workbench to a original state before beginning your tests
      *
      * <ul>
      * <li>activate Saros instance workbench
      * <li>close all opened popUp windows
      * <li>close all opened editors
-     * <li>deletes all projects
      * <li>close welcome view, if it is open
      * <li>opens the default perspective
      * <li>close all unnecessary views
@@ -409,7 +403,6 @@ public abstract class StfTestCase {
                     tester.remoteBot().view("Welcome").close();
                 tester.superBot().menuBar().window().openPerspective();
                 Util.closeUnnecessaryViews(tester);
-                // tester.superBot().internal().clearWorkspace();
             } catch (Exception e) {
                 exception = e;
             }
@@ -470,7 +463,6 @@ public abstract class StfTestCase {
         }
 
         Util.workAll(connectTasks);
-
         resetNicknames();
         resetContacts();
     }
@@ -662,48 +654,74 @@ public abstract class StfTestCase {
         }
     }
 
-    // checks conditional testing
-
+    /**
+     * Checks if the test for establishing a session (concurrently) between two
+     * users passed
+     */
     public static boolean checkIfLevelONEiSucceeded() {
         return STFTestWatcherLevelONEi.checkIfAllSucceeded();
     }
 
+    /**
+     * Checks if the test for establishing a session (sequentially) between two
+     * users passed
+     */
     public static boolean checkIfLevelONEiiSucceeded() {
         return STFTestWatcherLevelONEii.checkIfAllSucceeded();
     }
 
+    /**
+     * Checks if the test for establishing a session (concurrently) among three
+     * users passed
+     */
     public static boolean checkIfLevelONEiiiSucceeded() {
         return STFTestWatcherLevelONEiii.checkIfAllSucceeded();
     }
 
-    public static boolean checkIfLevelONEiandTWOiSucceeded() {
+    /**
+     * Checks if the test for establishing a session (concurrently) between two
+     * users passed and if ConcurrentEditingTest passed
+     */
+    public static boolean checkIfLevelONEiandTWOiiSucceeded() {
         return STFTestWatcherLevelONEi.checkIfAllSucceeded()
             && STFTestWatcherLevelTWOi.checkIfAllSucceeded();
     }
 
-    public static boolean checkIfLevelONEiandTWOiiSucceeded() {
+    /**
+     * Checks if the test for establishing a session (concurrently) between two
+     * users passed and SimpleFollowModeIITest passed
+     */
+
+    public static boolean checkIfLevelONEiandTWOiiiSucceeded() {
         return STFTestWatcherLevelONEi.checkIfAllSucceeded()
             && STFTestWatcherLevelTWOii.checkIfAllSucceeded();
     }
 
-    public static boolean checkIfLevelONEiandTWOiiiSucceeded() {
-        return STFTestWatcherLevelONEi.checkIfAllSucceeded()
-            && STFTestWatcherLevelTWOiii.checkIfAllSucceeded();
-    }
-
+    /**
+     * Checks if the test for establishing a session (concurrently) between two
+     * users passed and EditDuringInvitationTest passed
+     */
     public static boolean checkIfLevelONEiandTWOivSucceeded() {
         return STFTestWatcherLevelONEi.checkIfAllSucceeded()
             && STFTestWatcherLevelONEii.checkIfAllSucceeded();
     }
 
+    /**
+     * Checks if the test for establishing a session (concurrently) among three
+     * users passed and ConcurrentEditingTest passed
+     */
     public static boolean checkIfLevelONEiiiandTWOiiSucceeded() {
         return STFTestWatcherLevelONEiii.checkIfAllSucceeded()
-            && STFTestWatcherLevelTWOii.checkIfAllSucceeded();
+            && STFTestWatcherLevelTWOi.checkIfAllSucceeded();
     }
 
+    /**
+     * Checks if the test for establishing a session (concurrently) among three
+     * users passed and EditDuringInvitationTest passed
+     */
     public static boolean checkIfLevelONEiiiandTWOivSucceeded() {
         return STFTestWatcherLevelONEiii.checkIfAllSucceeded()
-            && STFTestWatcherLevelTWOiv.checkIfAllSucceeded();
+            && STFTestWatcherLevelTWOiii.checkIfAllSucceeded();
     }
 
     /**

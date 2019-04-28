@@ -27,9 +27,7 @@ public class HostInvitesBelatedlyTest2 extends StfTestCase {
 
     @AfterClass
     public static void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     /**

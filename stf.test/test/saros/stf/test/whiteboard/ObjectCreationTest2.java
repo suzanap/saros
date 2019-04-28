@@ -21,6 +21,7 @@ public class ObjectCreationTest2 extends StfTestCase {
     @BeforeClass
     public static void selectTesters() throws Exception {
         select(ALICE, BOB);
+        // if for some reason there is no session, build up a new session
         if (!isSession()) {
             clearWorkspaces();
             ALICE.superBot().internal().createProject("Foo1_Saros");

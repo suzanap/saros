@@ -47,9 +47,7 @@ public class AllParticipantsFollowUserWithWriteAccessTest4 extends StfTestCase {
 
     @After
     public void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     /**

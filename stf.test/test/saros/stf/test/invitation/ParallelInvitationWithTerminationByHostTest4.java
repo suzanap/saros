@@ -36,9 +36,7 @@ public class ParallelInvitationWithTerminationByHostTest4 extends StfTestCase {
 
     @After
     public void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     /**

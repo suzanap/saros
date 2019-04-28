@@ -17,9 +17,7 @@ public class MainViewTest1 extends StfHtmlTestCase {
 
     @After
     public void cleanUpSaros() throws Exception {
-
         tearDownSarosLast();
-
     }
 
     @Test

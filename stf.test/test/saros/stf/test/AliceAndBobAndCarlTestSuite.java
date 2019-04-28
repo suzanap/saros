@@ -37,14 +37,15 @@ import saros.stf.test.session.ShareMultipleProjectsTest3;
     // EditDuringNonHostInvitationTest3.class,
     EditDuringInvitationStressTest3.class,
 
-    Share3UsersSequentiallyTest3.class, // independent
-    ModifyDocumentBeforeProjectNegotiationTest3.class,
-    AwarenessInformationVisibleAfterInvitationTest3.class,
-    InviteAndLeaveStressTest3.class, // --watcher for
-                                     // InviteAndLeaveStressInstantSessionTest3
-    InviteAndLeaveStressInstantSessionTest3.class,
-    NonHostInvitesContactTest3.class, SortContactsOnlineOverOfflineTest3.class,
-    ShareMultipleProjectsTest3.class
+    Share3UsersSequentiallyTest3.class, // independent done
+    ModifyDocumentBeforeProjectNegotiationTest3.class, // done
+    AwarenessInformationVisibleAfterInvitationTest3.class, // done
+    InviteAndLeaveStressTest3.class,
+    InviteAndLeaveStressInstantSessionTest3.class, // done
+
+    NonHostInvitesContactTest3.class, // done
+    SortContactsOnlineOverOfflineTest3.class, // done
+    ShareMultipleProjectsTest3.class// dine
 
 })
 public class AliceAndBobAndCarlTestSuite {

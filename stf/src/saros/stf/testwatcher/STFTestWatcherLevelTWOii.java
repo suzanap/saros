@@ -1,8 +1,5 @@
 package saros.stf.testwatcher;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import org.junit.rules.TestWatcher;
@@ -11,7 +8,6 @@ import org.junit.runner.Description;
 public class STFTestWatcherLevelTWOii extends TestWatcher {
 
     public static ArrayList<String> list = new ArrayList<String>();
-    private static String Name;
 
     @Override
     public void succeeded(Description description) {
@@ -37,28 +33,6 @@ public class STFTestWatcherLevelTWOii extends TestWatcher {
             }
         }
         return true;
-    }
-
-    public static String getName() {
-        return Name;
-    }
-
-    public static void setName(String name) {
-        Name = name;
-    }
-
-    public static void writeFile() throws Exception {
-        String fileName = String.format("c://temp//%s.txt", Name);
-        File file = new File(fileName);
-        PrintWriter writer = new PrintWriter(new FileWriter(file, true));
-        writer.println(Name);
-        for (int i = 0; i < list.size(); i++) {
-
-            writer.println(list.get(i));
-        }
-
-        writer.close();
-
     }
 
 }

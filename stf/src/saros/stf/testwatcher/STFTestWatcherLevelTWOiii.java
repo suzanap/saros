@@ -1,7 +1,6 @@
 package saros.stf.testwatcher;
 
 import java.util.ArrayList;
-
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
